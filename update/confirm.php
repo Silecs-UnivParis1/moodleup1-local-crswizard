@@ -25,7 +25,7 @@ class course_wizard_confirm extends moodleform {
         $mform->addElement('header', 'resume', get_string('upsummaryof', 'local_crswizard'));
 
         $displaylist = array();
-        $displaylist = coursecat::make_categories_list();
+        $displaylist = core_course_category::make_categories_list();
         $form2 = $SESSION->wizard['form_step2'];
         if (isset($form2['rattachement1']) ) {
             $idratt1 = $form2['rattachement1'];

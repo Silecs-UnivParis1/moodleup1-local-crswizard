@@ -343,7 +343,7 @@ function wizard_get_course_model_list() {
  */
 function wizard_make_categories_model_list() {
     $displaylist = array();
-    $displaylist = coursecat::make_categories_list('moodle/course:create');
+    $displaylist = core_course_category::make_categories_list('moodle/course:create');
     $wizard_make_categories_model_list = array(0 => 'Aucune');
     foreach ($displaylist as $key => $value) {
         $wizard_make_categories_model_list[$key] = $value;
@@ -423,15 +423,15 @@ function wizard_redirect_creation($url, $message='', $delay=5) {
  * */
 function wizard_get_mydisplaylist() {
     $displaylist = array();
-    $displaylist = coursecat::make_categories_list();
+    $displaylist = core_course_category::make_categories_list();
     $mydisplaylist = array(" Sélectionner la période / Sélectionner l'établissement / Sélectionner la composante / Sélectionner le type de diplôme");
 
     foreach ($displaylist as $id => $label) {
-        $parents = coursecat::get($id)->get_parents();
+        $parents = core_course_category::get($id)->get_parents();
         $depth = count($parents);
         if ($depth > 1) {
             if ( $depth == 2) {
-                if (coursecat::get($id)->get_children_count() == 0) {
+                if (core_course_category::get($id)->get_children_count() == 0) {
                     $mydisplaylist[$id] = $label;
                 }
             } else {
@@ -449,11 +449,11 @@ function wizard_get_mydisplaylist() {
  * */
 function wizard_get_catlevel2() {
     $displaylist = array();
-    $displaylist = coursecat::make_categories_list();
+    $displaylist = core_course_category::make_categories_list();
     $mydisplaylist = [];
 
     foreach ($displaylist as $id => $label) {
-        if (count(coursecat::get($id)->get_parents()) == 1) {
+        if (count(core_course_category::get($id)->get_parents()) == 1) {
             $mydisplaylist[$id] = $label;
         }
     }
@@ -479,12 +479,12 @@ function wizard_get_myComposantelist($idcat, $fullpath=false) {
         $labelpath = $annee . ' / ';
     }
 
-    $composantes = coursecat::get($selected->id)->get_children(array('sort' => 'idnumber ASC'));
+    $composantes = core_course_category::get($selected->id)->get_children(array('sort' => 'idnumber ASC'));
     $mydisplaylist = array(" Sélectionner la composante / Sélectionner le type de diplôme");
     foreach ($composantes as $comp) {
         $mydisplaylist[$comp->id]  = $labelpath . $comp->name;
-        if (coursecat::get($comp->id)->get_children_count() > 0) {
-            $diplomes = coursecat::get($comp->id)->get_children(array('sort' => 'idnumber ASC'));
+        if (core_course_category::get($comp->id)->get_children_count() > 0) {
+            $diplomes = core_course_category::get($comp->id)->get_children(array('sort' => 'idnumber ASC'));
             foreach ($diplomes as $dip) {
                 $mydisplaylist[$dip->id]  = $labelpath . $comp->name . ' / ' . $dip->name;
             }

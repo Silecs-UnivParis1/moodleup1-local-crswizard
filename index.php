@@ -25,7 +25,6 @@
  */
 require_once('../../config.php');
 require_once('../../course/lib.php');
-require_once('../../lib/coursecatlib.php');
 require_once(__DIR__ . '/lib_wizard.php');
 require_once(__DIR__ . '/wizard_modele_duplicate.class.php');
 require_once(__DIR__ . '/wizard_core.class.php');

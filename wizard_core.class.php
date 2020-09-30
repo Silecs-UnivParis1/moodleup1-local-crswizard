@@ -570,7 +570,7 @@ class wizard_core {
 
         // categorie
         $displaylist = array();
-        $displaylist = coursecat::make_categories_list();
+        $displaylist = core_course_category::make_categories_list();
 
         $form2 = $this->formdata['form_step2'];
         $form3 = $this->formdata['form_step3'];
