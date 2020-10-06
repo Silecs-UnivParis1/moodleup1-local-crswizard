@@ -12,11 +12,8 @@ global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->libdir . '/completionlib.php');
-require_once($CFG->libdir . '/custominfo/lib.php');
 
 class course_wizard_step3_form extends moodleform {
-
-    protected $custominfo;
 
     function definition() {
         global $USER, $DB, $SESSION, $OUTPUT;
@@ -32,9 +29,6 @@ class course_wizard_step3_form extends moodleform {
         $mform->addElement('header', 'general', get_string('categoryblockE3', 'local_crswizard'));
 
         $myconfig = new my_elements_config();
-
-        // Next the customisable fields
-        $this->custominfo = new custominfo_form_extension('course');
 
         $hybridattachment_permission = false;
         $idcourse = 1;
