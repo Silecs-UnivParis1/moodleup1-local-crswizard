@@ -13,6 +13,76 @@
 require_once("$CFG->dirroot/local/roftools/roflib.php");
 require_once("$CFG->dirroot/local/cohortsyncup1/locallib.php");
 
+/** fonction manipulation customfield **/
+
+/**
+ * Renvoie les customfield_data du cours d'identifiant $courseid
+ * @param int $courseid
+ * @return array sous la forme ['sortname => value]
+ */
+function wizard_get_course_customfield_data($courseid) {
+	$handler = \core_customfield\handler::get_handler('core_course', 'course');    
+	$datas = $handler->get_instance_data($courseid);
+	$metadata = [];
+	foreach ($datas as $data) {
+		if (empty($data->get_value())) {
+			continue;
+		}
+		$metadata[$data->get_field()->get('shortname')] = $data->get_value();
+	}
+	return $metadata;
+}
+
+/**
+ * renvoie le nom normé de la cle profile_field dans l'objet cours correspondant à $shortname 
+ * @param string $shortname
+ * @return string
+ */
+function wizard_prepare_key_course_customfield_data($shortname) {
+	$pre = 'profile_field_';
+	return $pre . $shortname;
+}
+
+/**
+ * Enregistre tous les champs customfield_data (profile_field_) présents dans l'objet $mydata
+ * @param object $mydata
+ */
+function wizard_save_course_customfield_data($mydata) {
+	global $DB;
+	
+	$fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
+	$contextcourse = \context_course::instance($mydata->id);
+	
+	$customfield_type = ['date', 'checkbox'];
+	
+	foreach ($fieldstab as $fieldid => $shortname) {
+		
+		$name = wizard_prepare_key_course_customfield_data($shortname);
+		if (isset($mydata->$name)) {
+			$fieldc = \core_customfield\field_controller::create($fieldid);
+			$fielddata = $DB->get_record('customfield_data', ['fieldid' => $fieldid, 'instanceid' => $mydata->id]);
+			$datafieldid = $fielddata ? $fielddata->id : 0;
+			if (!$fielddata) {
+				$fielddata = null;
+			}
+			
+			$datac = \core_customfield\data_controller::create($datafieldid, null, $fieldc);
+			if (!$datac->get('id')) {
+				$datac->set('contextid', $contextcourse->id);
+				$datac>set('instanceid', $courseid);
+			}
+			
+			$data = $mydata->$name;
+			if (in_array($fieldc->get('type'), $customfield_type )  && $data == '') {
+				$data = $fieldc->get_configdata_property('defaultvalue');
+			}
+			$datac->set($datac->datafield(), $data);
+			$datac->set('value', $data);
+			$datac->save();
+		}
+	}
+}
+
 /**
  * Vérifie, lors de la mise à jour d'un cours Hors Rof si l'établissement à été modifié.
  * Vérifie, lors de la création d'un cours HR à partir d'un modèle HR si l'établissement n'a pas
@@ -170,8 +240,16 @@ function wizard_get_metadonnees() {
         $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
         $SESSION->wizard['modelecase'] = null;
         if ($course) {
-            $custominfo_data = custominfo_data::type('course');
-            $custominfo_data->load_data($course);
+            $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
+			$data = wizard_get_course_customfield_data($course->id);
+			foreach ($fieldstab as $shortname) {
+				$key = wizard_prepare_key_course_customfield_data($shortname);
+				$value = '';
+				if (isset($data[$shortname])) {
+					$value = $data[$shortname];
+				}
+				$course->$key = $value;
+			}
 
             //inscriptions teachers
             $teachers = wizard_get_teachers($course->id);

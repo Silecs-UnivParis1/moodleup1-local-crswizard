@@ -13,8 +13,17 @@ function wizard_get_course($id) {
     if ($course) {
         $SESSION->wizard['form_step2'] = (array) $course;
          //Load custom fields data
-        $custominfo_data = custominfo_data::type('course');
-        $custominfo_data->load_data($course);
+         $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
+		$data = wizard_get_course_customfield_data($course->id);
+		foreach ($fieldstab as $shortname) {
+			$key = wizard_prepare_key_course_customfield_data($shortname);
+			$value = '';
+			if (isset($data[$shortname])) {
+				$value = $data[$shortname];
+			}
+			$course->$key = $value;
+		}
+
         $SESSION->wizard['init_course'] = (array) $course;
 
         $SESSION->wizard['form_step2']['up1datefermeture'] = $course->profile_field_up1datefermeture;

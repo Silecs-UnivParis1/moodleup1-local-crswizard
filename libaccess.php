@@ -198,12 +198,11 @@ function wizard_update_course($courseid) {
             if ($course->format=='site') {
                 return false;
             }
-            require_once("$CFG->dirroot/lib/custominfo/lib.php");
-            $custominfo_data = custominfo_data::type('course');
-            $custominfo_data->load_data($course);
-            if (isset($course->profile_field_up1generateur) && trim($course->profile_field_up1generateur) != '') {
-                return true;
-            }
+            
+            $up1generateur = up1_meta_get_text($courseid, 'up1generateur');
+            if ($up1generateur !='') {
+				return true;
+			}
         }
     return false;
 }

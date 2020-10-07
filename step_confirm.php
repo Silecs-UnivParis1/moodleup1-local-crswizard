@@ -11,7 +11,6 @@ defined('MOODLE_INTERNAL') || die;
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
-require_once($CFG->libdir . '/custominfo/lib.php');
 require_once('lib_wizard.php');
 
 class course_wizard_step_confirm extends moodleform {
@@ -239,11 +238,16 @@ class course_wizard_step_confirm extends moodleform {
         }
 
         //--------------------------------------------------------------------------------
+        // normalement, ce code ne sert à rien
         if (isset($SESSION->wizard['idcourse'])) {
             $idcourse = (int) $SESSION->wizard['idcourse'];
-            $custominfo_data = custominfo_data::type('course');
-            $cinfos = $custominfo_data->get_record($idcourse);
-
+            $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
+			$handler = \core_customfield\handler::get_handler('core_course', 'course');    
+			$datas = $handler->get_instance_data($courseid);
+			$cinfos = [];
+			foreach ($datas as $data) {
+				$cinfos[$data->get_field()->get('shortname')] = $data->get_value();
+			}
             foreach ($cinfos as $label => $info) {
                 $htmlinfo = '<div class="fitemtitle"><div class="fstaticlabel"><label>'
                         . $label . '</label></div></div>'

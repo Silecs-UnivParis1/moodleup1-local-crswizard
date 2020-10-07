@@ -51,7 +51,6 @@ class wizard_core {
         $this->delete_default_enrol_course($course->id);
         // save custom fields data
         $mydata->id = $course->id;
-        $custominfo_data = custominfo_data::type('course');
 
         // metadata supp.
         if ($this->formdata['wizardcase'] == 3) {
@@ -74,7 +73,7 @@ class wizard_core {
         }
 
         $cleandata = $this->customfields_wash($mydata);
-        $custominfo_data->save_data($cleandata);
+        wizard_save_course_customfield_data($cleandata);
 
         $this->update_session($course->id);
         //! @todo tester si le cours existe bien ?
@@ -534,7 +533,7 @@ class wizard_core {
     private function customfields_wash($data) {
         global $DB;
 
-        $fields = $DB->get_records('custom_info_field', array('objectname' => 'course', 'datatype' => 'datetime'));
+        $fields = $DB->get_records('customfield_field', ['type' => 'date']);
         if ($fields) {
             foreach ($fields as $field) {
                 $nomc = 'profile_field_' . $field->shortname;
@@ -1035,6 +1034,8 @@ class wizard_core {
     }
 
     public function update_course() {
+		global $DB;
+		
         $this->prepare_update_course();
 
         if ($this->formdata['modif']['identification']) {
@@ -1060,25 +1061,27 @@ class wizard_core {
             $event->trigger();
         }
         update_course($this->mydata);
-        $custominfo_data = custominfo_data::type('course');
+        
         $cleandata = $this->customfields_wash($this->mydata);
-
         // suppression total rattachement hybride
         if (isset($this->formdata['modif']['attach2null']) && $this->formdata['modif']['attach2null'] == 1) {
-            $catsuppr = array('Identification', 'Diplome', 'Indexation');
-            $custominfo_data->setCategoriesByNames($catsuppr);
-            $fields = $custominfo_data->getFields(true);
-            foreach ($fields as $tabfield) {
-                foreach ($tabfield as $f) {
-                    $name = 'profile_field_'.$f->shortname;
-                    if (isset($cleandata->$name) == FALSE) {
-                        $cleandata->$name = '';
-                    }
-                }
-            }
+            $catsuppr = ['Identification', 'Diplome', 'Indexation'];
+            $categories = $DB->get_records_list('customfield_category', 'name', $catsuppr, '', 'id');
+            if ($categories) {
+				$filedtraiter = $DB->get_records_list('customfield_field', 'categoryid', array_keys($categories));
+				if ($filedtraiter) {
+					foreach ($filedtraiter as $filtre) {
+						$name = wizard_prepare_key_course_customfield_data($filtre->shortname);
+						if (isset($cleandata->$name) == FALSE) {
+							$cleandata->$name = '';
+						}
+					}
+				}
+			}
         }
-
-        $custominfo_data->save_data($cleandata);
+        
+        wizard_save_course_customfield_data($cleandata);
+        
         $modif = $this->update_myenrol_cohort();
         if ($modif) {
             $event = \core\event\course_updated::create(array(

@@ -11,7 +11,6 @@ defined('MOODLE_INTERNAL') || die;
 global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
-require_once($CFG->libdir . '/custominfo/lib.php');
 require_once(__DIR__ . '/../lib_wizard.php');
 
 class course_wizard_confirm extends moodleform {
@@ -171,19 +170,7 @@ class course_wizard_confirm extends moodleform {
             }
         }
 
-        //--------------------------------------------------------------------------------
-      /**  if (isset($SESSION->wizard['idcourse'])) {
-            $idcourse = (int) $SESSION->wizard['idcourse'];
-            $custominfo_data = custominfo_data::type('course');
-            $cinfos = $custominfo_data->get_record($idcourse);
-
-            foreach ($cinfos as $label => $info) {
-                $htmlinfo = '<div class="fitemtitle"><div class="fstaticlabel"><label>'
-                        . $label . '</label></div></div>'
-                        . '<div class="felement fstatic">' . $info . '</div>';
-                $mform->addElement('html', html_writer::tag('div', $htmlinfo, array('class' => 'fitem')));
-            }
-        }**/
+    
 //--------------------------------------------------------------------------------
 
         $mform->addElement('hidden', 'stepin', null);
