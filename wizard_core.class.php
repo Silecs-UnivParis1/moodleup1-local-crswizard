@@ -765,7 +765,7 @@ class wizard_core {
         }
         $subject = $this->get_email_subject($idcourse, $typeMessage);
         if ($remarques) $subject.= ' (REMARQUES ASSOCIEES)';
-        $eventdata = new stdClass();
+        $eventdata = new \core\message\message();
         $eventdata->component = 'moodle';
         $eventdata->name = 'courserequested';
         $eventdata->userfrom = $userfrom;
@@ -832,7 +832,7 @@ class wizard_core {
 
         $subject = $this->get_email_subject($idcourse, 'Création');
 
-        $eventdata = new stdClass();
+        $eventdata = new \core\message\message();
         $eventdata->component = 'moodle';
         $eventdata->name = 'courserequested';
         $eventdata->userfrom = $userfrom;
