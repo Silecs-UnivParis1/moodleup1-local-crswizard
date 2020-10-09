@@ -45,6 +45,10 @@ class course_wizard_step_model extends moodleform {
             if (count($course_list_teacher)) {
                 $mform->addElement('radio', 'modeletype', '', "<span class='fake-fitemtitle'>Dupliquer l'un de vos EPI</span>"
 				   . "<div class='indented-block-top' style='margin-left: 0.5em;'>" . get_string('blocHelp1SModel', 'local_crswizard') . "</div>", 'selm2');
+
+				$spantitre2 = '<span style="float:none;display:inline;font-size:1.3em;color:#E9681D;font-weight:bold;">'
+					. 'Sélectionnez l\'EPI que vous souhaitez dupliquer<br /><br />' . '</span>';
+				$mform->addElement('html', '<div id="headerselectepi">' . $spantitre2 . '</div>');
                 $mform->addElement('select', 'selm2', '', $course_list_teacher,  array(
                     'class' => 'transformIntoSubselects boitex',
                 ));
