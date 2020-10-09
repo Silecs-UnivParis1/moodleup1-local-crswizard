@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var cpt= 1;
-    $('select.transformIntoSubselects').transformIntoSubselects({
+    $('select#id_selm2').transformIntoSubselects({
         separator: / \/ /,
         labels: ["Période :", "Cours :"]
     });
