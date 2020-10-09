@@ -12,7 +12,7 @@ $(document).ready(function() {
 
     var selm1 = $("#id_selm1").val();
     var text = $("#id_course_summary").children('option[value='+selm1+']').text();
-    $("#id_selm1").parent('fieldset').after('<div id="text_summary" class="felement fselect text_summary"><span class="text_summary">'+text+'</span></div>');
+    $("#id_selm1").closest('fieldset').after('<div id="text_summary" class="felement fselect text_summary"><span class="text_summary">'+text+'</span></div>');
 
                 $("#fitem_id_selm2").find(".fitemtitle").first().attr("style","float:none;display:inline;font-size:1.3em;color:#E9681D;font-weight:bold;");
                 $("#fitem_id_selm2").find(".fitemtitle").first().html('Sélectionnez l\'EPI que vous souhaitez dupliquer<br /><br />');
@@ -52,6 +52,6 @@ $(document).ready(function() {
             if ($('#text_summary').length) {
                 $('#text_summary').remove();
             }
-            $(this).parent('fieldset').after('<div id="text_summary" class="felement fselect text_summary"><span class="text_summary">'+text+'</span></div>');
+            $(this).closest('fieldset').after('<div id="text_summary" class="felement fselect text_summary"><span class="text_summary">'+text+'</span></div>');
     });
 });
