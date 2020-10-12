@@ -61,8 +61,7 @@ class course_wizard_step3_form extends moodleform {
 
             $mform->addElement('header','autre_rattachement', get_string('categoryblockE3s1', 'local_crswizard'));
             $select = $mform->createElement(
-                'select', 'rattachements', '', wizard_get_myComposantelist($idcat),
-                array('class' => 'transformRattachements')
+                'select', 'rattachements', '', wizard_get_myComposantelist($idcat), ['class' => 'transformIntoSubselects']
             );
             $select->setMultiple(true);
             $mform->addElement($select);
@@ -140,8 +139,7 @@ class course_wizard_step3_form extends moodleform {
             $mform->addElement('html', '<div>');
 
             $selectAnnee = $mform->createElement(
-                'select', 'up1niveauannee', '', get_list_metadonnees('up1niveauannee'),
-                array('class' => 'niveauanneeRattachements')
+                'select', 'up1niveauannee', '', get_list_metadonnees('up1niveauannee'), ['class' => 'transformIntoSubselects']
             );
             $selectAnnee->setMultiple(true);
             $mform->addElement($selectAnnee);
@@ -149,8 +147,7 @@ class course_wizard_step3_form extends moodleform {
             // Semestre
             $mform->addElement('html', '<div>');
             $selectSemestre = $mform->createElement(
-                'select', 'up1semestre', '', get_list_metadonnees('up1semestre'),
-                array('class' => 'semestreRattachements')
+                'select', 'up1semestre', '', get_list_metadonnees('up1semestre'), ['class' => 'transformIntoSubselects']
             );
             $selectSemestre->setMultiple(true);
             $mform->addElement($selectSemestre);
@@ -158,8 +155,7 @@ class course_wizard_step3_form extends moodleform {
             $mform->addElement('html', '</div>');
             // Niveau
              $selectNiveau = $mform->createElement(
-                'select', 'up1niveau', '', get_list_metadonnees('up1niveau'),
-                array('class' => 'niveauRattachements')
+                'select', 'up1niveau', '', get_list_metadonnees('up1niveau'), ['class' => 'transformIntoSubselects']
             );
             $selectNiveau->setMultiple(true);
             $mform->addElement($selectNiveau);

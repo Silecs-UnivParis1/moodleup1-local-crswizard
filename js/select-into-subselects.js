@@ -54,7 +54,7 @@ var getTree = function (options) {
 };
 
 var createOneSubselect = function (onchange, tree, depth) {
-    var subselect = $('<select>').change(onchange).data(
+    var subselect = $('<select class="custom-select ">').change(onchange).data(
         { depth: depth, tree: tree }
     );
     //console.log(tree);

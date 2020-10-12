@@ -92,3 +92,17 @@ div#fitem_id_selm2 {
 div#myurlmodel {
     padding-bottom: 6px;
 }
+
+.transformIntoSubselects div.fitem_fselect {
+	display: flex;
+	flex-flow: row wrap;
+	margin-bottom: 20px;	
+}
+
+.transformIntoSubselects .fitem_fselect .fselect select {
+	margin-left: 10px;	
+}
+
+.transformIntoSubselects .fitemtitle label {
+	font-weight: bold;
+}
