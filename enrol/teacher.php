@@ -52,7 +52,7 @@ echo '<form action="' . $CFG->wwwroot . '/local/crswizard/index.php" method="pos
 
 <div class="role">
 <h3>Choisir un rôle</h3>
-	<select name="role" size="1" id="roleteacher">
+	<select name="role" size="1" id="roleteacher" class="custom-select">
         <?php
         foreach ($roles as $r) {
             $label = $r['name'];

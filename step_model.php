@@ -48,14 +48,16 @@ class course_wizard_step_model extends moodleform {
 
 				$spantitre2 = '<span style="float:none;display:inline;font-size:1.3em;color:#E9681D;font-weight:bold;">'
 					. 'Sélectionnez l\'EPI que vous souhaitez dupliquer<br /><br />' . '</span>';
-				$mform->addElement('html', '<div id="headerselectepi">' . $spantitre2 . '</div>');
+				$divcol3 = "<div class='col-md-3'></div>";
+				$mform->addElement('html', '<div class="form-group row fitem femptylabel">' 
+					. $divcol3 . '<div id="headerselectepi">' . $spantitre2 . '</div></div>');
                 $mform->addElement('select', 'selm2', '', $course_list_teacher,  array(
                     'class' => 'transformIntoSubselects boitex',
                 ));
                 $mform->disabledIf('selm2', 'modeletype', 'neq', 'selm2');
 
-                $mform->addElement('html', '<div id="bb_duplication" class="fitem femptylabel">');
-                $mform->addElement('html', '<div class="fitemtitle"><label></label></div>');
+                $mform->addElement('html', '<div id="bb_duplication" class="form-group row fitem femptylabel">');
+                $mform->addElement('html', '<div class="col-md-3"><label></label></div>');
                 $mform->addElement('html', '<div class="felement fsubmit">');
                 $mform->addElement('html', '<span class="fake-fitemtitle">'
                     . '<input type="submit" value="Duplication rapide" id="id_stepgo_22" name="stepgo_22" >'
