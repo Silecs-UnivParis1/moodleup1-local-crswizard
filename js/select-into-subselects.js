@@ -122,6 +122,8 @@ var createOnchangeHandler = function (theSelect, selectsDiv) {
 
 var transformIntoSubselects = function (theSelect) {
     theSelect.hide(0).addClass('hide');
+    theSelect.hide(0).first().attr("style","display: none;");
+
     var root = getTree(theSelect.find('option'));
 
     var selectsDiv = $('<div class="subselects">');
