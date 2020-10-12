@@ -5,7 +5,7 @@ $(document).ready(function() {
         required: false
     };
 
-    $('select.transformRattachements').transformIntoSubselects(config);
+	$('#id_rattachements').transformIntoSubselects(config);
 });
 
 $(document).ready(function() {
@@ -16,7 +16,7 @@ $(document).ready(function() {
         labelButton: 'Ajouter un Niveau année'
     };
 
-    $('select.niveauanneeRattachements').transformIntoSubselects(config);
+    $('#id_up1niveauannee').transformIntoSubselects(config);
 });
 
 $(document).ready(function() {
@@ -27,7 +27,7 @@ $(document).ready(function() {
         labelButton: 'Ajouter un semestre'
     };
 
-    $('select.semestreRattachements').transformIntoSubselects(config);
+    $('#id_up1semestre').transformIntoSubselects(config);
 });
 
 $(document).ready(function() {
@@ -38,5 +38,5 @@ $(document).ready(function() {
         labelButton: 'Ajouter un niveau'
     };
 
-    $('select.niveauRattachements').transformIntoSubselects(config);
+    $('#id_up1niveau').transformIntoSubselects(config);
 });
