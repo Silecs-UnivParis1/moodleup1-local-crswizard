@@ -317,6 +317,7 @@ switch ($stepin) {
         break;
 }
 
+$PAGE->requires->js(new moodle_url('/local/jquery/jquery.js'), true);
 $PAGE->requires->js_init_code('
 var globalFormLock = true;
 $("form").submit(function(e) {
