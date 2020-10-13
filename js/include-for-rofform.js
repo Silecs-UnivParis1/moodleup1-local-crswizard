@@ -49,7 +49,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#items-selected").on("click", ".selected-remove", function(event) {
+    $("#items-selected1").on("click", ".selected-remove", function(event) {
         var select = $("#items-selected1").children('div[class=item-selected]');
         var intitule = select.children('div[class=intitule-selected]').text();
         if (intitule == '') {
@@ -59,12 +59,11 @@ $(document).ready(function() {
                 $('#id_myurl').val('');
             }
         }
-        $('#fullname').val(intitule);
         $('#fullnamelab').empty();
-        $('#fullnamelab').text(intitule);
     });
 
-    $('#mform1').submit(function(event){
+
+	$(this).on('submit', 'form', function(e) {
         var ret = true;
         var select = $("#items-selected1").children('div[class=item-selected]');
         if (select.length==0) {

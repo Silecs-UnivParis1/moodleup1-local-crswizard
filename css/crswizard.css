@@ -138,3 +138,14 @@ div#myurlmodel {
 	max-width: 200px;
 	font-weight: bold;
 }
+
+/** extrait theme boost **/
+.mform span.error {
+  display: inline-block;
+  border: 1px solid #eed3d7;
+  border-radius: 4px;
+  background-color: #f2dede;
+  padding: 4px;
+  margin-bottom: 4px;
+  /**color: red;**/
+}
