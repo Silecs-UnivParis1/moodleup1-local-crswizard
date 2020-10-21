@@ -13,6 +13,12 @@ $plugin->version   = 2020100300;        // The current plugin version (Date: YYY
 $plugin->requires  = 2020060900;        // Requires this Moodle version
 $plugin->component = 'local_crswizard';       // Full name of the plugin (used for diagnostics)
 
-$plugin->dependencies = array(
+$plugin->dependencies = [
+	'tool_up1_batchprocess' => 2020100300,
     'local_roftools' => 2020100300,
-);
+    'local_up1_metadata' => 2020100300,
+    'local_jquery' => 2015010900,
+    'local_rof_browser' => 2020100300,
+    'local_widget_teachersel' => 2016071900,
+    'local_widget_groupsel' => 2016071900
+];
