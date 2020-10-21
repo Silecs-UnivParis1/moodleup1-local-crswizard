@@ -60,6 +60,8 @@ echo '<form action="' . $CFG->wwwroot . '/local/crswizard/index.php" method="pos
         }
         ?>
 	</select>
+	<input type='hidden' id="selectedrolelabel"/>
+    <input type='hidden' id="selectedrolename"/>
 </div>
 
         <h3><?php echo get_string('findteacher', 'local_crswizard'); ?></h3>
@@ -87,8 +89,13 @@ jQuery(document).ready(function () {
     $('#roleteacher').on('change', function() {
         var sel = $(this).val();
         var sellabel = $('#roleteacher > option:selected').text();
-        $('#user-select').data('autocompleteUser').settings.fieldName = 'user[' + sel + ']';
-        $('#user-select').data('autocompleteUser').settings.labelDetails = sellabel;
+        
+        $('#selectedrolelabel').attr('value', sellabel);
+        $('#selectedrolename').attr('value', 'user[' + sel + ']');
+        if ($('#user-select').data('autocompleteUser') !== undefined) {
+			$('#user-select').data('autocompleteUser').settings.fieldName = 'user[' + sel + ']';
+			$('#user-select').data('autocompleteUser').settings.labelDetails = sellabel;
+		}
     });
     $('#roleteacher').change();
 });
