@@ -273,17 +273,17 @@ class wizard_core {
     }
 
     /**
-     * Création des custom_info_field (objectname = course) à vide
+     * Création des customfield_data à vide
      */
     private function setup_mydata() {
         global $DB;
-        $sql = "SELECT shortname, datatype FROM {custom_info_field} WHERE objectname = 'course' AND shortname like 'up1%'";
+        $sql = "SELECT shortname, type FROM {customfield_field} WHERE shortname like 'up1%'";
         $customfields = $DB->get_records_sql($sql);
         if (count($customfields)) {
             foreach($customfields as $label => $field) {
                 $champ = 'profile_field_'.$label;
                 $value = '';
-                if ($field->datatype != 'text') {
+                if (in_array($field->type, ['checkbox', 'date'])) {
                     $value = 0;
                 }
                 $this->mydata->$champ = $value;
@@ -526,7 +526,7 @@ class wizard_core {
     }
 
     /**
-     * Convertit les champs custom_info_field de type datetime en timestamp
+     * Convertit les champs customfield_field de type date en timestamp
      * @param object $data
      * @return object $data
      */

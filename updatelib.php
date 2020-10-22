@@ -8,22 +8,22 @@ function update_course_idnumber() {
     global $DB;
     $timestart = microtime();
     echo "<p>Mise à jour des idnumber</p>";
-    $idgenerateur = $DB->get_field('custom_info_field', 'id', array('shortname' => 'up1generateur'));
-    $idrofid = $DB->get_field('custom_info_field', 'id', array('shortname' => 'up1rofid'));
-    $idcomplement = $DB->get_field('custom_info_field', 'id', array('shortname' => 'up1complement'));
+    $idgenerateur = $DB->get_field('customfield_field', 'id', ['shortname' => 'up1generateur']);
+    $idrofid = $DB->get_field('customfield_field', 'id', ['shortname' => 'up1rofid']);
+    $idcomplement = $DB->get_field('customfield_field', 'id', ['shortname' => 'up1complement']);
 
-    $sqlgenerateur = "select objectid from {custom_info_data} where objectname='course' and fieldid=$idgenerateur and data ='Manuel via assistant (cas n°2 ROF)'";
+    $sqlgenerateur = "select instanceid from {customfield_data} where fieldid=$idgenerateur and value ='Manuel via assistant (cas n°2 ROF)'";
     $tabgenerateur = $DB->get_records_sql($sqlgenerateur);
 
     echo "<p>Nombre total de cours de type 2 : ";
     echo count($tabgenerateur);
     echo "</p>\n";
 
-    $sqlcomplement = "select objectid, data from {custom_info_data} where objectname='course' and fieldid=$idcomplement and data != ''";
+    $sqlcomplement = "select instanceid, value from {customfield_data} where fieldid=$idcomplement and value != ''";
     $tabcomplement = $DB->get_records_sql($sqlcomplement);
 
     // cas2 et cas3 hybrides
-    $sqlrofid = "select objectid, data from {custom_info_data} where objectname='course' and fieldid=$idrofid";
+    $sqlrofid = "select instanceid, value from {customfield_data} where fieldid=$idrofid";
     $tabrofid = $DB->get_records_sql($sqlrofid);
 
     $sql = "select id, fullname, shortname, idnumber from {course} where idnumber =''  order by id";

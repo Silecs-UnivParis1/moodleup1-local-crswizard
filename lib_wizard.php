@@ -1196,7 +1196,7 @@ function wizard_list_clef($form6) {
  */
 function get_custom_info_field_label($shortname) {
     global $DB;
-    return $DB->get_field('custom_info_field', 'name', array('objectname' => 'course', 'shortname' => $shortname));
+    return $DB->get_field('customfield_field', 'name', ['shortname' => $shortname]);
 }
 
 /**
@@ -1540,12 +1540,12 @@ function wizard_form2_validation_myurl($url, $idcourse) {
 
     $samecourse = '';
     if ($idcourse) {
-        $samecourse = ' AND objectid != ' . $idcourse . ' ';
+        $samecourse = ' instanceid != ' . $idcourse . ' AND ';
     }
-    $sql = "SELECT count(objectid) FROM {custom_info_field} cf "
-        . "JOIN {custom_info_data} cd ON (cf.id = cd.fieldid) "
-        . "WHERE cf.objectname='course' AND cd.objectname='course' "
-        . $samecourse . "AND cf.shortname=? AND data =?";
+    $sql = "SELECT count(instanceid) FROM {customfield_field} cf "
+        . "JOIN {customfield_data} cd ON (cf.id = cd.fieldid) WHERE  "
+        . $samecourse . " cf.shortname = ? AND value = ?";
+
     $res = $DB->get_field_sql($sql, array('up1urlfixe', $url));
     if ($res) {
         $myerrors[] = 'Désolé, cette URL est déjà utilisée. Veuillez choisir un autre nom';

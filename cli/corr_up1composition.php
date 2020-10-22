@@ -5,27 +5,26 @@ require(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); // global m
 
 global $DB;
 
-$idcomposition = $DB->get_field('custom_info_field', 'id', array('shortname' => 'up1composition'));
-$idcomplement = $DB->get_field('custom_info_field', 'id', array('shortname' => 'up1complement'));
+$idcomposition = $DB->get_field('customfield_field', 'id', ['shortname' => 'up1composition']);
+$idcomplement = $DB->get_field('customfield_field', 'id', ['shortname' => 'up1complement']);
 
 echo "idcomposition : " .$idcomposition . "\n";
 echo "idcomplement : " .$idcomplement . "\n";
 
-$sql = "select * from {custom_info_data} where objectname = 'course' and fieldid=" . $idcomposition;
+$sql = "select * from {customfield_data} where fieldid=" . $idcomposition;
 $compositions = $DB->get_records_sql($sql);
 
 
 foreach ($compositions as $c) {
-    $compl = $DB->get_record('custom_info_data',array('objectid' => $c->objectid,
-        'objectname' => 'course', 'fieldid' => $idcomplement));
-    $complement = trim($compl->data);
-    $composition = trim($c->data);
+    $compl = $DB->get_record('customfield_data', ['instanceid' => $c->instanceid, 'fieldid' => $idcomplement]);
+    $complement = trim($compl->value);
+    $composition = trim($c->value);
 
-    echo "situation départ " . $c->objectid . ' : ' . $c->data . ' / ' . $compl->data . "\n";
+    echo "situation départ " . $c->instanceid . ' : ' . $c->value . ' / ' . $compl->value . "\n";
     if ($composition != $complement) {
-        $DB->update_record('custom_info_data', array('id' => $compl->id, 'data' => $composition));
-        $DB->update_record('custom_info_data', array('id' => $c->id, 'data' => $complement));
-        echo "Modif : " . $c->objectid . "\n";
+        $DB->update_record('customfield_data', ['id' => $compl->id, 'value' => $composition, 'charvalue' => $composition]);
+        $DB->update_record('customfield_data', ['id' => $c->id, 'value' => $complement, 'charvalue' => $complement]);
+        echo "Modif : " . $c->instanceid . "\n";
     }
 }
 ?>
