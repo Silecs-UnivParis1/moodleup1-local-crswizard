@@ -74,11 +74,12 @@ if (isset($SESSION->wizard['form_step2']['all-rof'])) {
 }
 
 if (isset($SESSION->wizard['form_step5']['groupmsg'])) {
+    $equivalence = new \local_cohortsyncup1\equivalence(0);
     $msgcohorts = $SESSION->wizard['form_step5']['groupmsg'];
-   foreach ($msgcohorts as $role => $msg) {
-       echo '<p><b>' . get_string('role', 'local_crswizard') . ' "'
+    foreach ($msgcohorts as $role => $msg) {
+        echo '<p><b>' . get_string('role', 'local_crswizard') . ' "'
         . format_string(get_string($role, 'local_crswizard')) . '" : </b></p>';
-       explain_equivalent_cohorts($SESSION->wizard['form_step5']['groupmsg'][$role]);
+        $equivalence->explain_equivalent_cohorts($msgcohorts[$role]);
     }
 }
 

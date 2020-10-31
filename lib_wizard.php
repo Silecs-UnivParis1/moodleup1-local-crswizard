@@ -11,7 +11,6 @@
 /* @var $DB moodle_database */
 
 require_once("$CFG->dirroot/local/roftools/roflib.php");
-require_once("$CFG->dirroot/local/cohortsyncup1/locallib.php");
 
 /** fonction manipulation customfield **/
 
@@ -208,8 +207,9 @@ function wizard_get_equivalent_cohorts($courseid) {
     $resultat = array();
     $oldcohorts = wizard_get_cohorts($courseid);
     foreach ($oldcohorts as $role => $cohorts) {
-        if (count($cohorts)) {
-            $res = get_equivalent_cohorts($cohorts, false);
+        if ($cohorts) {
+            $equiv = new \local_cohortsyncup1\equivalence(0);
+            $res = $equiv->get_equivalent_cohorts($cohorts);
             $resultat['msg'][$role] = $res;
             foreach ($res as $co) {
                 foreach ($co as $c) {
