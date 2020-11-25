@@ -11,7 +11,7 @@ require_once(__DIR__ . '/libaccess.php');
 
 // doc https://moodle.org/mod/forum/discuss.php?d=170325#yui_3_7_3_2_1359043225921_310
 function local_crswizard_extend_navigation(global_navigation $navigation) {
-    global $USER, $PAGE;
+    global $USER, $PAGE, $COURSE;
 
     $permcreator = wizard_has_permission('creator', $USER->id);
     $permvalidator = wizard_has_permission('validator', $USER->id);
@@ -60,4 +60,27 @@ function local_crswizard_extend_navigation(global_navigation $navigation) {
                 array('id' => $context->instanceid)));
         }
     }
+     
+	if ($PAGE->has_set_url() && $PAGE->url->get_path() == '/course/edit.php') {
+		$contextcourse = context_course::instance($COURSE->id);	
+		if (get_capability_info('local/up1_capabilities:course_updatesettings')) {
+			require_capability('local/up1_capabilities:course_updatesettings', $contextcourse);
+		}	
+	}   
+}
+
+/**
+ * Supprime le lien édition des paramètres de cours pour ceux n'ayant pas la capacité "local/up1_capabilities:course_updatesettings"
+ */
+function local_crswizard_extend_settings_navigation(settings_navigation $nav, context $context) {
+	global $USER, $PAGE;
+	$admincourse = $nav->get('courseadmin', navigation_node::TYPE_COURSE);
+	if ($admincourse) {
+		if (get_capability_info('local/up1_capabilities:course_updatesettings') && !has_capability('local/up1_capabilities:course_updatesettings', $context)) {
+			$setting = $admincourse->get('editsettings', navigation_node::TYPE_SETTING);
+			if ($setting) {
+				$setting->remove();
+			}
+		}	
+	}
 }
