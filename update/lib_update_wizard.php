@@ -26,7 +26,7 @@ function wizard_get_course($id) {
 
         $SESSION->wizard['init_course'] = (array) $course;
 
-        $SESSION->wizard['form_step2']['up1datefermeture'] = $course->profile_field_up1datefermeture;
+        $SESSION->wizard['form_step2']['up1datefermeture'] = $course->enddate;
         $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
         $SESSION->wizard['form_step2']['summary_editor'] = $summary;
 
@@ -311,10 +311,10 @@ function wizard_get_generateur($course) {
                     return 0;
                 }
                 $cat = $DB->get_record('course_categories',  array('id' => $course->category));
-                if ($cat && ($cat->depth > 2)) {
+                if ($cat && ($cat->depth >= 2)) {
                     $enf = $DB->get_field('course_categories', 'id', array('parent' => $cat->id));
                     if ($enf) {
-                        return 0;
+                        return $case;
                     }
                 } else {
                     return 0;
