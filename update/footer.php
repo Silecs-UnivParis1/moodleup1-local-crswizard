@@ -36,7 +36,13 @@ $(":submit").on("click", function(e) {
         <button type="submit" id="etapes" name="step" value="">
             <?php echo get_string('nextstage', 'local_crswizard'); ?>
         </button>
-
+        <?php 
+        if (isset($SESSION->wizard['acces'])) {
+			echo '<button type="submit" id="etapes" name="enregistrer" value="enregistrer">'
+            . get_string('save')
+			. '</button>';			
+		}
+       ?>
     </div>
 </div>
 

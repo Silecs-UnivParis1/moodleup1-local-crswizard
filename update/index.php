@@ -43,6 +43,7 @@ global $CFG, $PAGE, $OUTPUT, $SESSION, $USER;
 
 require_login();
 
+$direct = optional_param('direct', '', PARAM_TEXT);
 $id = optional_param('id', 0, PARAM_INT);
 if (empty($id)) {
     if (isset($SESSION->wizard['init_course']['id'])) {
@@ -75,7 +76,20 @@ if (!$stepin) {
     $SESSION->wizard['wizardurl'] = '/local/crswizard/update/index.php';
     $SESSION->wizard['idcourse'] = $id;
     $SESSION->wizard['urlpfixe'] = $CFG->wwwroot . '/fixe/';
-
+    
+	//acces direct
+    if ($direct != '') {
+		$SESSION->wizard['acces'] = $direct;
+		if ($direct == 'index') {
+			$stepin = 2;
+		}
+		if ($direct == 'cohort') {
+			$stepin = 4;
+		}
+		if ($direct == 'key') {
+			$stepin =6;
+		}
+	}
 } else {
     $stepgo = $stepin + 1;
 }
@@ -118,6 +132,9 @@ switch ($stepin) {
                  $SESSION->wizard['form_step2']['all-rof'] = wizard_get_rof();
                  $SESSION->wizard['form_step2']['complement'] = trim($_POST['complement']);
             }
+            if (isset($data->enregistrer)) {
+				$stepgo = 8;
+			}
             redirect($CFG->wwwroot . '/local/crswizard/update/index.php?stepin=' . $stepgo);
         } else {
             $PAGE->requires->js(new moodle_url('/local/crswizard/js/select-into-subselects.js'), true);
@@ -181,6 +198,9 @@ switch ($stepin) {
             //* @todo Validate cohort list
             $SESSION->wizard['form_step' . $stepin] = $_POST;
             $SESSION->wizard['form_step5']['all-cohorts'] = wizard_get_enrolement_cohorts();
+            if (isset($_POST['enregistrer'])) {
+				$stepgo = 8;
+			}
             redirect($CFG->wwwroot . '/local/crswizard/update/index.php?stepin=' . $stepgo);
         }
         redirect(new moodle_url('/local/crswizard/enrol/cohort.php'));
@@ -198,6 +218,9 @@ switch ($stepin) {
         $data = $editform->get_data();
         if ($data){
             $SESSION->wizard['form_step' . $stepin] = (array) $data;
+            if (isset($data->enregistrer)) {
+				$stepgo = 8;
+			}
             redirect($CFG->wwwroot . '/local/crswizard/update/index.php?stepin=' . $stepgo);
         }
         break;

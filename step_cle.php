@@ -57,6 +57,9 @@ class course_wizard_step_cle extends moodleform {
             new moodle_url($SESSION->wizard['wizardurl'], array('stepin' => 5)),
             get_string('previousstage', 'local_crswizard'), array('class' => 'previousstage'));
         $buttonarray[] = $mform->createElement('submit', 'stepgo_7', get_string('nextstage', 'local_crswizard'));
+        if (isset($SESSION->wizard['acces'])) {
+			$buttonarray[] = $mform->createElement('submit', 'enregistrer', get_string('save'));
+		}
         $mform->addGroup($buttonarray, 'buttonar', '', null, false);
         $mform->closeHeaderBefore('buttonar');
     }
