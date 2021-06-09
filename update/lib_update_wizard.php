@@ -82,7 +82,7 @@ function wizard_get_course($id) {
             $SESSION->wizard['form_step2']['myurl'] = $course->profile_field_up1urlfixe;
             $SESSION->wizard['form_step2']['oldmyurl'] = $course->profile_field_up1urlfixe;
         }
-
+        
         //inscription cohortes
         $SESSION->wizard['form_step5']['group'] = wizard_get_cohorts($course->id);
         $SESSION->wizard['init_course']['group'] = wizard_get_cohorts($course->id);

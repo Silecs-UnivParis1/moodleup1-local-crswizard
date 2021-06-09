@@ -89,6 +89,9 @@ if (!$stepin) {
 		if ($direct == 'key') {
 			$stepin =6;
 		}
+		if ($direct == 'teacher') {
+			$stepin = 9;
+		}
 	}
 } else {
     $stepgo = $stepin + 1;
@@ -248,6 +251,38 @@ switch ($stepin) {
         unset($SESSION->wizard);
         redirect($urlcourse);
         break;
+        
+	case 9: 
+		
+		if (!isset($SESSION->wizard['form_step4']['all-users'])) {
+            $teachers = wizard_get_teachers($course->id, true);
+            if (isset($teachers['actif']) && count($teachers['actif'])) {
+                $SESSION->wizard['form_step4']['all-users'] = $teachers['actif'];
+                $SESSION->wizard['form_step4']['all-users-init'] = $teachers['actif'];
+            }
+            if (isset($teachers['inactif']) && count($teachers['inactif'])) {
+                $SESSION->wizard['form_step4']['users-inactif'] = $teachers['inactif'];
+            }
+        }
+        $SESSION->wizard['form_step4']['redirect']='ok';
+        
+        if (isset($_POST['enregistrer'])) {
+			$tabOldUser = [];
+			if (isset($SESSION->wizard['form_step4']['all-users-init'])) {
+				$tabOldUser = $SESSION->wizard['form_step4']['all-users-init'];
+			}
+			
+            $SESSION->wizard['form_step4'] = $_POST;
+            $SESSION->wizard['form_step4']['all-users'] = wizard_get_enrolement_users();
+			$tabUser = $SESSION->wizard['form_step4']['user'];
+			$tabUser = normalize_enrolment_users($tabUser);	
+			wizard_update_enrol_teachers($id, $tabUser, $tabOldUser);
+			$urlcourse = new moodle_url('/course/view.php', ['id' => $id]);
+			unset($SESSION->wizard);
+			redirect($urlcourse);	
+        }
+        redirect(new moodle_url('/local/crswizard/enrol/teacher.php'));
+        break;		
 }
 
 $PAGE->requires->js_init_code('

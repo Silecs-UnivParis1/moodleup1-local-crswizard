@@ -160,9 +160,10 @@ function get_selected_etablissement_id() {
  * Récupère les utilisateurs ayant des rôles de type teachers dans le cours d'identifiant $courseid
  * les utilisateurs de rôle ens_epi_archive deviennent editingteacher
  * @param int $courseid : identifiant du cours
+ * @param bool $direct true si inscription directe des enseignants
  * @return array $users
  */
-function wizard_get_teachers($courseid) {
+function wizard_get_teachers($courseid, $direct=false) {
     global $DB, $USER;
     $users = array();
     $myconfig = new my_elements_config();
@@ -189,7 +190,8 @@ function wizard_get_teachers($courseid) {
             }
         }
     }
-    if (isset($users['actif']) && count($users['actif'])) {
+    
+    if (!$direct && isset($users['actif']) && count($users['actif'])) {
         $code = 'editingteacher';
         $user = $DB->get_record('user', array('username' => $USER->username));
         $users['actif'][$code][$user->username] = $user;
@@ -800,6 +802,64 @@ function wizard_update_enrol_key($enrol, $course, $tabkey) {
     return $modif;
 }
 
+/**
+ * Met à jours les inscriptions enseignantes lors de l'acces direct à cette fonction
+ * @param int $courseid
+ * @param array $curentUser
+ * @param array $oldUser
+ */
+function wizard_update_enrol_teachers($courseid, $curentUser, $oldUser) {
+	$suppr = [];
+	foreach ($oldUser as $role => $liste) {
+		if (isset($curentUser[$role])) {
+			foreach ($liste as $username => $user) {
+				if(!in_array($username, $curentUser[$role])) {
+					$suppr[$role][]=$username;
+				}
+			}
+		} else {
+			foreach ($liste as $username => $user) {
+				$suppr[$role][]=$username;
+			}
+		} 
+	}
+	if (count($suppr)) {
+		delete_enrolment_in_course($courseid, $suppr);
+	}
+	
+	//ajout insciption
+	if (count($curentUser)) {
+		myenrol_teacher($courseid, $curentUser);
+	}
+}
+/**
+ * Supprime un ensemble d'inscription contenu dans $tabUsers du dours d'identifiant courseid
+ * @param int $courseid
+ * @param array $tabUsers array[rolename]=>array(username)
+ */
+function delete_enrolment_in_course($courseid, $tabUsers) {
+	global $DB;
+	$myenrol = enrol_get_plugin('manual');
+	$instance = false;
+	$enrolinstances = enrol_get_instances($courseid, true);
+	foreach ($enrolinstances as $courseenrolinstance) {
+		if ($courseenrolinstance->enrol == "manual") {
+			$instance = $courseenrolinstance;
+			break;
+		}
+	}
+	if ($instance) {
+		foreach ($tabUsers as $role => $users) {
+			foreach ($users as $user) {
+				$userid = $DB->get_field('user', 'id', array('username' => $user));
+				if ($userid) {
+					$myenrol->unenrol_user($instance, $userid);
+				}
+			}
+		}
+	}
+}
+
 function affiche_error_enrolcohort($erreurs) {
     $message = '';
     $message .= '<div><h3>Messages </h3>';
@@ -846,11 +906,12 @@ function wizard_role($labels) {
  */
 function normalize_enrolment_users($tabUsers) {
     if (isset($tabUsers['responsable_epi'])) {
-      foreach ($tabUsers['responsable_epi'] as $u) {
-	if (!isset($tabUsers['editingteacher']))
-	  $tabUsers['editingteacher'] = array();
-	$tabUsers['editingteacher'][] = $u;
-      }
+			foreach ($tabUsers['responsable_epi'] as $u) {
+				if (!isset($tabUsers['editingteacher'])) {
+					$tabUsers['editingteacher'] = [];
+				}
+				$tabUsers['editingteacher'][] = $u;
+			}
     }
     return $tabUsers;
 }
@@ -1063,9 +1124,10 @@ function wizard_preselected_cohort() {
 
 /*
  * construit la liste des enseignants sélectionnés encodée en json
+ * @param bool $direct true si inscription directe des enseignants
  * @return string
  */
-function wizard_preselected_users() {
+function wizard_preselected_users($direct=false) {
     global $SESSION;
     global $USER;
     if (!isset($SESSION->wizard['form_step4']['all-users'])) {
@@ -1075,6 +1137,12 @@ function wizard_preselected_users() {
     $labels = $myconfig->role_teachers;
     $liste = array();
     if (!empty($SESSION->wizard['form_step4']['all-users'])) {
+		$respEpi = [];
+		if (isset($SESSION->wizard['form_step4']['all-users']['responsable_epi'])) {
+			foreach ($SESSION->wizard['form_step4']['all-users']['responsable_epi'] as $username => $user) {
+				$respEpi[] = $username;
+			}
+		}
         foreach ($SESSION->wizard['form_step4']['all-users'] as $role => $users) {
             $labelrole = '';
             if (isset($labels[$role])) {
@@ -1083,21 +1151,33 @@ function wizard_preselected_users() {
 
             foreach ($users as $id => $user) {
                 //si $USER - responsable_epi
-                if ($user->id == $USER->id) {
-                    $liste[] = array(
+                if (!$direct && $user->id == $USER->id) {
+                    $liste[] = [
                         "label" => fullname($user) . ' — ' . $user->username . get_string('responsable_epi', 'local_crswizard'),
                         "value" => $id,
                         "fieldName" => 'user[responsable_epi]',
-                    );
+                    ];
                 } else {
-                    $liste[] = array(
-                        "label" => fullname($user) . ' — ' . $user->username . ' (' . $labelrole . ')  ',
-                        "value" => $id,
-                        "fieldName" => 'user[' . $role . ']',
-                    );
+					switch ($role) {
+						case 'responsable_epi' : 
+							$liste[] = [
+								"label" => fullname($user) . ' — ' . $user->username . ' (' . $labelrole . ')  ',
+								"value" => $id,
+								"fieldName" => 'user[responsable_epi]',
+							];
+							break;
+						default :
+							if (!in_array($id, $respEpi)) {
+								$liste[] = [
+									"label" => fullname($user) . ' — ' . $user->username . ' (' . $labelrole . ')  ',
+									"value" => $id,
+									"fieldName" => 'user[' . $role . ']',
+								];
+							}
+					}
                 }
             }
-        }
+        }       
     }
     return json_encode($liste);
 }
