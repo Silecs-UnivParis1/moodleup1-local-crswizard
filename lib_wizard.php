@@ -1087,13 +1087,13 @@ function wizard_preselected_users() {
                     $liste[] = array(
                         "label" => fullname($user) . ' — ' . $user->username . get_string('responsable_epi', 'local_crswizard'),
                         "value" => $id,
-                        "fieldName" => "user[responsable_epi]",
+                        "fieldName" => 'user[responsable_epi]',
                     );
                 } else {
                     $liste[] = array(
                         "label" => fullname($user) . ' — ' . $user->username . ' (' . $labelrole . ')  ',
                         "value" => $id,
-                        "fieldName" => "user[$role]",
+                        "fieldName" => 'user[' . $role . ']',
                     );
                 }
             }
