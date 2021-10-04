@@ -26,7 +26,8 @@ function wizard_get_course($id) {
 
         $SESSION->wizard['init_course'] = (array) $course;
 
-        $SESSION->wizard['form_step2']['up1datefermeture'] = $course->enddate;
+        //$SESSION->wizard['form_step2']['up1datefermeture'] = $course->enddate;
+        $SESSION->wizard['form_step2']['up1datefermeture'] = $course->profile_field_up1datefermeture;
         $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
         $SESSION->wizard['form_step2']['summary_editor'] = $summary;
 

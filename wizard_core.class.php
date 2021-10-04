@@ -990,6 +990,7 @@ class wizard_core {
         }
 
         $this->mydata->profile_field_up1datefermeture = $form2['up1datefermeture'];
+        $this->mydata->enddate = $form2['up1datefermeture'];
         $this->mydata->summary = $form2['summary_editor']['text'];
         $this->mydata->summaryformat = $form2['summary_editor']['format'];
 
