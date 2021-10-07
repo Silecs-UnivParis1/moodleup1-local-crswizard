@@ -106,7 +106,7 @@ class course_wizard_confirm extends moodleform {
 
         $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
 
-        $mform->addElement('date_selector', 'up1datefermeture', get_string('up1datefermeture', 'local_crswizard'));
+        $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));
 
         //url fixe
         if (isset($form2['urlok']) && $form2['urlok'] == 1) {

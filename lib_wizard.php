@@ -1689,7 +1689,7 @@ function wizard_get_default_metadata() {
     global $SESSION, $USER, $DB;
     $SESSION->wizard['form_step1']['fastcopy'] = true;
     $SESSION->wizard['form_step2']['startdate'] = time();
-    $SESSION->wizard['form_step2']['up1datefermeture'] = strtotime(date('m') <= 6 ? "July 31" : "next year January 31");
+    $SESSION->wizard['form_step2']['enddate'] = strtotime(date('m') <= 6 ? "July 31" : "next year January 31");
     $SESSION->wizard['form_step2']['visible'] = 0;
     if (isset($SESSION->wizard['wizardcase']) && $SESSION->wizard['wizardcase'] == 2) {
         $idetab = get_config('local_crswizard','cas2_default_etablissement');

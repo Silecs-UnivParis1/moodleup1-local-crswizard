@@ -253,7 +253,7 @@ class wizard_core {
             $this->set_categories_connection();
         }
 
-        $this->mydata->profile_field_up1datefermeture = $form2['up1datefermeture'];
+        $this->mydata->profile_field_enddate = $form2['enddate'];
         $this->mydata->summary = $form2['summary_editor']['text'];
         $this->mydata->summaryformat = $form2['summary_editor']['format'];
 
@@ -624,7 +624,7 @@ class wizard_core {
         $mg .= get_string('shortnamecourse', 'local_crswizard') . $this->mydata->shortname . "\n";
 
         $mg .= get_string('coursestartdate', 'local_crswizard') . date('d-m-Y', $form2['startdate']) . "\n";
-        $mg .= get_string('up1datefermeture', 'local_crswizard') . date('d-m-Y', $form2['up1datefermeture']) . "\n";
+        $mg .= get_string('courseenddate', 'local_crswizard') . date('d-m-Y', $form2['enddate']) . "\n";
 
         if (!empty($this->formdata['form_step1']['coursedmodelid']) && $this->formdata['form_step1']['coursedmodelid'] != '0') {
             $mg .= get_string('coursemodel', 'local_crswizard') . '[' . $this->formdata['form_step1']['coursemodelshortname']
@@ -989,8 +989,7 @@ class wizard_core {
             }
         }
 
-        $this->mydata->profile_field_up1datefermeture = $form2['up1datefermeture'];
-        $this->mydata->enddate = $form2['up1datefermeture'];
+        $this->mydata->enddate = $form2['enddate'];
         $this->mydata->summary = $form2['summary_editor']['text'];
         $this->mydata->summaryformat = $form2['summary_editor']['format'];
 
