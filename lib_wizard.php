@@ -67,7 +67,7 @@ function wizard_save_course_customfield_data($mydata) {
 			$datac = \core_customfield\data_controller::create($datafieldid, null, $fieldc);
 			if (!$datac->get('id')) {
 				$datac->set('contextid', $contextcourse->id);
-				$datac>set('instanceid', $mydata->id);
+				$datac->set('instanceid', $mydata->id);
 			}
 			
 			$data = $mydata->$name;
