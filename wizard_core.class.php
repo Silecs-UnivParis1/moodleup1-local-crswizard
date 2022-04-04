@@ -113,7 +113,7 @@ class wizard_core {
      */
     public function get_messages($autovalidation) {
         global $CFG;
-        $urlguide = $CFG->wwwroot .'/fixe/modedemploi';
+        $urlguide = $CFG->wwwroot .'/guide';
         $urlvalidator = $CFG->wwwroot .'/local/course_validated/index.php';
         $idval = array();
         $form3 =  $this->formdata['form_step3'];
