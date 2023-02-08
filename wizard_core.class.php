@@ -765,8 +765,9 @@ class wizard_core {
         $subject = $this->get_email_subject($idcourse, $typeMessage);
         if ($remarques) $subject.= ' (REMARQUES ASSOCIEES)';
         $eventdata = new \core\message\message();
-        $eventdata->component = 'moodle';
-        $eventdata->name = 'courserequested';
+        $eventdata->component = 'local_crswizard';
+        $eventdata->name = 'notificationcoursetovalidate';
+        $eventdata->notification = 1;
         $eventdata->userfrom = $userfrom;
         $eventdata->subject = $subject; //** @todo get_string()
         $eventdata->fullmessageformat = FORMAT_PLAIN;   // text format
@@ -832,8 +833,9 @@ class wizard_core {
         $subject = $this->get_email_subject($idcourse, 'Création');
 
         $eventdata = new \core\message\message();
-        $eventdata->component = 'moodle';
-        $eventdata->name = 'courserequested';
+        $eventdata->component = 'local_crswizard';
+        $eventdata->name = 'notificationcoursecreate';
+        $eventdata->notification = 1;
         $eventdata->userfrom = $userfrom;
         $eventdata->fullmessageformat = FORMAT_PLAIN;   // text format
         $eventdata->userto = $this->user;
