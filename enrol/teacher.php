@@ -38,7 +38,8 @@ if (isset($SESSION->wizard['idcourse'])) {
 $PAGE->set_title($SESSION->wizard['form_step2']['fullname'] . ': ' . get_string('teacher', 'local_crswizard'));
 $PAGE->requires->js(new moodle_url('/local/jquery/jquery.js'), true);
 $PAGE->requires->js(new moodle_url('/local/jquery/jquery-ui.js'), true);
-$PAGE->requires->js(new moodle_url('/local/widget_teachersel/teachersel.js'), true);
+$PAGE->requires->js(new moodle_url('/local/widget_teachersel/teachersel.js', ['bdkjiibkjds'=>0]), true);
+//$PAGE->requires->js(new moodle_url('/local/widget_teachersel/teachersel.js'), true);
 $PAGE->requires->css(new moodle_url('/local/crswizard/css/crswizard.css'));
 
 echo $OUTPUT->header();
