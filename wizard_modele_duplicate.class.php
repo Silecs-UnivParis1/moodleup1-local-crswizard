@@ -28,11 +28,12 @@ class wizard_modele_duplicate {
         'blocks' => 1,
         'filters' => 1,
         'users' => 0,
-        'role_assignments' => 0,
+        'role_assignments' => 1,
         'comments' => 0,
         'userscompletion' => 0,
         'logs' => 0,
-        'grade_histories' => 0
+        'grade_histories' => 0,
+        'badges' => 1,
     );
 
     public function __construct($courseid, $mydata, $options) {

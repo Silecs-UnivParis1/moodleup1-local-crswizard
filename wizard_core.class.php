@@ -27,6 +27,10 @@ class wizard_core {
         if (isset($this->formdata['form_step1']['coursedmodelid']) && $this->formdata['form_step1']['coursedmodelid'] != '0') {
             $options = array();
             $options[] = array('name' => 'users', 'value' => 0);
+            if ($this->copyBadge($this->formdata['form_step1']['coursedmodelid'])) {
+                $options[] = array('name' => 'badges', 'value' => 1);
+                $options[] = array('name' => 'role_assignments', 'value' => 1);
+            }
             $duplicate = new wizard_modele_duplicate($this->formdata['form_step1']['coursedmodelid'], $mydata, $options);
             $duplicate->create_backup();
             $course = $duplicate->retore_backup();
@@ -738,6 +742,17 @@ class wizard_core {
     }
 
     /**
+     * Retourne true si
+     *  @param int $coursedmodelid : identifiant du cours modèle à copier
+     * @return bool
+     */
+    private function copyBadge($coursedmodelid) {
+        global $DB;
+        return $DB->record_exists('badge', ['courseid' => $coursedmodelid]);
+
+    }
+
+    /**
     * envoie un message de notification suite à la création du cours
     * @param int $idcourse : identifiant du cours créé
     * @param string $mgc destiné au demandeur
@@ -1036,7 +1051,7 @@ class wizard_core {
 
     public function update_course() {
 		global $DB;
-		
+
         $this->prepare_update_course();
 
         if ($this->formdata['modif']['identification']) {
@@ -1062,7 +1077,7 @@ class wizard_core {
             $event->trigger();
         }
         update_course($this->mydata);
-        
+
         $cleandata = $this->customfields_wash($this->mydata);
         // suppression total rattachement hybride
         if (isset($this->formdata['modif']['attach2null']) && $this->formdata['modif']['attach2null'] == 1) {
@@ -1080,9 +1095,9 @@ class wizard_core {
 				}
 			}
         }
-        
+
         wizard_save_course_customfield_data($cleandata);
-        
+
         $modif = $this->update_myenrol_cohort();
         if ($modif) {
             $event = \core\event\course_updated::create(array(
