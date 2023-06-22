@@ -27,6 +27,10 @@ class wizard_core {
         if (isset($this->formdata['form_step1']['coursedmodelid']) && $this->formdata['form_step1']['coursedmodelid'] != '0') {
             $options = array();
             $options[] = array('name' => 'users', 'value' => 0);
+            if ($this->copyBadge($this->formdata['form_step1']['coursedmodelid'])) {
+                $options[] = array('name' => 'badges', 'value' => 1);
+                $options[] = array('name' => 'role_assignments', 'value' => 1);
+            }
             $duplicate = new wizard_modele_duplicate($this->formdata['form_step1']['coursedmodelid'], $mydata, $options);
             $duplicate->create_backup();
             $course = $duplicate->retore_backup();
@@ -735,6 +739,17 @@ class wizard_core {
         $subject .=' n°' . $idcourse;
         $subject .= ' : ' . $this->mydata->course_nom_norme;
         return $subject;
+    }
+    
+    /**
+     * Retourne true si
+     *  @param int $coursedmodelid : identifiant du cours modèle à copier
+     * @return bool
+     */
+    private function copyBadge($coursedmodelid) {
+        global $DB;
+        return $DB->record_exists('badge', ['courseid' => $coursedmodelid]);
+
     }
 
     /**
