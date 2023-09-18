@@ -86,7 +86,7 @@ class wizard_modele_duplicate {
 
 
     public function retore_backup() {
-        global $CFG,$DB;
+        global $CFG,$DB,$USER;
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
         // Check if we need to unzip the file because the backup temp dir does not contains backup files.
         if (!file_exists($this->backupbasepath . "/moodle_backup.xml")) {
@@ -131,8 +131,29 @@ class wizard_modele_duplicate {
             }
         }
 
+        //hack pour donner à $USER le droit moodle/calendar:manageentries (role manager dans le nouveau cours)
+        require_once("$CFG->dirroot/lib/enrollib.php");
+        $enrol = new stdClass();
+        $enrol->enrol = "manual";
+        $enrol->status = 0;
+        $enrol->courseid = $newcourseid;
+        $enrol->timemodified = time();
+        $enrol->timecreated = $enrol->timemodified;
+        $enrol->sortorder = $DB->get_field('enrol', 'COALESCE(MAX(sortorder), -1) + 1', ['courseid' => $newcourseid]);
+        $enrol->roleid = $DB->get_field('role', 'id', ['shortname' => 'student']);
+        $enrol->expirythreshold = 86400;
+        $enrol->id = $DB->insert_record('enrol', $enrol);
+        $role = $DB->get_record('role', ['shortname' => 'manager']);
+        if ($role) {
+            enrol_try_internal_enrol($newcourseid, $USER->id, $role->id);
+        }
+
         $rc->execute_plan();
         $rc->destroy();
+        
+        //suppression rôle manager de USER dans le nouveau cours
+        $plugin = enrol_get_plugin('manual');
+        $plugin->unenrol_user($enrol, $USER->id);
 
         $course = $DB->get_record('course', array('id' => $newcourseid), '*', MUST_EXIST);
 
