@@ -46,7 +46,6 @@ class wizard_modele_duplicate {
     public function create_backup() {
         global $CFG;
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
-
         // Check for backup and restore options.
         if (!empty($this->options)) {
             foreach ($this->options as $option) {
@@ -75,13 +74,11 @@ class wizard_modele_duplicate {
 
         $this->backupid       = $bc->get_backupid();
         $this->backupbasepath = $bc->get_plan()->get_basepath();
-
+        
         $bc->execute_plan();
         $results = $bc->get_results();
         $this->file = $results['backup_destination'];
-
         $bc->destroy();
-
     }
 
 
@@ -94,13 +91,22 @@ class wizard_modele_duplicate {
         }
 
          // Create new course.
-
-        $newcourseid = restore_dbops::create_new_course($this->mydata->fullname,
-            $this->mydata->shortname, $this->mydata->category);
-
+        $newcourseid = restore_dbops::create_new_course($this->mydata->fullname . ' en attente',
+            $this->mydata->shortname . ' en attente', $this->mydata->category);
+            
         $rc = new restore_controller($this->backupid, $newcourseid,
                 backup::INTERACTIVE_NO, backup::MODE_SAMESITE, $this->adminuser->id, backup::TARGET_NEW_COURSE);
-
+        
+        //bug panopto name
+        $fullnamesetting = $rc->get_plan()->get_setting('course_fullname');
+        if ($fullnamesetting->get_status() == backup_setting::NOT_LOCKED) {
+            $fullnamesetting->set_value($this->mydata->fullname);
+        }
+        $fullnamesetting = $rc->get_plan()->get_setting('course_shortname');
+        if ($fullnamesetting->get_status() == backup_setting::NOT_LOCKED) {
+            $fullnamesetting->set_value($this->mydata->shortname);
+        }
+        
         foreach ($this->backupsettings as $name => $value) {
             $setting = $rc->get_plan()->get_setting($name);
             if ($setting->get_status() == backup_setting::NOT_LOCKED) {
@@ -114,23 +120,19 @@ class wizard_modele_duplicate {
                 if (empty($CFG->keeptempdirectoriesonbackup)) {
                     fulldelete($backupbasepath);
                 }
-
                 $errorinfo = '';
-
                 foreach ($precheckresults['errors'] as $error) {
                     $errorinfo .= $error;
                 }
-
                 if (array_key_exists('warnings', $precheckresults)) {
                     foreach ($precheckresults['warnings'] as $warning) {
                         $errorinfo .= $warning;
                     }
                 }
-
                 throw new moodle_exception('backupprecheckerrors', 'webservice', '', $errorinfo);
             }
         }
-
+        
         //hack pour donner à $USER le droit moodle/calendar:manageentries (role manager dans le nouveau cours)
         require_once("$CFG->dirroot/lib/enrollib.php");
         $enrol = new stdClass();
@@ -165,14 +167,16 @@ class wizard_modele_duplicate {
         $course->visible = $this->mydata->visible;
         $course->startdate = $this->mydata->startdate;
         $course->enddate   = $this->mydata->enddate;
+        $course->format = $this->mydata->format;
         $course->summary       = $this->mydata->summary_editor['text'];
         $course->summaryformat = $this->mydata->summary_editor['format'];
         $course->timecreated = time();
         $course->timemodified = $course->timecreated;
-
+        $course->newsitems = $this->mydata->newsitems;
+        
         // Set shortname and fullname back.
         $DB->update_record('course', $course);
-
+        
         if (empty($CFG->keeptempdirectoriesonbackup)) {
             fulldelete($this->backupbasepath);
         }
@@ -181,6 +185,5 @@ class wizard_modele_duplicate {
         $this->file->delete();
 
         return $course;
-
     }
 }
