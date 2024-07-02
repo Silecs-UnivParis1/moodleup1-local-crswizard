@@ -157,6 +157,7 @@ class wizard_modele_duplicate {
         $plugin = enrol_get_plugin('manual');
         $plugin->unenrol_user($enrol, $USER->id);
 
+        $courseconfig = get_config('moodlecourse');
         $course = $DB->get_record('course', array('id' => $newcourseid), '*', MUST_EXIST);
 
         $course->fullname = $this->mydata->fullname;
@@ -167,12 +168,12 @@ class wizard_modele_duplicate {
         $course->visible = $this->mydata->visible;
         $course->startdate = $this->mydata->startdate;
         $course->enddate   = $this->mydata->enddate;
-        $course->format = $this->mydata->format;
+        $course->format = $this->mydata->format ?? $courseconfig->format;
         $course->summary       = $this->mydata->summary_editor['text'];
         $course->summaryformat = $this->mydata->summary_editor['format'];
         $course->timecreated = time();
         $course->timemodified = $course->timecreated;
-        $course->newsitems = $this->mydata->newsitems;
+        $course->newsitems = $this->mydata->newsitems ?? $courseconfig->newsitems;
         
         // Set shortname and fullname back.
         $DB->update_record('course', $course);
