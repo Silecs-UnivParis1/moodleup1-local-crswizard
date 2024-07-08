@@ -1501,6 +1501,15 @@ function get_selected_model() {
                 $SESSION->wizard['form_step1']['coursedmodelid'] = $coursemodelid;
                 $SESSION->wizard['form_step1']['coursemodelfullname'] = $coursemodel->fullname;
                 $SESSION->wizard['form_step1']['coursemodelshortname'] = $coursemodel->shortname;
+                $SESSION->wizard['form_step1']['format'] = $coursemodel->format;
+                $SESSION->wizard['form_step1']['newsitems'] = $coursemodel->newsitems;
+                $SESSION->wizard['form_step1']['showgrades'] = $coursemodel->showgrades;
+                $SESSION->wizard['form_step1']['showreports'] = $coursemodel->showreports;
+                $SESSION->wizard['form_step1']['maxbytes'] = $coursemodel->maxbytes;
+                $SESSION->wizard['form_step1']['groupmode'] = $coursemodel->groupmode;
+                $SESSION->wizard['form_step1']['groupmodeforce'] = $coursemodel->groupmodeforce;
+                $SESSION->wizard['form_step1']['lang'] = $coursemodel->lang;
+                $SESSION->wizard['form_step1']['defaultgroupingid'] = $coursemodel->defaultgroupingid;
             }
         }
     }

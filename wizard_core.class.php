@@ -269,7 +269,31 @@ class wizard_core {
                 $this->mydata->profile_field_up1urlfixe = trim($form2['myurl']);
             }
         }
-
+        $this->mydata->visible = 0;
+        //copie paramètre du cours modèle
+        if (isset($this->formdata['form_step1'])) {
+            $form1 = $this->formdata['form_step1'];
+            $this->mydata->format = $form1['format'];
+            $this->mydata->newsitems = $form1['newsitems'];
+            $this->mydata->showgrades = $form1['showgrades'];
+            $this->mydata->showreports = $form1['showreports'];
+            $this->mydata->maxbytes = $form1['maxbytes'];
+            $this->mydata->groupmode = $form1['groupmode'];
+            $this->mydata->groupmodeforce = $form1['groupmodeforce'];
+            $this->mydata->lang = $form1['lang'];
+            $this->mydata->defaultgroupingid = $form1['defaultgroupingid'];
+        } else {
+            $courseconfig = get_config('moodlecourse');
+            $this->mydata->format = $courseconfig->format;
+            $this->mydata->newsitems = $courseconfig->newsitems;
+            $this->mydata->showgrades = $courseconfig->showgrades;
+            $this->mydata->showreports = $courseconfig->showreports;
+            $this->mydata->maxbytes = $courseconfig->maxbytes;
+            $this->mydata->groupmode = $courseconfig->groupmode;
+            $this->mydata->groupmodeforce = $courseconfig->groupmodeforce;
+            $this->mydata->lang = $courseconfig->lang;
+            $this->mydata->defaultgroupingid = $courseconfig->defaultgroupingid;
+        }
         // cours doit être validé
         $this->set_metadata_cycle_life();
         return $this->mydata;
