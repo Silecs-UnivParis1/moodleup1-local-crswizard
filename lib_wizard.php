@@ -1778,6 +1778,7 @@ function wizard_get_current_category($idcategory) {
 
 /**
  * Adapte le nom du cours à la période sélectionnée par défaut
+ * utilisé uniquement pour la copie rapide d'un cours Hors ROF
  * @param string $name
  * @return string $newname
  */
@@ -1791,6 +1792,11 @@ function wizard_get_new_course_name($name) {
         $newname = trim($matches[1]);
     } else {
         $newname = trim($name);
+    }
+    if (substr($newname, 0, 14) == 'Archive année') {
+        if (preg_match('@^(Archive année 20[0-9][0-9][-_ /]*20[0-9][0-9])(.+?)$@', $newname, $matches)) {
+            $newname = trim($matches[2]);
+        }
     }
     return $newname . ' ' . $years;
 }
