@@ -30,6 +30,12 @@ function wizard_get_course($id) {
         $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
         $SESSION->wizard['form_step2']['summary_editor'] = $summary;
 
+        if ($overviewfilesoptions = course_overviewfiles_options($course)) {
+            $coursecontext = context_course::instance($course->id);
+            file_prepare_standard_filemanager($course, 'overviewfiles', $overviewfilesoptions, $coursecontext, 'course', 'overviewfiles', 0);
+            $SESSION->wizard['form_step2']['overviewfiles_filemanager'] = $course->overviewfiles_filemanager;
+        }
+
         $case = wizard_get_generateur($course);
         if ($case == 0) {
              throw new moodle_exception('Vous n\'avez pas la permission d\'accéder à cette page.');

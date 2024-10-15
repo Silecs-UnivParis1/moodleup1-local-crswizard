@@ -98,6 +98,7 @@ $string['coursegeneralhelp'] = '<p>Le nom complet de l\'espace est affiché en h
 $string['coursegeneralhelpRof'] = "Si nécessaire, complétez l'intitulé de votre EPI dans le champ vierge."
     . "Le texte de présentation s'affichera en accès public sur la fiche signalétique de votre cours.";
 $string['coursemodel'] = 'Modèle de création : ';
+$string['courseoverviewfiles'] = 'Image de cours : ';
 $string['courserequestdate'] = 'Date de la demande de création : ';
 $string['coursesettingsblock'] = 'Paramétrage de l\'espace de cours';
 $string['coursesettingshelp'] = 'Les dates ci-dessous sont purement informatives et correspondent au début '
@@ -155,6 +156,7 @@ $string['wizardcase1'] = 'Un élément pédagogique dans lequel j\'enseigne';
 $string['wizardcase2'] = 'Un élément pédagogique de l\'offre de formation';
 $string['wizardcase3'] = 'Un autre besoin en dehors de l\'offre de formation';
 $string['wizardcourse'] = 'Création d\'un espace';
+
 
 /** update **/
 $string['upcancel'] = 'Annuler';

@@ -169,6 +169,11 @@ class course_wizard_step2_rof_form extends moodleform {
         //$mform->addHelpButton('summary_editor', 'coursesummary');
         $mform->setType('summary_editor', PARAM_RAW);
 
+        $idcourse = $isnew ? null : $SESSION->wizard['idcourse'];
+        if ($overviewfilesoptions = course_overviewfiles_options($idcourse)) {
+            $mform->addElement('filemanager', 'overviewfiles_filemanager', get_string('courseoverviewfiles', 'local_crswizard'), null, $overviewfilesoptions);
+        }
+
         $mform->addElement('header', 'parametre', get_string('coursesettingsblock', 'local_crswizard'));
         $mform->setExpanded('parametre');
 
