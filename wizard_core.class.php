@@ -23,7 +23,6 @@ class wizard_core {
         $mydata = $this->prepare_course_to_validate();
         // ajout commentaire de creation
         $mydata->profile_field_up1commentairecreation = strip_tags($this->formdata['form_step7']['remarques']);
-
         if (isset($this->formdata['form_step1']['coursedmodelid']) && $this->formdata['form_step1']['coursedmodelid'] != '0') {
             $options = array();
             $options[] = array('name' => 'users', 'value' => 0);
@@ -34,11 +33,16 @@ class wizard_core {
             $duplicate = new wizard_modele_duplicate($this->formdata['form_step1']['coursedmodelid'], $mydata, $options);
             $duplicate->create_backup();
             $course = $duplicate->retore_backup();
+
             $mydata->profile_field_up1modele = '[' . $this->formdata['form_step1']['coursedmodelid'] . ']'
                 . $this->formdata['form_step1']['coursemodelshortname'];
         } else {
             $course = create_course($mydata);
         }
+
+        //image de cours
+        $course->overviewfiles_filemanager = $mydata->overviewfiles_filemanager;
+        update_course($course);
 
         $event = \core\event\course_created::create(array(
             'objectid' => $course->id,
@@ -260,6 +264,7 @@ class wizard_core {
         $this->mydata->profile_field_enddate = $form2['enddate'];
         $this->mydata->summary = $form2['summary_editor']['text'];
         $this->mydata->summaryformat = $form2['summary_editor']['format'];
+        $this->mydata->overviewfiles_filemanager = $form2['overviewfiles_filemanager'];
 
         //url fixe
         if (isset($form2['urlok']) && $form2['urlok'] == 1) {

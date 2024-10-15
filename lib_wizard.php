@@ -272,6 +272,12 @@ function wizard_get_metadonnees() {
 			$summary = array('text' => $course->summary, 'format' => $course->summaryformat);
 			$SESSION->wizard['form_step2']['summary_editor'] = $summary;
 
+            if ($overviewfilesoptions = course_overviewfiles_options($course)) {
+                $coursecontext = context_course::instance($course->id);
+                file_prepare_standard_filemanager($course, 'overviewfiles', $overviewfilesoptions, $coursecontext, 'course', 'overviewfiles', 0);
+                $SESSION->wizard['form_step2']['overviewfiles_filemanager'] = $course->overviewfiles_filemanager;
+            }
+
             $case = wizard_get_generateur($course);
             $SESSION->wizard['modelecase'] = $case;
             if ($case == $SESSION->wizard['wizardcase']) {
