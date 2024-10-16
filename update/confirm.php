@@ -15,7 +15,7 @@ require_once(__DIR__ . '/../lib_wizard.php');
 class course_wizard_confirm extends moodleform {
 
     function definition() {
-        global $USER, $DB, $SESSION, $OUTPUT;
+        global $SESSION, $CFG;
 
         $myconfig = new my_elements_config();
         $mform = $this->_form;
@@ -25,6 +25,7 @@ class course_wizard_confirm extends moodleform {
         $displaylist = array();
         $displaylist = core_course_category::make_categories_list();
         $form2 = $SESSION->wizard['form_step2'];
+
         if (isset($form2['rattachement1']) ) {
             $idratt1 = $form2['rattachement1'];
             $mform->addElement('text', 'category',  get_string('categoryblockE3', 'local_crswizard') . ' : ', 'size="100"');
@@ -98,11 +99,10 @@ class course_wizard_confirm extends moodleform {
         $mform->addElement('text', 'shortname', get_string('shortnamecourse', 'local_crswizard'), 'maxlength="100" size="40"');
         $mform->setType('shortname', PARAM_TEXT);
 
-        /** @todo display the summary correctly, with Moodle's conversion functions */
-        $htmlsummary = '<div class="fitemtitle"><div class="fstaticlabel"><label>'
-                . get_string('coursesummary', 'local_crswizard') . '</label></div></div>'
-                . '<div class="felement fstatic">' . $form2['summary_editor']['text'] . '</div>';
-        $mform->addElement('html', html_writer::tag('div', $htmlsummary, array('class' => 'fitem')));
+        $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
+        $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), null, $editoroptions);
+        $mform->setType('summary_editor', PARAM_RAW);
+        $mform->setConstant('summary_editor', $form2['summary_editor']);
 
         $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
 
