@@ -32,6 +32,32 @@ function wizard_get_course_customfield_data($courseid) {
 }
 
 /**
+ * Renvoie un visuel de l'image de cours ou chaîne "Aucune" sinon
+ * @param int $itemid itemid of the draft file area
+ * @return HTML string
+ */
+function wizard_get_course_overviewfiles_filemanager_image($itemid) {
+    global $USER;
+    $usercontext = context_user::instance($USER->id);
+    $fs = get_file_storage();
+    $draftfiles = $fs->get_area_files($usercontext->id, 'user', 'draft', $itemid);
+    $html = 'Aucune';
+    if (count($draftfiles)) {
+        foreach ($draftfiles as $file) {
+            if (!$file->is_directory()) {
+                $url = moodle_url::make_draftfile_url($itemid, $file->get_filepath(), $file->get_filename())->out();
+                $span = html_writer::span($file->get_filename(), 'sr-only');
+                $html = html_writer::div(
+                    $span, '',
+                    ['style' => 'background-image: url("'.$url.'");height: 10rem; width: 30rem; background-position-x:50%; background-position-y:50%; background-size: cover;']
+                );
+            }
+        }
+    }
+    return $html;
+}
+
+/**
  * renvoie le nom normé de la cle profile_field dans l'objet cours correspondant à $shortname 
  * @param string $shortname
  * @return string

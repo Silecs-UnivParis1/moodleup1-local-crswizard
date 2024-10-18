@@ -111,6 +111,9 @@ class course_wizard_step_confirm extends moodleform {
         $mform->setType('summary_editor', PARAM_RAW);
         $mform->setConstant('summary_editor', $SESSION->wizard['form_step2']['summary_editor']);
 
+        $imagecours = wizard_get_course_overviewfiles_filemanager_image($SESSION->wizard['form_step2']['overviewfiles_filemanager']);
+        $mform->addElement('static', 'imagecours', get_string('courseoverviewfiles', 'local_crswizard'), $imagecours);
+
         $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
 
         $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));

@@ -19,7 +19,6 @@ class course_wizard_confirm extends moodleform {
 
         $myconfig = new my_elements_config();
         $mform = $this->_form;
-
         $mform->addElement('header', 'resume', get_string('upsummaryof', 'local_crswizard'));
 
         $displaylist = array();
@@ -103,6 +102,9 @@ class course_wizard_confirm extends moodleform {
         $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), null, $editoroptions);
         $mform->setType('summary_editor', PARAM_RAW);
         $mform->setConstant('summary_editor', $form2['summary_editor']);
+
+        $imagecours = wizard_get_course_overviewfiles_filemanager_image($form2['overviewfiles_filemanager']);
+        $mform->addElement('static', 'imagecours', get_string('courseoverviewfiles', 'local_crswizard'), $imagecours);
 
         $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
 
