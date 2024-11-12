@@ -58,33 +58,50 @@ $msg = '';
 $prefix = default_prefix();
 $isodate = isoDate();
 
-$defaultRoles = ['from' => 'editingteacher', 'to' => 'ens_epi_archive'];
-$roles = [];
-foreach ($defaultRoles as $key => $role) {
-    if ($DB->record_exists('role', array('shortname' => $role))) {
-        $roles[$key] = $DB->get_field('role', 'id', array('shortname' => $role));
+$defaultRolesTeacher = ['from' => 'editingteacher', 'to' => 'ens_epi_archive'];
+$rolesTeacher = [];
+foreach ($defaultRolesTeacher as $key => $role) {
+    if ($DB->record_exists('role', ['shortname' => $role])) {
+        $rolesTeacher[$key] = $DB->get_field('role', 'id', ['shortname' => $role]);
     }
 }
-
 $substRole = "Substituer les rôles \"enseignant éditeur\" par \"enseignant EPI archivé\". "
     . "C'est-à-dire que vous pourrez toujours accéder à cet EPI et le dupliquer, mais vous ne pourrez plus le modifier.";
-if (count($roles) < 2) {
+if (count($rolesTeacher) < 2) {
     $substRole = '<strike>' . $substRole . '</strike>';
-    if (isset($roles['to']) == FALSE) {
+    if (isset($rolesTeacher['to']) == FALSE) {
         $substRole .= '<br /><b>Le rôle "enseignant EPI archivé" n\'exite pas.</b>';
     }
-    if (isset($roles['from']) == FALSE) {
+    if (isset($rolesTeacher['from']) == FALSE) {
         $substRole .=  '<br /><b>Le rôle "enseignant éditeur" n\'exite pas.</b>';
     }
 }
+
+$defaultRolesStudent = ['from' => 'student', 'to' => 'student-epi-archived'];
+$rolesStudent = [];
+foreach ($defaultRolesStudent as $key => $role) {
+    if ($DB->record_exists('role', ['shortname' => $role])) {
+        $rolesStudent[$key] = $DB->get_field('role', 'id', ['shortname' => $role]);
+    }
+}
+$substRoleStudent = 'Substituer les rôles "étudiant" par "étudiant EPI archivé".';
+if (count($rolesStudent) < 2) {
+    $substRoleStudent = '<strike>' . $substRoleStudent . '</strike>';
+    if (isset($rolesStudent['to']) == FALSE) {
+        $substRoleStudent .= '<br /><b>Le rôle "étudiant EPI archivé" n\'exite pas.</b>';
+    }
+    if (isset($rolesStudent['from']) == FALSE) {
+        $substRoleStudent .=  '<br /><b>Le rôle "étudiant" n\'exite pas.</b>';
+    }
+}
+
 $msgEffect = html_writer::tag('div', "Cette action n'est pas réversible. Elle conduira à :", array('class' => 'fitem'));
 $msgEffect .= html_writer::start_tag('ul', array('class'=>'list'));
 $msgEffect .= html_writer::tag('li', "Fermer \"$courseshortname\", donc les etudiant.e.s n'y auront plus accès.");
 $msgEffect .= html_writer::tag('li', "Préfixer le nom de l'EPI avec \"$prefix\".");
 $msgEffect .= html_writer::tag('li', $substRole);
 $msgEffect .= html_writer::tag('li', "Indiquer la date du jour comme date d'archivage.");
-$msgEffect .= html_writer::tag('li', "Désactiver les inscriptions des étudiant.e.s, c'est-à-dire que, "
-    . "pour les étudiant.e.s, cet EPI n'apparaîtra plus dans la liste des EPI auxquels elles/ils sont inscrit.e.s.");
+$msgEffect .= html_writer::tag('li', $substRoleStudent);
 $msgEffect .= html_writer::end_tag('ul');
 
 $msgEffect .= html_writer::tag('div', " (Toutes ces opérations seront appliquées courant juillet à l'ensemble des EPI, "
@@ -111,18 +128,23 @@ if ($formdata) {
         //fermer
         $msg .= batchaction_visibility($myCourse, 0, false) . "<br />\n";
         //prefixe archive...
+        $prefix = $prefix . ' ';
         $msg .= batchaction_prefix($myCourse, $prefix, false) . "<br />\n";
         //substituer le role enseignant à "enseignant EPI archivé"
-        if (count($roles) == 2) {
-            $msg .= batchaction_substitute($myCourse, $roles['from'], $roles['to'], false) . "<br />\n";
+        if (count($rolesTeacher) == 2) {
+            $msg .= batchaction_substitute($myCourse, $rolesTeacher['from'], $rolesTeacher['to'], false) . "<br />\n";
         } else {
             $msg .= 'Attention, la substitution "enseignant éditeur" par "enseignant EPI archivé" n\'a pas eu lieu' . "<br />\n";
         }
         //archiver à la date
         $tsdate = isoDateToTs($isodate);
         $msg .= batchaction_archdate($myCourse, $tsdate, false) . "<br />\n";
-        //Désactiver les inscriptions (sauf manuelles)
-        $msg .= batchaction_disable_enrols($myCourse, false, array('manual'), false) . "<br />\n";
+        //substituer le role étudiant à "étudiant archivé"
+        if (count($rolesStudent) == 2) {
+            $msg .= batchaction_substitute($myCourse, $rolesStudent['from'], $rolesStudent['to'], false) . "<br />\n";
+        } else {
+            $msg .= 'Attention, la substitution "étudiant" par "étudiant archivé" n\'a pas eu lieu' . "<br />\n";
+        }
 
         echo $header;
         echo $title;
