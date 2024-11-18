@@ -98,7 +98,8 @@ function wizard_save_course_customfield_data($mydata) {
 			
 			$data = $mydata->$name;
 			if (in_array($fieldc->get('type'), $customfield_type )  && $data == '') {
-				$data = $fieldc->get_configdata_property('defaultvalue');
+				$defaultvalue = $fieldc->get_configdata_property('defaultvalue');
+                $data = (isset($defaultvalue) ? $defaultvalue : 0);
 			}
 			$datac->set($datac->datafield(), $data);
 			$datac->set('value', $data);

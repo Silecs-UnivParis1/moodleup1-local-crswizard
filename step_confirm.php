@@ -244,7 +244,7 @@ class course_wizard_step_confirm extends moodleform {
             $idcourse = (int) $SESSION->wizard['idcourse'];
             $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
 			$handler = \core_customfield\handler::get_handler('core_course', 'course');    
-			$datas = $handler->get_instance_data($courseid);
+			$datas = $handler->get_instance_data($idcourse);
 			$cinfos = [];
 			foreach ($datas as $data) {
 				$cinfos[$data->get_field()->get('shortname')] = $data->get_value();
