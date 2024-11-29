@@ -23,6 +23,9 @@ class wizard_modele_duplicate {
     public $file;
     public $backupsettings = array();
 
+    /**array**/
+    public $options;
+
     public $backupdefaults = array(
         'activities' => 1,
         'blocks' => 1,
