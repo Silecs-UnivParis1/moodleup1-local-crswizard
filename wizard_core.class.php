@@ -1091,7 +1091,6 @@ class wizard_core {
                 'fullname' => $this->mydata->fullname,
                 'crswizard' => 'Identification')
             ));
-            $event->set_legacy_logdata(array($this->mydata->id, 'course', 'update', 'edit.php?id=' . $this->mydata->id, $this->mydata->id));
             $event->trigger();
         }
         if ($this->formdata['modif']['attach']) {
@@ -1102,7 +1101,6 @@ class wizard_core {
                 'fullname' => $this->mydata->fullname,
                 'crswizard' => 'Rattachement')
             ));
-            $event->set_legacy_logdata(array($this->mydata->id, 'course', 'update', 'edit.php?id=' . $this->mydata->id, $this->mydata->id));
             $event->trigger();
         }
         update_course($this->mydata);
@@ -1136,7 +1134,6 @@ class wizard_core {
                 'fullname' => $this->mydata->fullname,
                 'crswizard' => 'Cohorts')
             ));
-            $event->set_legacy_logdata(array($this->mydata->id, 'course', 'update', 'edit.php?id=' . $this->mydata->id, $this->mydata->id));
             $event->trigger();
         }
         $modif = $this->update_myenrol_key();
@@ -1148,7 +1145,6 @@ class wizard_core {
                 'fullname' => $this->mydata->fullname,
                 'crswizard' => 'Keys')
             ));
-            $event->set_legacy_logdata(array($this->mydata->id, 'course', 'update', 'edit.php?id=' . $this->mydata->id, $this->mydata->id));
             $event->trigger();
         }
         rebuild_course_cache($this->mydata->id);
