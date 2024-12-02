@@ -244,7 +244,7 @@ function wizard_course_is_archived($courseid, $field) {
     global $CFG;
     require_once("$CFG->dirroot/local/up1_metadata/lib.php");
     $dtime = up1_meta_get_text($courseid, $field);
-    if ($dtime == 0) {
+    if ($dtime == 0 || $dtime == '') {
         return false;
     }
     return true;
