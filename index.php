@@ -82,8 +82,13 @@ switch ($stepin) {
     case 2:
         //vérifier si modele de cours
         get_selected_model();
-        //fin vérifier si modele de cours
-        wizard_get_metadonnees();
+
+        //gestion étape précédente + modification du cours modèle
+        if (empty($SESSION->wizard['form_step2'])) {
+            wizard_get_metadonnees();
+        } elseif (!empty($SESSION->wizard['modele']) && $SESSION->wizard['modele'] != $SESSION->wizard['form_step1']['coursedmodelid']) {
+            wizard_get_metadonnees();
+        }
 
         if (!isset($SESSION->wizard['form_step1']['stepgo_2'])) {
             //copie rapide explicitement demandée
