@@ -335,9 +335,9 @@ function wizard_get_metadonnees() {
                         if (isset($SESSION->wizard['form_step2']['myurl']) == false || $SESSION->wizard['form_step2']['myurl'] == '') {
                             $SESSION->wizard['form_step2']['myurl'] = $SESSION->wizard['form_step2']['modelurl'];
                         }
-                        $SESSION->wizard['form_step3']['up1approbateurpropid'] ='';
-                        if (isset($course->profile_field_up1approbateurpropid)) {
-                            $SESSION->wizard['form_step3']['up1approbateurpropid'] = $course->profile_field_up1approbateurpropid;
+                        //reprise pour la duplication rapide
+                        if (!isset($SESSION->wizard['form_step1']['stepgo_2'])) {
+                            $SESSION->wizard['form_step3']['up1approbateurpropid'] = isset($course->profile_field_up1approbateurpropid) ? $course->profile_field_up1approbateurpropid : '';
                         }
                         break;
 

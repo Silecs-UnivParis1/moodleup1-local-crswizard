@@ -46,14 +46,15 @@ echo '<form action="' . $CFG->wwwroot . '/local/crswizard/index.php" method="pos
             <div class="widgetselect-panel-left">
     <?php
         if ($autovalidation == 1) {
+            $inputchecked = ' checked="checked" ';
+            if (!empty($SESSION->wizard['form_step3']) && empty($SESSION->wizard['form_step3']['autovalidation'])) {
+                $inputchecked = '';
+            }
             echo '<div class="fitem fitem_fcheckbox"><div class="fitemtitle">'
                 . '<span for="id_autovalidation">Je suis responsable de cet enseignement</span></div>'
                 . '<div class="felement fcheckbox"><span>'
-                . '<input type="checkbox" style="margin-top: 9px;" name="autovalidation" id="id_autovalidation" ';
-                if (isset($SESSION->wizard['form_step3']['autovalidation'])) {
-                    echo ' checked="checked" ';
-                }
-                echo '/></span></div></div>';
+                . '<input type="checkbox" style="margin-top: 9px;" name="autovalidation" id="id_autovalidation" '
+                . $inputchecked . '/></span></div></div>';
             echo '<h3>' . get_string('findvalidator', 'local_crswizard') . '</h3>';
             echo '<div class="fcontainer clearfix">Si vous créez cet EPI pour quelqu\'un d\'autre ou si vous êtes chargé de TD'
                 . ', veuillez rechercher le responsable de l\'enseignement puis ajoutez-le en cliquant sur le symbole +. Veuillez également décocher la case ci-dessus.</div>';
