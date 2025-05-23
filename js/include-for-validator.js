@@ -8,7 +8,7 @@ $(document).ready(function() {
             if ($(this).prop('checked')) {
                 var select = $("div.users-selected").children('div[class=teacher-item-block]');
                 if (select.length != 0) {
-                    var res = confirm("Se désigner comme responsable de l'enseignement supprime le validateur que vous avez désigné."
+                    var res = confirm("Se désigner comme responsable de l'enseignement supprime le responsable éditorial que vous avez désigné."
                         + "\n Voulez-vous effectuer cette opération ?");
                     if (res == true) {
                         $("div.users-selected").empty();

@@ -44,11 +44,8 @@ echo '<form action="' . $CFG->wwwroot . '/local/crswizard/index.php" method="pos
         <br/>
         <div id="user-select">
             <div class="widgetselect-panel-left">
-                <h3><?php echo get_string('findvalidator', 'local_crswizard'); ?></h3>
-
     <?php
         if ($autovalidation == 1) {
-            echo '<div class="fcontainer clearfix">Si vous êtes le responsable éditorial de l\'EPI, cochez la cas si dessous.</div>';
             echo '<div class="fitem fitem_fcheckbox"><div class="fitemtitle">'
                 . '<span for="id_autovalidation">Je suis responsable de cet enseignement</span></div>'
                 . '<div class="felement fcheckbox"><span>'
@@ -57,12 +54,13 @@ echo '<form action="' . $CFG->wwwroot . '/local/crswizard/index.php" method="pos
                     echo ' checked="checked" ';
                 }
                 echo '/></span></div></div>';
+            echo '<h3>' . get_string('findvalidator', 'local_crswizard') . '</h3>';
             echo '<div class="fcontainer clearfix">Si vous créez cet EPI pour quelqu\'un d\'autre ou si vous êtes chargé de TD'
-                . ', veuillez rechercher le responsable de l\'enseignement puis l\'ajouter en approbateur sélectionné en cliquant sur le symbole +</div>';
+                . ', veuillez rechercher le responsable de l\'enseignement puis ajoutez-le en cliquant sur le symbole +. Veuillez également décocher la case ci-dessus.</div>';
+        } else {
+            echo '<h3>' . get_string('findvalidator', 'local_crswizard') . '</h3>';
         }
     ?>
-
-
                 <input type="text" class="user-selector" name="something" data-inputname="teacher" size="50"
                     placeholder="<?php echo s(get_string('validatorname', 'local_crswizard')); ?>" />
             </div>

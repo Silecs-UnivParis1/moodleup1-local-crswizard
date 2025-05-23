@@ -50,7 +50,7 @@ $string['bockhelpE3validator'] = '<p>Toute demande de création d\'espace de cou
     . 'ou son identifiant Paris 1 ou le couple Prénom Nom. Notez que vous ne pouvez pas vous '
     . 'désigner comme approbateur de l\'espace que vous êtes entrain de créer.</li>'
     . '<li>Cliquez sur le symbole « + » pour désigner cet utilisateur comme approbateur de cet espace.</li></ol>';
-$string['bockhelpE3autovalidator'] = "<h2 class='crswizardWarning'>NB : L'approbateur est la personne qui assume la responsabilité éditoriale de l'EPI et valide son rattachement</h2>";
+$string['bockhelpE3autovalidator'] = '<h2 class="crswizardWarning">NB : Le responsable éditorial de l\'EPI, valide aussi son rattachement et obtient le rôle "Enseignant responsable EPI" </h2>';
 $string['bockhelpE4'] = "<h2 class='crswizardWarning'>NB : Si plusieurs enseignants contribuent à l'EPI, veuillez renseigner soigneusement cette étape.</h2>";
 $string['bockhelpE5'] = "<h2 class='crswizardWarning'>Attention : Cette étape permet <ul> "
     . "<li>d'autoriser l'accès à l'EPI pour vos groupes d'étudiants participants au cours"
@@ -113,7 +113,7 @@ $string['enrolteachers'] = 'Étape 4 - désignation des contributeurs enseignant
 $string['fastcopyerrormsg'] = 'Attention : toutes les conditions ne sont pas remplies pour permettre une duplication rapide';
 $string['findcohort'] = 'Rechercher un groupe d\'étudiants';
 $string['findteacher'] = 'Rechercher un enseignant';
-$string['findvalidator'] = 'Rechercher un approbateur';
+$string['findvalidator'] = ' Rechercher un responsable éditorial';
 $string['finish'] = 'Terminer';
 $string['fullnamecourse'] = 'Nom complet de l\'espace : ';
 $string['generalinfoblock'] = 'Informations générales de l\'espace de cours';
@@ -135,8 +135,8 @@ $string['role'] = 'Rôle';
 $string['selectcourse'] = 'Étape 1 - démarrage de l\'assistant';
 $string['selectedcohort'] = 'Groupes sélectionnés';
 $string['selectedteacher'] = 'Enseignants sélectionnés';
-$string['selectedvalidator'] = 'Approbateur sélectionné';
-$string['selectvalidator'] = 'Étape 3 : approbation de l\'espace';
+$string['selectedvalidator'] = 'Responsable éditorial sélectionné';
+$string['selectvalidator'] = 'Étape 3 : Responsabilité éditoriale de l\'espace ';
 $string['shortnamecourse'] = 'Nom abrégé de l\'espace : ';
 $string['summaryof'] = 'Récapitulatif de la demande';
 $string['student'] = 'Étudiant';
@@ -151,7 +151,7 @@ $string['up1niveau'] = 'Autre(s) type(s) de diplôme(s) : ';
 $string['userlogin'] = 'Login du demandeur : ';
 $string['username'] = 'Nom du demandeur : ';
 $string['teachers'] = 'Enseignants';
-$string['validatorname'] = 'Nom de l\'approbateur';
+$string['validatorname'] = 'Nom du responsable éditorial';
 $string['wizardcase1'] = 'Un élément pédagogique dans lequel j\'enseigne';
 $string['wizardcase2'] = 'Un élément pédagogique de l\'offre de formation';
 $string['wizardcase3'] = 'Un autre besoin en dehors de l\'offre de formation';
