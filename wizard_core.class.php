@@ -143,26 +143,16 @@ class wizard_core {
 
         $mgc = 'Bonjour,' . "\n\n";
         $mgc .= 'Vous venez de créer l\'espace de cours "' . $nomcours . '" sur la plateforme '. $CFG->wwwroot . "\n\n";
-        if ($autovalidation == false) {
-            if (count($idval)) {
-                $mgc .= 'Votre demande a été transmise à ' . $idval['fullname'] . ', ainsi qu\'aux gestionnaires de '
-                . 'la plateforme pour approbation, avant son ouverture aux étudiants';
-            } else {
-                $mgc .=  'Votre demande a été transmise aux gestionnaires de '
-                . 'la plateforme pour approbation, avant son ouverture aux étudiants.';
-            }
-        } else {
-            $mgc .= 'Votre cours n\'est pas encore ouvert aux étudiants';
-        }
+        $mgc .= 'Votre cours n\'est pas encore ouvert aux étudiants';
         $mgc .= "\n\n";
         $mgc .= 'Notez cependant que toutes les personnes auxquelles vous avez attribué '
             . 'des droits de contribution ont d\'ores et déjà la possibilité de s\'approprier ce nouvel espace de cours : '
             . 'personnaliser le texte de présentation, organiser et nommer à leur convenance '
             . 'les différentes sections, déposer des documents, etc.' . "\n\n";
-        if ($autovalidation == false) {
-            $mgc .= 'Vous trouverez à cette adresse ' . $urlguide . ' des informations sur le processus d\'approbation des espaces '
-                . 'nouvellement créés.' . "\n\n";
-        }
+
+        $mgc .= 'Vous trouverez à cette adresse ' . $urlguide . ' le guide des EPI ; des fiches d’aide et des tutoriels vidéo '
+            . 'vous permettant une prise en main rapide des EPI. ' . "\n\n";
+
         $mgc .= 'N\'hésitez pas à contacter l\'un des membres de l\'équipe du service des usages numériques :' . "\n";
         $mgc .= '- si vous souhaitez participer à l\'une des sessions de prise en mains régulièrement organisées ;' . "\n";
         $mgc .= '- si vous rencontrez une difficulté ou si vous constatez une anomalie de fonctionnement.' . "\n\n";
