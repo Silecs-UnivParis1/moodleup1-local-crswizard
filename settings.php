@@ -73,4 +73,10 @@ if (has_capability('moodle/site:config', context_system::instance())) {
         1);
     $autovalidation->plugin = 'local_crswizard';
     $settings->add($autovalidation);
+
+    $settings->add(new admin_setting_heading(
+        'wizardcas3defaults',
+        'Informations Catégories Hors ROF',
+        'À titre informatif, la catégorie "<b>Amphis Virtuels</b>" n\'apparaît plus dans liste des catégories de rattachement ( voir fonction wizard_get_mydisplaylist() ).'
+    ));
 }

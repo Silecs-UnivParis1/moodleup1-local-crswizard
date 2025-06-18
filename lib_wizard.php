@@ -534,20 +534,30 @@ function wizard_redirect_creation($url, $message='', $delay=5) {
  * @return array
  * */
 function wizard_get_mydisplaylist() {
-    $displaylist = array();
+    global $DB;
+    $excludeids = $DB->get_fieldset_select('course_categories', 'id', 'idnumber regexp :regle', ['regle' => '^3:(20[0-9][0-9])-(20[0-9][0-9])/UP1/AmphisVirtuels$']);
+    if (count($excludeids)) {
+        $listeparentid = implode(',', $excludeids);
+        $childentids = $DB->get_fieldset_select('course_categories', 'id', " parent in ($listeparentid)");
+        $excludeids = array_merge($excludeids, $childentids);
+    }
+
+    $displaylist = [];
     $displaylist = core_course_category::make_categories_list();
-    $mydisplaylist = array(" Sélectionner la période / Sélectionner l'établissement / Sélectionner la composante / Sélectionner le type de diplôme");
+    $mydisplaylist = [" Sélectionner la période / Sélectionner l'établissement / Sélectionner la composante / Sélectionner le type de diplôme"];
 
     foreach ($displaylist as $id => $label) {
-        $parents = core_course_category::get($id)->get_parents();
-        $depth = count($parents);
-        if ($depth > 1) {
-            if ( $depth == 2) {
-                if (core_course_category::get($id)->get_children_count() == 0) {
+        if (!in_array($id, $excludeids)) {
+            $parents = core_course_category::get($id)->get_parents();
+            $depth = count($parents);
+            if ($depth > 1) {
+                if ( $depth == 2) {
+                    if (core_course_category::get($id)->get_children_count() == 0) {
+                        $mydisplaylist[$id] = $label;
+                    }
+                } else {
                     $mydisplaylist[$id] = $label;
                 }
-            } else {
-                $mydisplaylist[$id] = $label;
             }
         }
     }
