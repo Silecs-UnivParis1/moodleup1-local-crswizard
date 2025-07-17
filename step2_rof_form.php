@@ -185,7 +185,9 @@ class course_wizard_step2_rof_form extends moodleform {
         $mform->setDefault('startdate', time());
 
         $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));
-        $fin_semestre = strtotime(date('m') <= 6 ? "July 31" : "next year January 31");
+        if (date('m') < 5) $fin_semestre = strtotime("July 31") ;
+        elseif ( date('m') ==12) $fin_semestre = strtotime("next year July 31");
+        else $fin_semestre = strtotime("next year January 31");
         $mform->setDefault('enddate', $fin_semestre);
 
         $mform->addElement('header', 'URL', 'Souhaitez-vous utiliser une URL pérenne ?');
