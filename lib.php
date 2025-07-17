@@ -15,15 +15,14 @@ function local_crswizard_extend_navigation_course($navigation, $course, $context
     global $PAGE, $USER;
     if (get_capability_info('local/up1_capabilities:course_updatesettings')) {
         if (!has_capability('local/up1_capabilities:course_updatesettings', $context, $USER, true)) {
-            if ($PAGE->theme->name == 'adaptable') {
-                $children = $navigation->get_children_key_list();
-                if (count($children) && in_array('editsettings', $children)) {
-                    $editsettings = $navigation->find('editsettings', navigation_node::TYPE_SETTING);
-                    if ($editsettings) {
-                        $editsettings->hide();
-                    }
+            $children = $navigation->get_children_key_list();
+            if (count($children) && in_array('editsettings', $children)) {
+                $editsettings = $navigation->find('editsettings', navigation_node::TYPE_SETTING);
+                if ($editsettings) {
+                    $editsettings->hide();
                 }
-            }    
+            }
+              
         }
     }
 }
