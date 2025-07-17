@@ -211,7 +211,7 @@ class wizard_core {
      * @return object
      */
     public function prepare_course_to_validate() {
-        $this->mydata = (object) array_merge($this->formdata['form_step2'], $this->formdata['form_step3']);
+        $this->mydata =  (!empty($this->formdata['form_step3'])) ? (object) array_merge($this->formdata['form_step2'], $this->formdata['form_step3']) :  (object) array_merge($this->formdata['form_step2']);
         $this->setup_mydata();
         $this->mydata->course_nom_norme = '';
         $this->mydata->profile_field_up1urlfixe = '';
