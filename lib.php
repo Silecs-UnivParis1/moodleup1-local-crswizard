@@ -22,15 +22,20 @@ function local_crswizard_extend_navigation_course($navigation, $course, $context
                     $editsettings->hide();
                 }
             }
-             $PAGE->requires->js_init_code(<<<EOJS
-                let selecteur = '#region-main div.secondary-navigation ul[role="menubar"]';
-                let navcouse = document.querySelectorAll(selecteur + ' li[data-key="coursehome"]');
-                let navparam = document.querySelectorAll(selecteur + ' li[data-key="editsettings"]');
+            $selecteur = '#page div.main-inner div.secondary-navigation ul[role="menubar"]';
+            if ($PAGE->theme->name == 'adaptable') {
+                $selecteur = '#region-main div.secondary-navigation ul[role="menubar"]';
+            }
+            $selenc = json_encode($selecteur);
+            $PAGE->requires->js_init_code(<<<EOJS
+                console.log($selenc);
+                let navcouse = document.querySelectorAll($selenc + ' li[data-key="coursehome"]');
+                let navparam = document.querySelectorAll($selenc + ' li[data-key="editsettings"]');
                 if (navcouse.length == 1 && navparam.length == 1) {
                     navparam[0].remove();
                 }
 EOJS
-        , true);
+        , false);
         }
     }
 }
