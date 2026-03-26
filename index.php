@@ -103,9 +103,9 @@ switch ($stepin) {
         }
 
         $steptitle = get_string('coursedefinition', 'local_crswizard');
-        $editoroptions = array(
+        $editoroptions = [
             'maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true
-        );
+        ];
         $PAGE->requires->js(new moodle_url('/local/jquery/jquery.js'), true);
         //$submission = file_prepare_standard_editor(null, 'summary', $editoroptions, null, 'course', 'summary', null);
         if ($wizardcase == 3) {
@@ -119,7 +119,7 @@ switch ($stepin) {
         $PAGE->requires->js_init_code(file_get_contents(__DIR__ . '/js/include-for-urlfixe.js'), true);
 
         $data = $editform->get_data();
-        if ($data){
+        if ($data) {
             $data->fullname = trim($data->fullname);
             if (isset($data->shortname)) {
                 $data->shortname = trim($data->shortname);
@@ -128,6 +128,7 @@ switch ($stepin) {
             if ($wizardcase == 2) {
                 $SESSION->wizard['form_step2']['item'] = wizard_get_array_item($_POST['item']);
                 $SESSION->wizard['form_step2']['all-rof'] = wizard_get_rof();
+                $SESSION->wizard['form_step2']['rattachement-matiere'] = wizard_get_rattachement_matiere();
                 $SESSION->wizard['form_step2']['complement'] = trim($_POST['complement']);
                 if (isset($SESSION->wizard['form_step2']['myurl'])) {
                     $SESSION->wizard['form_step2']['myurl'] = trim($_POST['myurl']);
@@ -170,6 +171,7 @@ switch ($stepin) {
 
                 $SESSION->wizard['form_step' . $stepin] = (array) $data;
                 $SESSION->wizard['form_step3']['all-rof'] = wizard_get_rof('form_step3');
+                $SESSION->wizard['form_step3']['rattachement-matiere'] = wizard_get_rattachement_matiere('form_step3');
 
                 redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=' . $stepgo);
             }
@@ -201,6 +203,9 @@ switch ($stepin) {
             //* @todo Validate user list
             $SESSION->wizard['form_step' . $stepin] = $_POST;
             $SESSION->wizard['form_step4']['all-users'] = wizard_get_enrolement_users();
+            if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
+                redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
+            }
             redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=' . $stepgo);
         }
         redirect(new moodle_url('/local/crswizard/enrol/teacher.php'));

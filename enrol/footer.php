@@ -3,6 +3,8 @@ $stepin = $SESSION->wizard['navigation']['stepin'];
 $stepnext = $SESSION->wizard['navigation']['suite'];
 $stepback = $SESSION->wizard['navigation']['retour'];
 
+$urlback = new moodle_url('/local/crswizard/index.php', array('stepin' => $stepback));
+
 $PAGE->requires->js_init_code('
 var globalFormLock = true;
 $("form").submit(function(e) {
@@ -23,10 +25,10 @@ $(":submit").on("click", function(e) {
     <div class="buttons">
         <span class="previousstage">
             <?php
-            echo $OUTPUT->action_link(
-                    new moodle_url('/local/crswizard/index.php', array('stepin' => $stepback)),
-                    get_string('previousstage', 'local_crswizard')
-            );
+            if ($stepback == 45) {
+                $urlback = new moodle_url('/local/crswizard/syllabus/step_syllabus.php');
+            }
+            echo $OUTPUT->action_link($urlback, get_string('previousstage', 'local_crswizard'));
             ?>
         </span>
         <button type="submit" id="etapes" name="step" value="">

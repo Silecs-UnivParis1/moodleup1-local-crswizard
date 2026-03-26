@@ -11,6 +11,8 @@ require_once('../lib_wizard.php');
 require_once('../libaccess.php');
 
 
+//print_r($SESSION->wizard);
+
 require_login();
 $direct = false;
 if (isset($SESSION->wizard['form_step4']['redirect'])) {
@@ -32,6 +34,8 @@ if (isset($SESSION->wizard['idcourse'])) {
     $PAGE->set_context($systemcontext);
     wizard_require_permission('creator', $USER->id);
     $PAGE->set_url('/local/crswizard/index.php');
+    $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
+    $form_step_rof = $SESSION->wizard[$form_stepx];
 }
 
 
@@ -127,6 +131,7 @@ jQuery(document).ready(function () {
 //]]>
 </script>
 
+
 <?php
 if (isset($SESSION->wizard['idcourse'])) {
 	
@@ -137,5 +142,15 @@ if (isset($SESSION->wizard['idcourse'])) {
 		. '</div>'
 		. '</div>';
 } else {
+    if (isset($form_step_rof['rattachement-matiere']) && $form_step_rof['rattachement-matiere'] != '') {
+        echo '<div class="fitem" style="clear:both; text-align: left;">';
+        echo '<fieldset class="clearfix" id="use_syllabus_step_header" style="margin-bottom:.5rem;">';
+        echo '<legend class="ftoggler" >Ajout de l\'étape Syllabus</legend>';
+        echo '<div class="fcontainer clearfix">';
+        echo html_writer::checkbox('use_syllabus_step', 1, true, 'Je souhaite ajouter une étape syllabus');
+        echo '</div>';
+        echo '</fieldset>';
+        echo '</div>';
+    }
     require __DIR__ . '/footer.php';
 }

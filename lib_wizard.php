@@ -76,11 +76,9 @@ function wizard_save_course_customfield_data($mydata) {
 	
 	$fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
 	$contextcourse = \context_course::instance($mydata->id);
-	
 	$customfield_type = ['date', 'checkbox'];
-	
+
 	foreach ($fieldstab as $fieldid => $shortname) {
-		
 		$name = wizard_prepare_key_course_customfield_data($shortname);
 		if (isset($mydata->$name)) {
 			$fieldc = \core_customfield\field_controller::create($fieldid);
@@ -89,18 +87,26 @@ function wizard_save_course_customfield_data($mydata) {
 			if (!$fielddata) {
 				$fielddata = null;
 			}
-			
+
 			$datac = \core_customfield\data_controller::create($datafieldid, null, $fieldc);
 			if (!$datac->get('id')) {
 				$datac->set('contextid', $contextcourse->id);
 				$datac->set('instanceid', $mydata->id);
 			}
-			
+
 			$data = $mydata->$name;
 			if (in_array($fieldc->get('type'), $customfield_type )  && $data == '') {
 				$defaultvalue = $fieldc->get_configdata_property('defaultvalue');
                 $data = (isset($defaultvalue) ? $defaultvalue : 0);
 			}
+
+            if ($fieldc->get('type') == 'textarea' && substr($shortname, 0, 4) == 'syl_') {
+                $defaultvalue = $fieldc->get_configdata_property('defaultvalueformat');
+                if (isset($defaultvalue)) {
+                    $datac->set('valueformat', $defaultvalue);
+                }
+            }
+
 			$datac->set($datac->datafield(), $data);
 			$datac->set('value', $data);
 			$datac->save();
@@ -1077,6 +1083,27 @@ function wizard_get_validators() {
     }
     return $list;
 }
+/**
+ * Construit le tableau des responsables syllabus sélectionnés
+ * @return array
+ */
+function wizard_get_responsables($syl_responsables) {
+    global $DB;
+    if ($syl_responsables == '') {
+        return false;
+    }
+    if (is_array($syl_responsables) && count($syl_responsables)) {
+        $liste = [];
+        foreach ($syl_responsables as $responsable) {
+            $user = $DB->get_record('user', array('username' => $responsable));
+            if ($user) {
+                $liste[$user->username] = $user;
+            }
+        }
+        return $liste;
+    }
+    return false;
+}
 
 /**
  * Construit le tableau des objets pédagogiques du rof sélectionnés
@@ -1114,6 +1141,29 @@ function wizard_get_rof($form_step = 'form_step2') {
         }
     }
     return $list;
+}
+/**
+ * Renvoie le chemin du rattachement matière le plus pertinent pour syllabus ou chaîne vide si inexistant
+ * @param string $form_step
+ * @return string
+ */
+function wizard_get_rattachement_matiere($form_step = 'form_step2') {
+    global $SESSION;
+    $fs = $SESSION->wizard[$form_step];
+    $idmatiere = '';
+    foreach (['p', 's'] as $nature) {
+        if (isset($fs['item'][$nature])) {
+            foreach ($fs['item'][$nature] as $itempath => $itemid) {
+                if (isset($fs['all-rof']) && isset($fs['all-rof'][$itempath])) {
+                    $rofitem = $fs['all-rof'][$itempath];
+                    if (isset($rofitem['object']) && isset($rofitem['object']->code)) {
+                        return $itempath;
+                    }
+                }
+            }
+        }
+    }
+    return $idmatiere;
 }
 
 /**
@@ -1271,6 +1321,27 @@ function wizard_preselected_validators() {
     $labelrole = ' (approbateur)';
     if (!empty($SESSION->wizard['form_step3']['all-validators'])) {
         foreach ($SESSION->wizard['form_step3']['all-validators'] as $id => $user) {
+            $liste[] = array(
+                "label" => fullname($user) . ' — ' . $user->username . $labelrole,
+                "value" => $id,
+            );
+        }
+    }
+    return json_encode($liste);
+}
+/*
+ * construit la liste des responsables sélectionnés à l'étape syllabus encodée en json
+ * @return string
+ */
+function wizard_preselected_responsable() {
+    global $SESSION;
+    if (!isset($SESSION->wizard['form_step45']['all-responsables']) ||$SESSION->wizard['form_step45']['all-responsables'] == '' ) {
+        return '[]';
+    }
+    $liste = [];
+    $labelrole = ' (responsable)';
+    if (count($SESSION->wizard['form_step45']['all-responsables'])) {
+        foreach ($SESSION->wizard['form_step45']['all-responsables'] as $id => $user) {
             $liste[] = array(
                 "label" => fullname($user) . ' — ' . $user->username . $labelrole,
                 "value" => $id,

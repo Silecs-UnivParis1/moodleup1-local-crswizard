@@ -26,6 +26,9 @@ if (isset($SESSION->wizard['idcourse'])) {
     $PAGE->set_context($systemcontext);
     wizard_require_permission('creator', $USER->id);
     $PAGE->set_url('/local/crswizard/index.php');
+    if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
+        $SESSION->wizard['navigation']['retour'] = 45;
+    }
 }
 
 $PAGE->set_title($SESSION->wizard['form_step2']['fullname'] . ': ' . get_string('cohort', 'local_crswizard'));
