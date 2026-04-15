@@ -83,7 +83,7 @@ class course_wizard_step2_rof_form extends moodleform {
             $messagerof = '<div><span>' .get_string('uprofreadonlymess', 'local_crswizard')  . '</span></div>';
         }
 
-        $labelrof =  '<br/><div class="fitemtitle required mylabel"><label>Elément pédagogique : *</label></div>';
+        $labelrof =  '<br/><div class="fitemtitle required crswizard-mylabel "><label>Elément pédagogique : *</label></div>';
         $mform->addElement('html',  $labelrof);
         $mform->addElement('html', '<div id="mgerrorrof"></div>');
 
@@ -147,8 +147,8 @@ class course_wizard_step2_rof_form extends moodleform {
             $valcomplement = $SESSION->wizard['form_step2']['complement'];
         }
 
-        $htmlcn = '<div id="fgroup_id_coursename" class="fitem required fitem_fgroup">'
-            . '<div class="fitemtitle">'
+        $htmlcn = '<div id="fgroup_id_coursename" class="fitem required mb-3 row crswizard-form-align">'
+            . '<div class="fitemtitle col-form-label">'
             . '<div class="fgrouplabel">'
             . '<label>' . get_string('fullnamecourse', 'local_crswizard') . ' * </label>'
             . '</div>'
@@ -165,13 +165,13 @@ class course_wizard_step2_rof_form extends moodleform {
         $mform->addElement('hidden', 'fullname', null, array('id' => 'fullname'));
         $mform->setType('fullname', PARAM_MULTILANG);
 
-        $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), null, $editoroptions);
+        $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         //$mform->addHelpButton('summary_editor', 'coursesummary');
         $mform->setType('summary_editor', PARAM_RAW);
 
         $idcourse = $isnew ? null : $SESSION->wizard['idcourse'];
         if ($overviewfilesoptions = course_overviewfiles_options($idcourse)) {
-            $mform->addElement('filemanager', 'overviewfiles_filemanager', get_string('courseoverviewfiles', 'local_crswizard'), null, $overviewfilesoptions);
+            $mform->addElement('filemanager', 'overviewfiles_filemanager', get_string('courseoverviewfiles', 'local_crswizard'), ['class' => 'crswizard-form-align'], $overviewfilesoptions);
         }
 
         $mform->addElement('header', 'parametre', get_string('coursesettingsblock', 'local_crswizard'));
@@ -180,11 +180,10 @@ class course_wizard_step2_rof_form extends moodleform {
         $coursesettingshelp = get_string('coursesettingshelp', 'local_crswizard');
         $mform->addElement('html', html_writer::tag('div', $coursesettingshelp, array('class' => 'fitem')));
 
-        $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
-        // $mform->addHelpButton('startdate', 'startdate');
+        $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
         $mform->setDefault('startdate', time());
 
-        $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));
+        $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
         if (date('m') < 5) $fin_semestre = strtotime("July 31") ;
         elseif ( date('m') ==12) $fin_semestre = strtotime("next year July 31");
         else $fin_semestre = strtotime("next year January 31");

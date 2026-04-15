@@ -29,8 +29,8 @@ class course_wizard_step_cle extends moodleform {
 
             $mform->addElement('header', 'general' . $c, $label);
 	    $mform->setExpanded('general' . $c);
-            $mform->addElement('html', html_writer::tag('div', get_string('bockhelpE6cle' . $c, 'local_crswizard'), array('class' => 'fitem')));
-            $mform->addElement('passwordunmask', 'password' . $c, get_string('enrolkey', 'local_crswizard'));
+            $mform->addElement('html', html_writer::tag('div', get_string('bockhelpE6cle' . $c, 'local_crswizard'), array('class' => 'fitem ')));
+            $mform->addElement('passwordunmask', 'password' . $c, get_string('enrolkey', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->addHelpButton('password' . $c, 'password', 'enrol_self');
         }
 
@@ -40,7 +40,7 @@ class course_wizard_step_cle extends moodleform {
 						    "Exemples : EPI portail, EPI de présentation de diplôme, contenus sous licence libre, " .
 						    "<br>Cocher cette case ouvre l'EPI à tous les internautes (lecture et téléchargement des contenus uniquement, sans accès aux notifications ni aux activités).", 
 						    array('class' => 'fitem')));
-        $mform->addElement('checkbox', 'libre', 'Accès libre' );
+        $mform->addElement('checkbox', 'libre', 'Accès libre', '', ['class' => 'crswizard-form-align']);
         $mform->setDefault('libre', 0);
 
 //--------------------------------------------------------------------------------

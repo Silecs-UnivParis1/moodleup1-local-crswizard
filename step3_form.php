@@ -42,14 +42,14 @@ class course_wizard_step3_form extends moodleform {
 
             //Composante
             $type = strtolower($myconfig->categorie_cours[2]);
-            $mform->addElement('text', $type, ucfirst($type), 'maxlength="40" size="20"');
+            $mform->addElement('text', $type, ucfirst($type), 'maxlength="40" size="20" class="crswizard-form-align"');
             $mform->setType($type, PARAM_TEXT);
             $mform->setConstant($type, $tabcategories[2]);
             $tabfreeze[] = $type;
 
             //Niveau
             $type = strtolower($myconfig->categorie_cours[3]);
-            $mform->addElement('text', $type, ucfirst($type), 'maxlength="40" size="20"');
+            $mform->addElement('text', $type, ucfirst($type), 'maxlength="40" size="20" class="crswizard-form-align"');
             $valdiplome = 'Aucun';
             if (isset($tabcategories[3])) {
                $valdiplome = $tabcategories[3];
@@ -60,7 +60,7 @@ class course_wizard_step3_form extends moodleform {
 
             $mform->addElement('header','autre_rattachement', get_string('categoryblockE3s1', 'local_crswizard'));
             $select = $mform->createElement(
-                'select', 'rattachements', '', wizard_get_myComposantelist($idcat), ['class' => 'transformIntoSubselects']
+                'select', 'rattachements', '', wizard_get_myComposantelist($idcat), ['class' => 'transformIntoSubselects crswizard-form-align-null']
             );
             $select->setMultiple(true);
             $mform->addElement($select);
@@ -70,19 +70,19 @@ class course_wizard_step3_form extends moodleform {
 
                 //Période
                 $periode = strtolower($myconfig->categorie_cours[0]);
-                $mform->addElement('text', $periode, ucfirst($periode), 'maxlength="40" size="20"');
+                $mform->addElement('text', $periode, ucfirst($periode), 'maxlength="40" size="20" class="crswizard-form-align"');
                 $mform->setType($periode, PARAM_TEXT);
                 $mform->setConstant($periode, $tabcategories[0]);
                 $tabfreeze[] = $periode;
 
                 //Etablissement
                 $etab = strtolower($myconfig->categorie_cours[1]);
-                $mform->addElement('text', $etab, ucfirst($etab), 'maxlength="40" size="20"');
+                $mform->addElement('text', $etab, ucfirst($etab), 'maxlength="40" size="20" class="crswizard-form-align"');
                 $mform->setType($etab, PARAM_TEXT);
                 $mform->setConstant($etab, $tabcategories[1]);
                 $tabfreeze[] = $etab;
 
-                $labelrof =  '<br/><div class="fitemtitle mylabel"><label>Elément pédagogique : </label></div>';
+                $labelrof =  '<br/><div class="fitemtitle crswizard-mylabel"><label>Elément pédagogique : </label></div>';
                 $mform->addElement('html',  $labelrof);
                 $mform->addElement('html', '<div id="mgerrorrof"></div>');
                 $preselected = wizard_preselected_rof('form_step3');
@@ -138,7 +138,7 @@ class course_wizard_step3_form extends moodleform {
             $mform->addElement('html', '<div>');
 
             $selectAnnee = $mform->createElement(
-                'select', 'up1niveauannee', '', get_list_metadonnees('up1niveauannee'), ['class' => 'transformIntoSubselects']
+                'select', 'up1niveauannee', '', get_list_metadonnees('up1niveauannee'), ['class' => 'transformIntoSubselects crswizard-form-align-null']
             );
             $selectAnnee->setMultiple(true);
             $mform->addElement($selectAnnee);
@@ -146,7 +146,7 @@ class course_wizard_step3_form extends moodleform {
             // Semestre
             $mform->addElement('html', '<div>');
             $selectSemestre = $mform->createElement(
-                'select', 'up1semestre', '', get_list_metadonnees('up1semestre'), ['class' => 'transformIntoSubselects']
+                'select', 'up1semestre', '', get_list_metadonnees('up1semestre'), ['class' => 'transformIntoSubselects crswizard-form-align-null']
             );
             $selectSemestre->setMultiple(true);
             $mform->addElement($selectSemestre);
@@ -154,7 +154,7 @@ class course_wizard_step3_form extends moodleform {
             $mform->addElement('html', '</div>');
             // Niveau
              $selectNiveau = $mform->createElement(
-                'select', 'up1niveau', '', get_list_metadonnees('up1niveau'), ['class' => 'transformIntoSubselects']
+                'select', 'up1niveau', '', get_list_metadonnees('up1niveau'), ['class' => 'transformIntoSubselects crswizard-form-align-null']
             );
             $selectNiveau->setMultiple(true);
             $mform->addElement($selectNiveau);
@@ -168,16 +168,16 @@ class course_wizard_step3_form extends moodleform {
 //--------------------------------------------------------------------------------
 
         $mform->addElement('header', 'gestion', get_string('managecourseblock', 'local_crswizard'));
-        $mform->addElement('text', 'user_name', get_string('username', 'local_crswizard'), 'maxlength="40" size="20", disabled="disabled"');
+        $mform->addElement('text', 'user_name', get_string('username', 'local_crswizard'), 'maxlength="40" size="20", disabled="disabled" class="crswizard-form-align"');
         $mform->setType('user_name', PARAM_TEXT);
         $tabfreeze[] = 'user_name';
 
         $mform->addElement('text', 'user_login', get_string('userlogin', 'local_crswizard'),
-			'maxlength="40" size="20", disabled="disabled"');
+			'maxlength="40" size="20", disabled="disabled" class="crswizard-form-align"');
         $mform->setType('user_login', PARAM_TEXT);
         $tabfreeze[] = 'user_login';
 
-        $mform->addElement('date_selector', 'requestdate', get_string('courserequestdate', 'local_crswizard'));
+        $mform->addElement('date_selector', 'requestdate', get_string('courserequestdate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
         $tabfreeze[] = 'requestdate';
 
         $mform->hardFreeze($tabfreeze);

@@ -87,14 +87,11 @@ $tabinfo['courserequestdate'] = date('d-m-Y');
     <div class="fcontainer clearfix">
         <?php
             foreach ($tabinfo as $key => $value) {
-                echo '<div class="fitem">';
-                echo '<div class="fitemtitle">';
-                echo '<div class="fstaticlabel">';
-                echo '<label>' . get_string($key, 'local_crswizard') . '</label>';
-                echo '</div>';
-                echo '</div>';
-                echo '<div class="felement fstatic">'.$value.'</div>';
-                echo '</div>';
+                $label = get_string($key, 'local_crswizard');
+                $htmllabel = html_writer::label($label, '', true, ['class' => 'd-inline word-break ']);
+                $htmldivlabel = html_writer::div($htmllabel, 'col-md-3 col-form-label d-flex pb-0 pe-md-0', ['style' => 'padding-top: 0px ']);
+                $htmldivcontenu = html_writer::div($value, 'col-md-9 d-flex flex-wrap align-items-start felement');
+                echo html_writer::div($htmldivlabel . $htmldivcontenu, 'mb-3 row  fitem   crswizard-form-align');
             }
         ?>
     </div>
