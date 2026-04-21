@@ -23,7 +23,7 @@ $(":submit").on("click", function(e) {
     <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>"/>
     <input type="hidden" name="step" value=""/>
     <div class="buttons">
-        <span class="previousstage">
+        <span class="previousstage" >
             <?php
             if ($stepback == 45) {
                 $urlback = new moodle_url('/local/crswizard/syllabus/step_syllabus.php');
@@ -31,10 +31,9 @@ $(":submit").on("click", function(e) {
             echo $OUTPUT->action_link($urlback, get_string('previousstage', 'local_crswizard'));
             ?>
         </span>
-        <button type="submit" id="etapes" name="step" value="">
+        <button type="submit" id="etapes" name="step" value="" class="btn btn-primary">
             <?php echo get_string('nextstage', 'local_crswizard'); ?>
         </button>
-
     </div>
 </div>
 
