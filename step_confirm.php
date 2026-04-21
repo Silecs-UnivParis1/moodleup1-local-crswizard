@@ -183,45 +183,47 @@ class course_wizard_step_confirm extends moodleform {
 
         if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
             $mform->addElement('header', 'syllabus', 'Syllabus');
-            $mform->addElement('text', 'profile_field_syl_elpcode', 'Code APOGEE', 'maxlength="20" size="20" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'maxlength="20" size="20" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpcode', PARAM_TEXT);
-            $mform->addElement('text', 'profile_field_syl_elpintitule', 'Intitulé matière', 'maxlength="200" size="50" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpintitule', PARAM_TEXT);
-            $mform->addElement('advcheckbox', 'profile_field_syl_obligatoire', 'Type : obligatoire / optionnel', 'Obligatoire', ['class' => 'crswizard-form-align']);
-            $mform->addElement('text', 'profile_field_syl_ects', 'Nombre d\'ECTS', 'maxlength="50" size="50" class="crswizard-form-align"');
+            $mform->addElement('advcheckbox', 'profile_field_syl_obligatoire', get_string('required_label', 'local_crswizard'),
+                get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_ects', PARAM_TEXT);
-            $mform->addElement('text', 'profile_field_syl_volume', 'Volume horaire', 'maxlength="50" size="50" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_volume', get_string('duration', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_volume', PARAM_TEXT);
-            $mform->addElement('advcheckbox', 'profile_field_syl_reference', 'Syllabus de référence pour cette matière', 'Syllabus de référence', ['class' => 'crswizard-form-align']);
+            $mform->addElement('advcheckbox', 'profile_field_syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
+                get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
 
-            $mform->addElement('editor', 'profile_field_syl_objectifs', 'Objectifs pédagogiques', ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->addElement('editor', 'profile_field_syl_objectifs', get_string('outcomes_pedagogic', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
             $mform->setType('profile_field_syl_objectifs', PARAM_RAW);
             $mform->setConstant('profile_field_syl_objectifs', $SESSION->wizard['form_step45']['syl_objectifs']);
 
-            $mform->addElement('editor', 'profile_field_syl_plan', 'Plan du cours', ['class' => 'crswizard-form-align']);
+            $mform->addElement('editor', 'profile_field_syl_plan', get_string('courseplan', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->setType('profile_field_syl_plan', PARAM_RAW);
             $mform->setConstant('profile_field_syl_plan', $SESSION->wizard['form_step45']['syl_plan']);
 
-            $mform->addElement('editor', 'profile_field_syl_prerequis', 'Prérequis', ['class' => 'crswizard-form-align']);
+            $mform->addElement('editor', 'profile_field_syl_prerequis', get_string('requirement', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->setType('profile_field_syl_prerequis', PARAM_RAW);
             $mform->setConstant('profile_field_syl_prerequis', $SESSION->wizard['form_step45']['syl_prerequis']);
 
-            $mform->addElement('editor', 'profile_field_syl_evaluation', 'Modalités d\'évaluation', ['class' => 'crswizard-form-align']);
+            $mform->addElement('editor', 'profile_field_syl_evaluation', get_string('assessmentsettings', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->setType('profile_field_syl_evaluation', PARAM_RAW);
             $mform->setConstant('profile_field_syl_evaluation', $SESSION->wizard['form_step45']['syl_evaluation']);
 
-            $mform->addElement('editor', 'profile_field_syl_bibliographie', 'Bibliographie', ['class' => 'crswizard-form-align']);
+            $mform->addElement('editor', 'profile_field_syl_bibliographie', get_string('bibliography', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->setType('profile_field_syl_bibliographie', PARAM_RAW);
             $mform->setConstant('profile_field_syl_bibliographie', $SESSION->wizard['form_step45']['syl_bibliographie']);
 
-            $mform->addElement('textarea', 'profile_field_syl_contacts', 'Contact(s) responsable(s) epi', ['class' => 'crswizard-form-align', 'rows' => 8]);
+            $mform->addElement('textarea', 'profile_field_syl_contacts', get_string('contact_responsable_epi', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => 8]);
             $mform->setType('profile_field_syl_contacts', PARAM_RAW);
 
             if (isset($SESSION->wizard['form_step45']['all-responsables'])) {
                 $allresponsables = $SESSION->wizard['form_step45']['all-responsables'];
                 $nbresp = is_array($allresponsables) ? count($allresponsables) : 0;
                 if ($nbresp > 1) {
-                    $mform->addElement('textarea', 'reponsable_dipl', 'Responsable(s) du ou des diplômes concernés', ['class' => 'crswizard-form-align', 'rows' => $nbresp]);
+                    $mform->addElement('textarea', 'reponsable_dipl', get_string('responsable_diplome', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => $nbresp]);
                     $mform->setType('reponsable_dipl', PARAM_RAW);
                     $responsables = '';
                     foreach ($allresponsables as $resp) {

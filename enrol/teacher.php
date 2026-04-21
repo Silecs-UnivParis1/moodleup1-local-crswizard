@@ -145,9 +145,9 @@ if (isset($SESSION->wizard['idcourse'])) {
     if (isset($form_step_rof['rattachement-matiere']) && $form_step_rof['rattachement-matiere'] != '') {
         echo '<div class="fitem" style="clear:both; text-align: left;">';
         echo '<fieldset class="clearfix" id="use_syllabus_step_header" style="margin-bottom:.5rem;">';
-        echo '<legend class="ftoggler" >Ajout de l\'étape Syllabus</legend>';
+        echo '<legend class="ftoggler" >' . get_string('addsyllabusstep', 'local_crswizard') . '</legend>';
         echo '<div class="fcontainer clearfix">';
-        echo html_writer::checkbox('use_syllabus_step', 1, true, 'Je souhaite ajouter une étape syllabus');
+        echo html_writer::checkbox('use_syllabus_step', 1, true, get_string('chooseyllabusstep', 'local_crswizard'));
         echo '</div>';
         echo '</fieldset>';
         echo '</div>';

@@ -17,6 +17,9 @@ $string['crswizard:rofreferenceeditor'] = 'Modifier les rattachements au ROF d\'
 $string['crswizard:hybridattachment'] = 'Ajouter/modifier des rattachements au ROF dans cours hybrides';
 $string['crswizard:duplicate'] = 'Dupliquer le cours avec l\'assistant.';
 
+$string['addsyllabusstep'] = 'Ajout de l\'étape Syllabus';
+$string['assessmentsettings'] = 'Modalités d\'évaluation';
+$string['bibliography'] = 'Bibliographie';
 $string['blocHelp1SModel'] = 'Vos contenus (textes, documents, fichiers audio-visuels...) sont conservés. ' .
   '<br>Les activités (forums, devoirs...) sont remises à zéro. ' .
   '<br>Vos participants sont conservés et les cohortes sont annualisées.';
@@ -79,6 +82,8 @@ $string['categoryblockE3'] = 'Rattachement principal de l\'espace';
 $string['categoryblockE3s1'] = 'Autre(s) rattachement(s) de l\'espace (optionnel)';
 $string['categoryerrormsg1'] = 'Le niveau sélectionné est invalide.';
 $string['categoryerrormsg2'] = 'Veuillez sélectionner une période et un établissement.';
+$string['chooseyllabusstep'] = 'Je souhaite ajouter une étape syllabus';
+$string['code_apogee'] = 'Code APOGÉE';
 $string['cohort'] = 'Cohorte';
 $string['cohortname'] = 'Libellé de groupe ou nom d\'étudiant';
 $string['cohorts'] = 'Groupes';
@@ -88,6 +93,7 @@ $string['confirmationtitle'] = 'Étape 7 - finalisation de la demande';
 $string['consigneremarque'] = 'Ici, vous pouvez apporter vos remarques/questions concernant la création de cet espace, '
     . 'solliciter un rendez-vous pour un accompagnement personnalisé (prise en main de l\'outil, conseil d\'utilisation, '
     . 'appui à la réalisation d\'un projet pédagogique, etc.).';
+$string['contact_responsable_epi'] = 'Contact(s) responsable(s) epi';
 $string['coursedefinition'] = 'Étape 2 - identification de l\'espace';
 $string['coursedescription'] = 'Étape 3 - autres rattachements (facultatif)';
 $string['coursegeneralhelp'] = '<p>Le nom complet de l\'espace est affiché en haut de chacune des pages du cours et sur la '
@@ -99,13 +105,16 @@ $string['coursegeneralhelpRof'] = "Si nécessaire, complétez l'intitulé de vot
     . "Le texte de présentation s'affichera en accès public sur la fiche signalétique de votre cours.";
 $string['coursemodel'] = 'Modèle de création : ';
 $string['courseoverviewfiles'] = 'Image de cours : ';
+$string['courseplan'] = 'Plan du cours';
 $string['courserequestdate'] = 'Date de la demande de création : ';
 $string['coursesettingsblock'] = 'Paramétrage de l\'espace de cours';
 $string['coursesettingshelp'] = 'Les dates ci-dessous sont purement informatives et correspondent au début '
     . 'et à la fin de la période d\'enseignement.';
 $string['coursestartdate'] = 'Date de début : ';
 $string['coursesummary'] = 'Texte de présentation : ';
+$string['duration'] = 'Volume horaire';
 $string['editingteacher'] = "Enseignant éditeur";
+$string['responsable_diplome'] = 'Responsable(s) du ou des diplômes concernés';
 $string['responsable_epi'] = "Enseignant responsable EPI";
 $string['enrolcohorts'] = 'Étape 5 - inscription des groupes étudiants';
 $string['enrolkey'] = 'Clé d\'inscription';
@@ -120,6 +129,7 @@ $string['generalinfoblock'] = 'Informations générales de l\'espace de cours';
 $string['guest'] = 'Visiteur anonyme';
 $string['guestkey'] = 'Clé d\'inscription pour le rôle "visiteur anonyme"';
 $string['indexationE3'] = 'Métadonnées d\'indexation';
+$string['intitulematiere'] = 'Intitulé matière';
 $string['labelE7ratt2'] = 'Autre(s) rattachement(s) de l\'espace : ';
 $string['labelteachersuspended'] = 'Les enseignant suivants ne sont plus valables : ';
 $string['managecourseblock'] = 'Informations concernant la demande';
@@ -128,7 +138,14 @@ $string['messageprovider:notificationcoursetovalidate'] = 'Message de demande de
 $string['msgredirect'] = 'L\'espace a bien a été créé.';
 $string['nextstage'] = 'Étape suivante';
 $string['noeditingteacher'] = 'Enseignant non éditeur';
+$string['numbects'] = 'Nombre d\'ECTS';
+$string['outcomes_pedagogic'] = 'Objectifs pédagogiques';
 $string['previousstage'] = 'Étape précédente';
+$string['referencesyllabus'] = 'Syllabus de référence';
+$string['referencesyllabus_label'] = 'Syllabus de référence pour cette matière';
+$string['required'] = 'Obligatoire';
+$string['required_label'] = 'Type : obligatoire / optionnel';
+$string['requirement'] = 'Prérequis';
 $string['rofselected1'] = 'Rattachement de référence';
 $string['rofselected2'] = 'Rattachement(s) secondaire(s)';
 $string['role'] = 'Rôle';

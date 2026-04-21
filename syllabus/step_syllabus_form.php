@@ -13,22 +13,23 @@ class course_wizard_step_syllabus_form extends moodleform {
         $editoroptions = $this->_customdata['editoroptions'];
 
         $mform->addElement('header', 'etape2', 'Champs déduit de l\'étape identification de l\'espace');
-        
-        $mform->addElement('text', 'syl_elpcode', 'Code APOGEE', 'maxlength="20" size="20" class="crswizard-form-align"');
+
+        $mform->addElement('text', 'syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'maxlength="20" size="20" class="crswizard-form-align"');
         $mform->setType('syl_elpcode', PARAM_TEXT);
         $mform->hardFreeze('syl_elpcode');
-        
-        $mform->addElement('text', 'syl_elpintitule', 'Intitulé matière', 'maxlength="200" size="50" class="crswizard-form-align"');
+
+        $mform->addElement('text', 'syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
         $mform->setType('syl_elpintitule', PARAM_TEXT);
         $mform->hardFreeze('syl_elpintitule');
-        
-        $mform->addElement('advcheckbox', 'syl_obligatoire', 'Type : obligatoire / optionnel', 'Obligatoire', ['class' => 'crswizard-form-align']);
+
+        $mform->addElement('advcheckbox', 'syl_obligatoire', get_string('required_label', 'local_crswizard'),
+            get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
         //$mform->hardFreeze('syl_obligatoire');
-        
-        $mform->addElement('text', 'syl_ects', 'Nombre d\'ECTS', 'maxlength="50" size="50" class="crswizard-form-align"');
+
+        $mform->addElement('text', 'syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
         $mform->setType('syl_ects', PARAM_TEXT);
-        
-        $mform->addElement('text', 'syl_volume', 'Volume horaire', 'maxlength="50" size="50" class="crswizard-form-align"');
+
+        $mform->addElement('text', 'syl_volume', get_string('duration', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
         $mform->setType('syl_volume', PARAM_TEXT);
 
         $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
@@ -36,30 +37,31 @@ class course_wizard_step_syllabus_form extends moodleform {
 
         $mform->addElement('header', 'pedagogie', 'Pédagogies');
         $mform->setExpanded('pedagogie');
-        
-        $mform->addElement('advcheckbox', 'syl_reference', 'Syllabus de référence pour cette matière', 'Syllabus de référence', ['class' => 'crswizard-form-align']);
 
-        $mform->addElement('editor', 'syl_objectifs', 'Objectifs pédagogiques', ['class' => 'crswizard-form-align'], $editoroptions);
+        $mform->addElement('advcheckbox', 'syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
+            get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+
+        $mform->addElement('editor', 'syl_objectifs', get_string('outcomes_pedagogic', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_objectifs', PARAM_RAW);
-        
-        $mform->addElement('editor', 'syl_plan', 'Plan du cours', ['class' => 'crswizard-form-align'], $editoroptions);
+
+        $mform->addElement('editor', 'syl_plan', get_string('courseplan', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_plan', PARAM_RAW);
-        
-        $mform->addElement('editor', 'syl_prerequis', 'Prérequis', ['class' => 'crswizard-form-align'], $editoroptions);
+
+        $mform->addElement('editor', 'syl_prerequis', get_string('requirement', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_prerequis', PARAM_RAW);
-        
-        $mform->addElement('editor', 'syl_evaluation', 'Modalités d\'évaluation', ['class' => 'crswizard-form-align'], $editoroptions);
+
+        $mform->addElement('editor', 'syl_evaluation', get_string('assessmentsettings', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_evaluation', PARAM_RAW);
-        
-        $mform->addElement('editor', 'syl_bibliographie', 'Bibliographie', ['class' => 'crswizard-form-align'], $editoroptions);
+
+        $mform->addElement('editor', 'syl_bibliographie', get_string('bibliography', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_bibliographie', PARAM_RAW);
 
         $mform->addElement('header', 'etape4', 'Champs déduit de l\'étape désignation des contributeurs enseignants');
         $mform->setExpanded('etape4');
-        $mform->addElement('textarea', 'syl_contacts', 'Contact(s) responsable(s) epi', ['class' => 'crswizard-form-align', 'rows' => 8]);
+        $mform->addElement('textarea', 'syl_contacts', get_string('contact_responsable_epi', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => 8]);
         $mform->setType('syl_contacts', PARAM_RAW);
-        
-        $mform->addElement('header', 'responsable', 'Responsable(s) du ou des diplômes concernés');
+
+        $mform->addElement('header', 'responsable', get_string('responsable_diplome', 'local_crswizard'));
         $mform->setExpanded('responsable');
         $htmlSelectedResponsables = '<div class="fcontainer clearfix"><div id="user-select">'
             . '<div class="widgetselect-panel-left">'
