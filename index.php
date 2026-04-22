@@ -206,6 +206,7 @@ switch ($stepin) {
             if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
                 redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
             }
+            $SESSION->wizard['form_step4']['use_syllabus_step'] = 0;
             redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=' . $stepgo);
         }
         redirect(new moodle_url('/local/crswizard/enrol/teacher.php'));
