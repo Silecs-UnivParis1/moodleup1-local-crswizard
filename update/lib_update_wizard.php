@@ -10,95 +10,93 @@ function wizard_get_course($id) {
         $error = 'cannoteditsiteform';
     }
     $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
-    if ($course) {
-        $SESSION->wizard['form_step2'] = (array) $course;
-         //Load custom fields data
-         $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
-		$data = wizard_get_course_customfield_data($course->id);
-		foreach ($fieldstab as $shortname) {
-			$key = wizard_prepare_key_course_customfield_data($shortname);
-			$value = '';
-			if (isset($data[$shortname])) {
-				$value = $data[$shortname];
-			}
-			$course->$key = $value;
-		}
-
-        $SESSION->wizard['init_course'] = (array) $course;
-
-        $SESSION->wizard['form_step2']['enddate'] = $course->enddate;
-        $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
-        $SESSION->wizard['form_step2']['summary_editor'] = $summary;
-        $SESSION->wizard['form_step2']['langue'] = $course->profile_field_up1langue;
-
-        if ($overviewfilesoptions = course_overviewfiles_options($course)) {
-            $coursecontext = context_course::instance($course->id);
-            file_prepare_standard_filemanager($course, 'overviewfiles', $overviewfilesoptions, $coursecontext, 'course', 'overviewfiles', 0);
-            $SESSION->wizard['form_step2']['overviewfiles_filemanager'] = $course->overviewfiles_filemanager;
+    $SESSION->wizard['form_step2'] = (array) $course;
+     //Load custom fields data
+     $fieldstab = $DB->get_records_menu('customfield_field', [], '', 'id, shortname');
+    $data = wizard_get_course_customfield_data($course->id);
+    foreach ($fieldstab as $shortname) {
+        $key = wizard_prepare_key_course_customfield_data($shortname);
+        $value = '';
+        if (isset($data[$shortname])) {
+            $value = $data[$shortname];
         }
-
-        $case = wizard_get_generateur($course);
-        if ($case == 0) {
-             throw new moodle_exception('Vous n\'avez pas la permission d\'accéder à cette page.');
-        } else {
-            $SESSION->wizard['wizardcase'] = $case;
-        }
-
-        if ($SESSION->wizard['wizardcase'] == 2) {
-            $idcategory = $SESSION->wizard['form_step2']['category'];
-            $tabpath = wizard_get_categorypath($idcategory);
-            $SESSION->wizard['form_step2']['category'] = $tabpath[2];
-            $SESSION->wizard['form_step2']['rofestablishment'] = wizard_get_wizard_get_categoryname($tabpath[2]);
-            $SESSION->wizard['form_step2']['rofyear'] = wizard_get_wizard_get_categoryname($tabpath[1]);
-            $SESSION->wizard['form_step2']['complement'] = $course->profile_field_up1complement;
-            $SESSION->wizard['form_step2']['fullname'] = $course->profile_field_up1rofname;
-            if (strpos($course->profile_field_up1rofid, ';') && strpos($course->profile_field_up1rofname, ';')) {
-                $SESSION->wizard['form_step2']['fullname'] = substr($course->profile_field_up1rofname, 0, strpos($course->profile_field_up1rofname, ';'));
-            }
-
-            // on peut vérifier si le premier rattachement est cohérent avec le reste des données
-            wizard_rof_connection($course->profile_field_up1rofpathid);
-            $SESSION->wizard['form_step2']['all-rof'] = wizard_get_rof();
-            $SESSION->wizard['init_course']['form_step2']['item'] = $SESSION->wizard['form_step2']['item'];
-
-        } elseif($SESSION->wizard['wizardcase'] == 3) {
-            if (isset($course->profile_field_up1categoriesbis)) {
-                $SESSION->wizard['form_step3']['rattachements'] = explode(';', $course->profile_field_up1categoriesbis);
-            }
-            // identité du demandeur
-            $userid = (int) $course->profile_field_up1demandeurid;
-            $user = $DB->get_record('user', array('id'=>$userid));
-            $SESSION->wizard['form_step3']['user_name'] = fullname($user);
-            $SESSION->wizard['form_step3']['user_login'] = $user->username;
-            $SESSION->wizard['form_step3']['requestdate'] = $course->timecreated;
-
-            wizard_rof_connection($course->profile_field_up1rofpathid, false, 'form_step3');
-
-            $SESSION->wizard['form_step3']['all-rof'] = wizard_get_rof('form_step3');
-            $SESSION->wizard['init_course']['form_step3']['item'] = $SESSION->wizard['form_step3']['item'];
-
-            //metadonnees indexation pour cas 3 + gestion hybride
-            wizard_get_metadonnees_indexation($course);
-            //fin metadonnees indexation pour cas 3 + gestion hybride
-        }
-
-        //url fixe
-        $SESSION->wizard['form_step2']['urlok'] = 0;
-        if (isset($course->profile_field_up1urlfixe) && $course->profile_field_up1urlfixe != '') {
-            $SESSION->wizard['form_step2']['urlok'] = 1;
-            $SESSION->wizard['form_step2']['myurl'] = $course->profile_field_up1urlfixe;
-            $SESSION->wizard['form_step2']['oldmyurl'] = $course->profile_field_up1urlfixe;
-        }
-        
-        //inscription cohortes
-        $SESSION->wizard['form_step5']['group'] = wizard_get_cohorts($course->id);
-        $SESSION->wizard['init_course']['group'] = wizard_get_cohorts($course->id);
-        $SESSION->wizard['form_step5']['all-cohorts'] = wizard_get_enrolement_cohorts();
-
-        // clefs
-        $SESSION->wizard['form_step6'] = wizard_get_keys($course->id, $course->timecreated);
-        $SESSION->wizard['init_course']['key'] = $SESSION->wizard['form_step6'];
+        $course->$key = $value;
     }
+
+    $SESSION->wizard['init_course'] = (array) $course;
+
+    $SESSION->wizard['form_step2']['enddate'] = $course->enddate;
+    $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
+    $SESSION->wizard['form_step2']['summary_editor'] = $summary;
+    $SESSION->wizard['form_step2']['langue'] = $course->profile_field_up1langue;
+
+    if ($overviewfilesoptions = course_overviewfiles_options($course)) {
+        $coursecontext = context_course::instance($course->id);
+        file_prepare_standard_filemanager($course, 'overviewfiles', $overviewfilesoptions, $coursecontext, 'course', 'overviewfiles', 0);
+        $SESSION->wizard['form_step2']['overviewfiles_filemanager'] = $course->overviewfiles_filemanager;
+    }
+
+    $case = wizard_get_generateur($course);
+    if ($case == 0) {
+         throw new moodle_exception('Vous n\'avez pas la permission d\'accéder à cette page.');
+    } else {
+        $SESSION->wizard['wizardcase'] = $case;
+    }
+
+    if ($SESSION->wizard['wizardcase'] == 2) {
+        $idcategory = $SESSION->wizard['form_step2']['category'];
+        $tabpath = wizard_get_categorypath($idcategory);
+        $SESSION->wizard['form_step2']['category'] = $tabpath[2];
+        $SESSION->wizard['form_step2']['rofestablishment'] = wizard_get_wizard_get_categoryname($tabpath[2]);
+        $SESSION->wizard['form_step2']['rofyear'] = wizard_get_wizard_get_categoryname($tabpath[1]);
+        $SESSION->wizard['form_step2']['complement'] = $course->profile_field_up1complement;
+        $SESSION->wizard['form_step2']['fullname'] = $course->profile_field_up1rofname;
+        if (strpos($course->profile_field_up1rofid, ';') && strpos($course->profile_field_up1rofname, ';')) {
+            $SESSION->wizard['form_step2']['fullname'] = substr($course->profile_field_up1rofname, 0, strpos($course->profile_field_up1rofname, ';'));
+        }
+
+        // on peut vérifier si le premier rattachement est cohérent avec le reste des données
+        wizard_rof_connection($course->profile_field_up1rofpathid);
+        $SESSION->wizard['form_step2']['all-rof'] = wizard_get_rof();
+        $SESSION->wizard['init_course']['form_step2']['item'] = $SESSION->wizard['form_step2']['item'];
+
+    } elseif($SESSION->wizard['wizardcase'] == 3) {
+        if (isset($course->profile_field_up1categoriesbis)) {
+            $SESSION->wizard['form_step3']['rattachements'] = explode(';', $course->profile_field_up1categoriesbis);
+        }
+        // identité du demandeur
+        $userid = (int) $course->profile_field_up1demandeurid;
+        $user = $DB->get_record('user', array('id'=>$userid));
+        $SESSION->wizard['form_step3']['user_name'] = fullname($user);
+        $SESSION->wizard['form_step3']['user_login'] = $user->username;
+        $SESSION->wizard['form_step3']['requestdate'] = $course->timecreated;
+
+        wizard_rof_connection($course->profile_field_up1rofpathid, false, 'form_step3');
+
+        $SESSION->wizard['form_step3']['all-rof'] = wizard_get_rof('form_step3');
+        $SESSION->wizard['init_course']['form_step3']['item'] = $SESSION->wizard['form_step3']['item'];
+
+        //metadonnees indexation pour cas 3 + gestion hybride
+        wizard_get_metadonnees_indexation($course);
+        //fin metadonnees indexation pour cas 3 + gestion hybride
+    }
+
+    //url fixe
+    $SESSION->wizard['form_step2']['urlok'] = 0;
+    if (isset($course->profile_field_up1urlfixe) && $course->profile_field_up1urlfixe != '') {
+        $SESSION->wizard['form_step2']['urlok'] = 1;
+        $SESSION->wizard['form_step2']['myurl'] = $course->profile_field_up1urlfixe;
+        $SESSION->wizard['form_step2']['oldmyurl'] = $course->profile_field_up1urlfixe;
+    }
+
+    //inscription cohortes
+    $SESSION->wizard['form_step5']['group'] = wizard_get_cohorts($course->id);
+    $SESSION->wizard['init_course']['group'] = wizard_get_cohorts($course->id);
+    $SESSION->wizard['form_step5']['all-cohorts'] = wizard_get_enrolement_cohorts();
+
+    // clefs
+    $SESSION->wizard['form_step6'] = wizard_get_keys($course->id, $course->timecreated);
+    $SESSION->wizard['init_course']['key'] = $SESSION->wizard['form_step6'];
 }
 
 /**
