@@ -103,6 +103,7 @@ $string['coursegeneralhelp'] = '<p>Le nom complet de l\'espace est affiché en h
     . 'de la page d\'accueil de la plateforme et dans les résultats d\'une recherche.</p>';
 $string['coursegeneralhelpRof'] = "Si nécessaire, complétez l'intitulé de votre EPI dans le champ vierge."
     . "Le texte de présentation s'affichera en accès public sur la fiche signalétique de votre cours.";
+$string['courselanguage'] = 'Langue d\'enseignement';
 $string['coursemodel'] = 'Modèle de création : ';
 $string['courseoverviewfiles'] = 'Image de cours : ';
 $string['courseplan'] = 'Plan du cours';

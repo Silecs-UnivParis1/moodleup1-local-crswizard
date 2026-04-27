@@ -117,6 +117,9 @@ class course_wizard_step_confirm extends moodleform {
 
         $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
 
+        $mform->addElement('text', 'langue', get_string('courselanguage', 'local_crswizard') . ' : ', 'size="40" class="crswizard-form-align"');
+        $mform->setType('langue', PARAM_TEXT);
+
         if (!empty($SESSION->wizard['form_step1']['coursedmodelid']) && $SESSION->wizard['form_step1']['coursedmodelid'] != '0') {
             $mform->addElement('text', 'coursemodel', get_string('coursemodel', 'local_crswizard'), 'size="60" class="crswizard-form-align"');
             $mform->setType('coursemodel', PARAM_TEXT);

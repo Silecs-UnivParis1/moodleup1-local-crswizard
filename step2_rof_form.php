@@ -189,6 +189,9 @@ class course_wizard_step2_rof_form extends moodleform {
         else $fin_semestre = strtotime("next year January 31");
         $mform->setDefault('enddate', $fin_semestre);
 
+        $mform->addElement('text', 'langue', get_string('courselanguage', 'local_crswizard') . ' : ', 'maxlength="20" size="20" class="crswizard-form-align"');
+        $mform->setType('langue', PARAM_TEXT);
+
         $mform->addElement('header', 'URL', 'Souhaitez-vous utiliser une URL pérenne ?');
         $mform->setExpanded('URL');
 

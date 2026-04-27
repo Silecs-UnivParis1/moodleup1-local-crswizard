@@ -218,7 +218,6 @@ class wizard_core {
         $this->mydata->course_nom_norme = '';
         $this->mydata->profile_field_up1urlfixe = '';
         $form2 = $this->formdata['form_step2'];
-
         // on est dans le cas 2
         if (isset($this->formdata['wizardcase']) && $this->formdata['wizardcase']=='2') {
             $rof1 = wizard_prepare_rattachement_rof_moodle($form2);
@@ -251,6 +250,9 @@ class wizard_core {
                 $this->set_metadata_rof($this->formdata['rof2_tabpath']);
             }
             $this->set_categories_connection();
+        }
+        if (isset($form2['langue']) && $form2['langue'] != '') {
+            $this->mydata->profile_field_up1langue = $form2['langue'];
         }
 
         $this->mydata->profile_field_enddate = $form2['enddate'];

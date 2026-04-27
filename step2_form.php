@@ -83,6 +83,7 @@ class course_wizard_step2_form extends moodleform {
         }
 
         $mform->addElement('header', 'parametre', get_string('coursesettingsblock', 'local_crswizard'));
+        $mform->setExpanded('parametre');
 
         $coursesettingshelp = get_string('coursesettingshelp', 'local_crswizard');
         $mform->addElement('html', html_writer::tag('div', $coursesettingshelp, array('class' => 'fitem')));
@@ -95,6 +96,9 @@ class course_wizard_step2_form extends moodleform {
         elseif ( date('m') ==12) $fin_semestre = strtotime("next year July 31");
         else $fin_semestre = strtotime("next year January 31");
         $mform->setDefault('enddate', $fin_semestre);
+
+        $mform->addElement('text', 'langue', get_string('courselanguage', 'local_crswizard') . ' : ', 'maxlength="20" size="20" class="crswizard-form-align"');
+        $mform->setType('langue', PARAM_TEXT);
 
         $mform->addElement('header', 'URL', 'Souhaitez-vous utiliser une URL pérenne ?');
         $mform->setExpanded('URL');
