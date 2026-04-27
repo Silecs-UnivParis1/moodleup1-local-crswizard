@@ -251,7 +251,7 @@ class wizard_core {
             }
             $this->set_categories_connection();
         }
-        if (isset($form2['langue']) && $form2['langue'] != '') {
+        if (isset($form2['langue'])) {
             $this->mydata->profile_field_up1langue = $form2['langue'];
         }
 
@@ -1059,6 +1059,9 @@ class wizard_core {
         $this->mydata->enddate = $form2['enddate'];
         $this->mydata->summary = $form2['summary_editor']['text'];
         $this->mydata->summaryformat = $form2['summary_editor']['format'];
+        if (isset($form2['langue'])) {
+            $this->mydata->profile_field_up1langue = $form2['langue'];
+        }
 
         if (isset($form2['urlok']) == false || $form2['urlok'] == 0) {
             $this->mydata->profile_field_up1urlfixe = '';

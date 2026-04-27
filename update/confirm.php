@@ -110,6 +110,9 @@ class course_wizard_confirm extends moodleform {
 
         $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));
 
+        $mform->addElement('text', 'langue', get_string('courselanguage', 'local_crswizard') . ' : ', 'size="40" class="crswizard-form-align"');
+        $mform->setType('langue', PARAM_TEXT);
+
         //url fixe
         if (isset($form2['urlok']) && $form2['urlok'] == 1) {
             $mform->addElement('text', 'urlfixetotal', "URL pérenne :", 'maxlength="200" size="60"');

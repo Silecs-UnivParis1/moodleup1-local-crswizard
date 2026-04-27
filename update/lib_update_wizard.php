@@ -29,6 +29,7 @@ function wizard_get_course($id) {
         $SESSION->wizard['form_step2']['enddate'] = $course->enddate;
         $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
         $SESSION->wizard['form_step2']['summary_editor'] = $summary;
+        $SESSION->wizard['form_step2']['langue'] = $course->profile_field_up1langue;
 
         if ($overviewfilesoptions = course_overviewfiles_options($course)) {
             $coursecontext = context_course::instance($course->id);
