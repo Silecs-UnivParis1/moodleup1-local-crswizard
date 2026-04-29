@@ -287,6 +287,7 @@ function wizard_info_syllabus_form($course) {
         foreach ($champSyllabusEditor as $champ) {
             $name = 'profile_field_' . $champ;
             $SESSION->wizard['form_step45'][$champ]['text'] = $course->$name;
+            $SESSION->wizard['form_step45'][$champ]['format'] = 1;
         }
         if ($course->profile_field_syl_responsables != '') {
             $idsresp = explode(';', $course->profile_field_syl_responsables);

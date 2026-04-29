@@ -375,7 +375,6 @@ function wizard_get_metadonnees() {
             $SESSION->wizard['form_step2']['urlmodel'] = 'fixe';
         }
     }
-
 }
 
 /**
@@ -1862,6 +1861,9 @@ function wizard_get_default_metadata() {
             }
         }
         $SESSION->wizard['form_step4']['user'] = $teachers;
+    }
+    if (isset($SESSION->wizard['form_step45']['syl_elpcode']) &&  $SESSION->wizard['form_step45']['syl_elpcode'] != '') {
+        $SESSION->wizard['form_step4']['use_syllabus_step'] = 1;
     }
 }
 
