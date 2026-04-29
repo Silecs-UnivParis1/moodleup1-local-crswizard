@@ -39,6 +39,7 @@ if ($editform_data  = $editform->get_data()) {
     $SESSION->wizard['form_step45']['syl_ects'] = $editform_data->syl_ects; //normalement non-modifiable
     $SESSION->wizard['form_step45']['syl_volume'] = $editform_data->syl_volume; //normalement non-modifiable
     $SESSION->wizard['form_step45']['syl_reference'] = $editform_data->syl_reference;
+    $SESSION->wizard['form_step45']['syl_contacts'] = $editform_data->syl_contacts;
     foreach ($champSyllabusEditor as $champ) {
         $SESSION->wizard['form_step45'][$champ] = $editform_data->$champ;
     }
@@ -66,7 +67,6 @@ $rof = $form_step_rof['all-rof'][$form_step_rof['rattachement-matiere']];
 if ($rof) {
     $SESSION->wizard['form_step45']['syl_elpcode'] = $rof['object']->code;
     $SESSION->wizard['form_step45']['syl_elpintitule'] = $rof['object']->name;
-    //$SESSION->wizard['form_step45']['syl_obligatoire'] = 1;
 }
 $SESSION->wizard['form_step45']['summary_editor'] = $SESSION->wizard['form_step2']['summary_editor'];
 if (isset($SESSION->wizard['form_step4']) && isset($SESSION->wizard['form_step4']['all-users']) && isset($SESSION->wizard['form_step4']['all-users']['responsable_epi'])) {

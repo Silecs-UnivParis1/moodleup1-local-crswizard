@@ -330,7 +330,7 @@ class wizard_core {
      */
     private function setup_mydata() {
         global $DB;
-        $sql = "SELECT shortname, type FROM {customfield_field} WHERE shortname like 'up1%'";
+        $sql = "SELECT shortname, type FROM {customfield_field} WHERE shortname like 'up1%' || shortname like 'syl_%' ";
         $customfields = $DB->get_records_sql($sql);
         if (count($customfields)) {
             foreach($customfields as $label => $field) {

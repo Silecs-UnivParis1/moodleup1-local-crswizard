@@ -315,6 +315,7 @@ function wizard_get_metadonnees() {
         file_prepare_standard_filemanager($course, 'overviewfiles', $overviewfilesoptions, $coursecontext, 'course', 'overviewfiles', 0);
         $SESSION->wizard['form_step2']['overviewfiles_filemanager'] = $course->overviewfiles_filemanager;
     }
+    wizard_info_syllabus_form($course);
 
     $case = wizard_get_generateur($course);
     $SESSION->wizard['modelecase'] = $case;
@@ -1086,6 +1087,7 @@ function wizard_get_validators() {
 }
 /**
  * Construit le tableau des responsables syllabus sélectionnés
+ * @param array identifiants responsables
  * @return array
  */
 function wizard_get_responsables($syl_responsables) {

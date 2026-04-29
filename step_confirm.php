@@ -244,7 +244,6 @@ class course_wizard_step_confirm extends moodleform {
                     $mform->setConstant('reponsable_dipl', $responsable);
                 }
             }
-
         }
 
         if (!empty($SESSION->wizard['form_step5']['all-cohorts'])) {

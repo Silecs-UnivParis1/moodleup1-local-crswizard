@@ -270,6 +270,42 @@ function wizard_rof_connection($up1rofpathid, $case2=TRUE, $form_step = 'form_st
 }
 
 /**
+ * Rempli la variable de session  form_step45 le formulaire syllabus si besoin
+ * @param object course $course
+ */
+function wizard_info_syllabus_form($course) {
+    global $SESSION, $DB;
+    if (isset($course->profile_field_syl_elpcode) && $course->profile_field_syl_elpcode != '') {
+        $SESSION->wizard['form_step45']['syl_elpcode'] = $course->profile_field_syl_elpcode;
+        $SESSION->wizard['form_step45']['syl_elpintitule'] =  $course->profile_field_syl_elpintitule;
+        $SESSION->wizard['form_step45']['syl_obligatoire'] = $course->profile_field_syl_obligatoire;
+        $SESSION->wizard['form_step45']['syl_ects'] = $course->profile_field_syl_ects;
+        $SESSION->wizard['form_step45']['syl_volume'] = $course->profile_field_syl_volume;
+        $SESSION->wizard['form_step45']['syl_reference'] = $course->profile_field_syl_reference;
+        $SESSION->wizard['form_step45']['syl_contacts'] = $course->profile_field_syl_contacts;
+        $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
+        foreach ($champSyllabusEditor as $champ) {
+            $name = 'profile_field_' . $champ;
+            $SESSION->wizard['form_step45'][$champ]['text'] = $course->$name;
+        }
+        if ($course->profile_field_syl_responsables != '') {
+            $idsresp = explode(';', $course->profile_field_syl_responsables);
+            $syl_responsables = [];
+            $allresponsables = [];
+            foreach ($idsresp as $iduser) {
+                $user = $DB->get_record('user', array('id' => $iduser));
+                if ($user) {
+                    $syl_responsables[] = $user->username;
+                    $allresponsables[$user->username] = $user;
+                }
+            }
+            $SESSION->wizard['form_step45']['syl_responsables'] = $syl_responsables;
+            $SESSION->wizard['form_step45']['all-responsables'] = $allresponsables;
+        }
+    }
+}
+
+/**
  * determine
  * @param object course $course
  * @return int
