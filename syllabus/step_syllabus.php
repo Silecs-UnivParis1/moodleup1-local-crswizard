@@ -16,8 +16,18 @@ require_once(__DIR__ . '/step_syllabus_form.php');
 
 require_login();
 
+
 if (isset($SESSION->wizard['idcourse'])) {
     $idcourse = $SESSION->wizard['idcourse'];
+    wizard_require_update_permission($idcourse, $USER->id);
+    $course = $DB->get_record('course', ['id' => $idcourse], '*', MUST_EXIST);
+    require_login($course);
+    $coursecontext = context_course::instance($course->id);
+    $PAGE->set_context($coursecontext);
+    $pageparams = ['id' => $idcourse];
+    $PAGE->set_url('/local/crswizard/update/index.php', $pageparams);
+    $streditcoursesettings = get_string("editcoursesettings");
+    $PAGE->navbar->add($streditcoursesettings);
 } else {
     $systemcontext   = context_system::instance();
     $PAGE->set_context($systemcontext);
@@ -26,7 +36,7 @@ if (isset($SESSION->wizard['idcourse'])) {
 }
 
 $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
-$editform = new course_wizard_step_syllabus_form(NULL, array('editoroptions' => $editoroptions));
+$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions]);
 
 $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
 

@@ -90,10 +90,13 @@ class course_wizard_step_syllabus_form extends moodleform {
                     . '//]]>' . "\n"
                     . '</script>';
         $mform->addElement('html', $codeJ);
-
+        $tepin = 4;
+        if (isset($SESSION->wizard['idcourse'])) {
+            $tepin = $SESSION->wizard['wizardcase'] == 3 ? 3 : 2;
+        }
         $buttonarray[] = $mform->createElement(
             'link', 'previousstage', null,
-            new moodle_url($SESSION->wizard['wizardurl'], array('stepin' => 4)),
+            new moodle_url($SESSION->wizard['wizardurl'], array('stepin' => $tepin)),
             get_string('previousstage', 'local_crswizard'), array('class' => 'previousstage'));
         $buttonarray[] = $mform->createElement(
                 'submit', 'stepgo_5', get_string('nextstage', 'local_crswizard'));

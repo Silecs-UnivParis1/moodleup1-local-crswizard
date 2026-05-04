@@ -122,6 +122,10 @@ switch ($stepin) {
             if (isset($data->enregistrer)) {
 				$stepgo = 8;
 			}
+            if (isset($SESSION->wizard['init_course']['profile_field_syl_elpcode']) && $SESSION->wizard['init_course']['profile_field_syl_elpcode'] != '' && $wizardcase == 2) {
+                $SESSION->wizard['form_step2']['rattachement-matiere'] = wizard_get_rattachement_matiere();
+                redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
+            }
             redirect($CFG->wwwroot . '/local/crswizard/update/index.php?stepin=' . $stepgo);
         } else {
             $PAGE->requires->js(new moodle_url('/local/crswizard/js/select-into-subselects.js'), true);
@@ -157,6 +161,10 @@ switch ($stepin) {
                 $data->rattachements = array_unique(array_filter($data->rattachements));
                 $SESSION->wizard['form_step' . $stepin] = (array) $data;
                 $SESSION->wizard['form_step3']['all-rof'] = wizard_get_rof('form_step3');
+                if (isset($SESSION->wizard['init_course']['profile_field_syl_elpcode']) && $SESSION->wizard['init_course']['profile_field_syl_elpcode'] != '') {
+                    $SESSION->wizard['form_step3']['rattachement-matiere'] = wizard_get_rattachement_matiere('form_step3');
+                    redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
+                }
                 redirect($CFG->wwwroot . '/local/crswizard/update/index.php?stepin=' . $stepgo);
             }
             $steptitle = get_string('upcoursedescription', 'local_crswizard');
