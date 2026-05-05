@@ -122,7 +122,7 @@ switch ($stepin) {
             if (isset($data->enregistrer)) {
 				$stepgo = 8;
 			}
-            if (isset($SESSION->wizard['init_course']['profile_field_syl_elpcode']) && $SESSION->wizard['init_course']['profile_field_syl_elpcode'] != '' && $wizardcase == 2) {
+            if ($stepgo != 8 && isset($SESSION->wizard['init_course']['profile_field_syl_elpcode']) && $SESSION->wizard['init_course']['profile_field_syl_elpcode'] != '' && $wizardcase == 2) {
                 $SESSION->wizard['form_step2']['rattachement-matiere'] = wizard_get_rattachement_matiere();
                 redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
             }

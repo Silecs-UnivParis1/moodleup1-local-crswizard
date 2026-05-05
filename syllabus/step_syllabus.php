@@ -16,7 +16,6 @@ require_once(__DIR__ . '/step_syllabus_form.php');
 
 require_login();
 
-
 if (isset($SESSION->wizard['idcourse'])) {
     $idcourse = $SESSION->wizard['idcourse'];
     wizard_require_update_permission($idcourse, $USER->id);
@@ -70,9 +69,11 @@ $titlecrswizard = isset($SESSION->wizard['idcourse']) ? get_string('upwizardcour
 echo $OUTPUT->box($titlecrswizard, 'titlecrswizard');
 echo $OUTPUT->box('Étape 4.5 - Étape Syllabus', 'titlecrswizard');
 
-
 $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
 $form_step_rof = $SESSION->wizard[$form_stepx];
+if (!isset($form_step_rof['rattachement-matiere'])) {
+    $form_step_rof['rattachement-matiere'] = wizard_get_rattachement_matiere($form_stepx);
+}
 $rof = $form_step_rof['all-rof'][$form_step_rof['rattachement-matiere']];
 if ($rof) {
     $SESSION->wizard['form_step45']['syl_elpcode'] = $rof['object']->code;

@@ -1069,6 +1069,33 @@ class wizard_core {
             $this->mydata->profile_field_up1urlfixe = trim($form2['myurl']);
         }
 
+        if (isset($this->formdata['init_course']['profile_field_syl_elpcode']) && $this->formdata['init_course']['profile_field_syl_elpcode'] != '') {
+            $form45 = $this->formdata['form_step45'];
+            $this->mydata->profile_field_syl_elpcode = $form45['syl_elpcode'];
+            $this->mydata->profile_field_syl_elpintitule = $form45['syl_elpintitule'];
+            $this->mydata->profile_field_syl_obligatoire = $form45['syl_obligatoire'];
+            $this->mydata->profile_field_syl_reference = $form45['syl_reference'];
+            $this->mydata->profile_field_syl_ects = $form45['syl_ects'];
+            $this->mydata->profile_field_syl_volume = $form45['syl_volume'];
+            $this->mydata->profile_field_syl_contacts = $form45['syl_contacts'];
+
+            $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
+            foreach ($champSyllabusEditor as $champ) {
+                $nomchamp = 'profile_field_' . $champ;
+                $this->mydata->$nomchamp = $form45[$champ]['text'];
+                $champformat = $nomchamp . 'format';
+                $this->mydata->$champformat = $form45[$champ]['format'];
+            }
+
+            if (isset($form45['all-responsables']) && is_array($form45['all-responsables'])) {
+                $idresp = [];
+                foreach ($form45['all-responsables'] as $responsable) {
+                    $idresp[] = $responsable->id;
+                }
+                $this->mydata->profile_field_syl_responsables = implode(';', $idresp);
+            }
+        }
+
         return $this->mydata;
     }
 
