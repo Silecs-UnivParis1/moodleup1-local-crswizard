@@ -104,7 +104,7 @@ class course_wizard_step2_form extends moodleform {
         $mform->setExpanded('URL');
 
         $urloklabel = 'Je souhaite utiliser une URL pérenne';
-        if ($isnew == false && $SESSION->wizard['form_step2']['urlok'] == 1) {
+        if ($isnew == false && isset($SESSION->wizard['form_step2']['urlok']) && $SESSION->wizard['form_step2']['urlok'] == 1) {
             $urloklabel = 'J\'utilise une URL pérenne';
         }
         $mform->addElement('checkbox', 'urlok', $urloklabel);
