@@ -143,6 +143,7 @@ switch ($stepin) {
             get_selected_etablissement_id();
 
             $editform = new course_wizard_step3_form();
+            $PAGE->requires->css(new moodle_url('/local/crswizard/css/crswizard.css'));
 
             $data = $editform->get_data();
             if ($data){
@@ -229,6 +230,7 @@ switch ($stepin) {
         $formdata = $corewizard->prepare_update_course();
         $editform = new course_wizard_confirm();
         $editform->set_data($formdata);
+        $PAGE->requires->css(new moodle_url('/local/crswizard/css/crswizard.css'));
 
         $data = $editform->get_data();
         if ($data){

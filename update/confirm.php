@@ -27,25 +27,28 @@ class course_wizard_confirm extends moodleform {
 
         if (isset($form2['rattachement1']) ) {
             $idratt1 = $form2['rattachement1'];
-            $mform->addElement('text', 'category',  get_string('categoryblockE3', 'local_crswizard') . ' : ', 'size="100"');
+            $mform->addElement('text', 'category',  get_string('categoryblockE3', 'local_crswizard') . ' : ', 'size="100" class="crswizard-form-align"');
             $mform->setType('category', PARAM_TEXT);
             $mform->setConstant('category' , $displaylist[$idratt1] . ' / ' . $form2['fullname']);
         } else {
-            $mform->addElement('select', 'category', get_string('categoryblockE3', 'local_crswizard') . ' : ', $displaylist);
+            $mform->addElement('select', 'category', get_string('categoryblockE3', 'local_crswizard') . ' : ', $displaylist, ['class' => 'crswizard-form-align']);
             $mform->setType('category', PARAM_TEXT);
         }
 
         if (!empty($SESSION->wizard['form_step3']['rattachements'])) {
             $paths = wizard_get_myComposantelist($form2['category'], true);
-            $first = true;
+
+            $nbr = 1;
+            $rattachement3 = '';
             foreach ($SESSION->wizard['form_step3']['rattachements'] as $pathid) {
-                $select = $mform->createElement('text', "rattachements$pathid",
-                    ($first? get_string('labelE7ratt2', 'local_crswizard') : ''), 'size="100"');
-                $select->setType("rattachements$pathid", PARAM_TEXT);
-                $select->setValue($paths[$pathid]);
-                $mform->addElement($select);
-                $first = false;
+                if ($pathid != '') {
+                    $rattachement3 .= $paths[$pathid] ."\n";
+                    ++$nbr;
+                }
             }
+            $mform->addElement('textarea', 'rattachement3', get_string('labelE7ratt2', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => $nbr]);
+            $mform->setType('rattachement3', PARAM_RAW);
+            $mform->setConstant('rattachement3', $rattachement3);
         }
 
         // rattachement secondaire - cas 2 + hybride
@@ -59,15 +62,14 @@ class course_wizard_confirm extends moodleform {
                     $tabcategories = get_list_category($form2['category']);
                     $racine = $tabcategories[0] . ' / ' . $tabcategories[1];
                 }
-                $htmlrof2 = '<div class="fitem"><div class="fitemtitle">'
-                    . '<div class="fstaticlabel"><label>'
-                    . get_string('labelE7ratt2', 'local_crswizard')
-                    . '</label></div></div>';
+                $rattachement2 = '';
                 foreach ($rof2 as $chemin) {
-                    $htmlrof2 .= '<div class="felement fstatic">' . $racine . ' / ' . $chemin . '</div>';
+                    $rattachement2 .= $racine . ' / ' . $chemin . "\n";
                 }
-                $htmlrof2 .= '</div>';
-                $mform->addElement('html', $htmlrof2);
+                $nbl = count($rof2) + 1;
+                $mform->addElement('textarea', 'rattachement2', get_string('labelE7ratt2', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => $nbl]);
+                $mform->setType('rattachement2', PARAM_RAW);
+                $mform->setConstant('rattachement2', $rattachement2);
             }
         }
 
@@ -84,7 +86,7 @@ class course_wizard_confirm extends moodleform {
                     }
                     $donnees = substr($donnees, 0, -1);
                     if ($donnees != '' && $donnees != '0') {
-                        $mform->addElement('text', $key, $label, 'maxlength="40" size="30", disabled="disabled"');
+                        $mform->addElement('text', $key, $label, 'size="30", disabled="disabled" class="crswizard-form-align"');
                         $mform->setType($key, PARAM_TEXT);
                         $mform->setConstant($key , $donnees);
                     }
@@ -92,30 +94,30 @@ class course_wizard_confirm extends moodleform {
             }
         }
 
-        $mform->addElement('text', 'fullname', get_string('fullnamecourse', 'local_crswizard'), 'maxlength="254" size="100"');
+        $mform->addElement('text', 'fullname', get_string('fullnamecourse', 'local_crswizard'), 'size="100" class="crswizard-form-align"');
         $mform->setType('fullname', PARAM_TEXT);
 
-        $mform->addElement('text', 'shortname', get_string('shortnamecourse', 'local_crswizard'), 'maxlength="100" size="40"');
+        $mform->addElement('text', 'shortname', get_string('shortnamecourse', 'local_crswizard'), 'size="40" class="crswizard-form-align"');
         $mform->setType('shortname', PARAM_TEXT);
 
         $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
-        $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), null, $editoroptions);
+        $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('summary_editor', PARAM_RAW);
         $mform->setConstant('summary_editor', $form2['summary_editor']);
 
         $imagecours = wizard_get_course_overviewfiles_filemanager_image($form2['overviewfiles_filemanager']);
         $mform->addElement('static', 'imagecours', get_string('courseoverviewfiles', 'local_crswizard'), $imagecours);
 
-        $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'));
+        $mform->addElement('date_selector', 'startdate', get_string('coursestartdate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
 
-        $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'));
+        $mform->addElement('date_selector', 'enddate', get_string('courseenddate', 'local_crswizard'), null, ['class' => 'crswizard-form-align']);
 
         $mform->addElement('text', 'langue', get_string('courselanguage', 'local_crswizard') . ' : ', 'size="40" class="crswizard-form-align"');
         $mform->setType('langue', PARAM_TEXT);
 
         //url fixe
         if (isset($form2['urlok']) && $form2['urlok'] == 1) {
-            $mform->addElement('text', 'urlfixetotal', "URL pérenne :", 'maxlength="200" size="60"');
+            $mform->addElement('text', 'urlfixetotal', "URL pérenne :", 'size="60" class="crswizard-form-align"');
             $mform->setType('urlfixetotal', PARAM_TEXT);
             $urltotal = $SESSION->wizard['urlpfixe'];
             $urltotal .= trim($SESSION->wizard['form_step2']['myurl']);
@@ -133,7 +135,7 @@ class course_wizard_confirm extends moodleform {
                 }
                 $first = true;
                 foreach ($groups as $id => $group) {
-                    $mform->addElement('text', 'cohort' . $id, ($first ? $label . ' : ' : ''));
+                    $mform->addElement('text', 'cohort' . $id, ($first ? $label . ' : ' : ''), 'size="100" class="crswizard-form-align"');
                     $mform->setType('cohort' . $id, PARAM_TEXT);
                     $mform->setConstant('cohort' . $id, $group->name . ' — ' . "{$group->size} inscrits");
                     $first = false;
@@ -153,23 +155,76 @@ class course_wizard_confirm extends moodleform {
                     if ($clef['password'] == '') {
                         // accès libre
                         $html = '<div class="fitem"><div class="fitemtitle">'
-                            . '<div class="fstaticlabel"><label>'
+                            . '<div class="fstaticlabel crswizard-mylabel"><label>'
                             . 'Accès libre</label></div></div>'
                             . '<div class="felement fstatic"></div></div>';
                         $mform->addElement('html', $html);
                     } else {
-                        $mform->addElement('text', 'valeur' . $c, get_string('enrolkey', 'local_crswizard') . ' : ');
+                        $mform->addElement('text', 'valeur' . $c, get_string('enrolkey', 'local_crswizard') . ' : ', 'class="crswizard-form-align"');
                         $mform->setType('valeur' . $c, PARAM_TEXT);
                         $mform->setConstant('valeur' . $c, $clef['password']);
                     }
-                    if (isset($clef['enrolstartdate']) && $clef['enrolstartdate'] != 0) {
-                        $mform->addElement('date_selector', 'enrolstartdate' . $c, get_string('enrolstartdate', 'enrol_self') . ' : ');
-                        $mform->setConstant('enrolstartdate' . $c, $clef['enrolstartdate']);
+                }
+            }
+        }
+        if (isset($SESSION->wizard['init_course']['profile_field_syl_elpcode']) && $SESSION->wizard['init_course']['profile_field_syl_elpcode'] != '') {
+            $mform->addElement('header', 'syllabus', 'Syllabus');
+            $mform->addElement('text', 'profile_field_syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'size="20" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_elpcode', PARAM_TEXT);
+            $mform->addElement('text', 'profile_field_syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_elpintitule', PARAM_TEXT);
+            $mform->addElement('advcheckbox', 'profile_field_syl_obligatoire', get_string('required_label', 'local_crswizard'),
+                get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_ects', PARAM_TEXT);
+            $mform->addElement('text', 'profile_field_syl_volume', get_string('duration', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_volume', PARAM_TEXT);
+            $mform->addElement('advcheckbox', 'profile_field_syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
+                get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+
+            $mform->addElement('editor', 'profile_field_syl_objectifs', get_string('outcomes_pedagogic', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('profile_field_syl_objectifs', PARAM_RAW);
+            $mform->setConstant('profile_field_syl_objectifs', $SESSION->wizard['form_step45']['syl_objectifs']);
+
+            $mform->addElement('editor', 'profile_field_syl_plan', get_string('courseplan', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->setType('profile_field_syl_plan', PARAM_RAW);
+            $mform->setConstant('profile_field_syl_plan', $SESSION->wizard['form_step45']['syl_plan']);
+
+            $mform->addElement('editor', 'profile_field_syl_prerequis', get_string('requirement', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->setType('profile_field_syl_prerequis', PARAM_RAW);
+            $mform->setConstant('profile_field_syl_prerequis', $SESSION->wizard['form_step45']['syl_prerequis']);
+
+            $mform->addElement('editor', 'profile_field_syl_evaluation', get_string('assessmentsettings', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->setType('profile_field_syl_evaluation', PARAM_RAW);
+            $mform->setConstant('profile_field_syl_evaluation', $SESSION->wizard['form_step45']['syl_evaluation']);
+
+            $mform->addElement('editor', 'profile_field_syl_bibliographie', get_string('bibliography', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->setType('profile_field_syl_bibliographie', PARAM_RAW);
+            $mform->setConstant('profile_field_syl_bibliographie', $SESSION->wizard['form_step45']['syl_bibliographie']);
+
+            $mform->addElement('textarea', 'profile_field_syl_contacts', get_string('contact_responsable_epi', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => 8]);
+            $mform->setType('profile_field_syl_contacts', PARAM_RAW);
+
+            if (isset($SESSION->wizard['form_step45']['all-responsables'])) {
+                $allresponsables = $SESSION->wizard['form_step45']['all-responsables'];
+                $nbresp = is_array($allresponsables) ? count($allresponsables) : 0;
+                if ($nbresp > 1) {
+                    $mform->addElement('textarea', 'reponsable_dipl', get_string('responsable_diplome', 'local_crswizard'), ['class' => 'crswizard-form-align', 'rows' => $nbresp]);
+                    $mform->setType('reponsable_dipl', PARAM_RAW);
+                    $responsables = '';
+                    foreach ($allresponsables as $resp) {
+                        $responsables .= fullname($resp) . ' : ' . $resp->email . "\n";
+                        $mform->setConstant('reponsable_dipl', $responsables);
                     }
-                    if (isset($clef['enrolenddate']) && $clef['enrolenddate'] != 0) {
-                        $mform->addElement('date_selector', 'enrolenddate' . $c, get_string('enrolenddate', 'enrol_self') . ' : ');
-                        $mform->setConstant('enrolenddate' . $c, $clef['enrolenddate']);
+                } else {
+                    $mform->addElement('text', 'reponsable_dipl', 'Responsable(s) du ou des diplômes concernés', 'size="40" class="crswizard-form-align"');
+                    $mform->setType('reponsable_dipl', PARAM_TEXT);
+                    $responsable = 'Aucun';
+                    if ($nbresp == 1) {
+                        $resp = current($allresponsables);
+                        $responsable = fullname($resp) . ' : ' . $resp->email;
                     }
+                    $mform->setConstant('reponsable_dipl', $responsable);
                 }
             }
         }

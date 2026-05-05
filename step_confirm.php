@@ -46,7 +46,7 @@ class course_wizard_step_confirm extends moodleform {
         if (!empty($SESSION->wizard['form_step3']['rattachements'])) {
             $paths = wizard_get_myComposantelist($SESSION->wizard['form_step2']['category'], true);
             $nbr = 1;
-            $rattachement3;
+            $rattachement3 = '';
             foreach ($SESSION->wizard['form_step3']['rattachements'] as $pathid) {
                 if ($pathid != '') {
                     $rattachement3 .= $paths[$pathid] ."\n";
@@ -132,7 +132,7 @@ class course_wizard_step_confirm extends moodleform {
         $mform->setType('profile_field_up1generateur', PARAM_TEXT);
 
         if (isset($SESSION->wizard['form_step2']['urlok']) && $SESSION->wizard['form_step2']['urlok'] == 1) {
-            $mform->addElement('text', 'urlfixetotal', "URL pérenne :", 'size="60"');
+            $mform->addElement('text', 'urlfixetotal', "URL pérenne :", 'size="60" class="crswizard-form-align"');
             $mform->setType('urlfixetotal', PARAM_TEXT);
             $urltotal = $SESSION->wizard['urlpfixe'];
             if (isset($SESSION->wizard['form_step2']['urlmodel']) && $SESSION->wizard['form_step2']['urlmodel'] == 'fixe') {
@@ -186,15 +186,15 @@ class course_wizard_step_confirm extends moodleform {
 
         if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
             $mform->addElement('header', 'syllabus', 'Syllabus');
-            $mform->addElement('text', 'profile_field_syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'maxlength="20" size="20" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'size="20" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpcode', PARAM_TEXT);
-            $mform->addElement('text', 'profile_field_syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpintitule', PARAM_TEXT);
             $mform->addElement('advcheckbox', 'profile_field_syl_obligatoire', get_string('required_label', 'local_crswizard'),
                 get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
-            $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_ects', PARAM_TEXT);
-            $mform->addElement('text', 'profile_field_syl_volume', get_string('duration', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
+            $mform->addElement('text', 'profile_field_syl_volume', get_string('duration', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_volume', PARAM_TEXT);
             $mform->addElement('advcheckbox', 'profile_field_syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
                 get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
