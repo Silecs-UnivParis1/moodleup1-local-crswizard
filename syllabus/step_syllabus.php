@@ -54,6 +54,9 @@ if ($editform_data  = $editform->get_data()) {
     }
     // enregistrer summary_editor dans form2
     $SESSION->wizard['form_step2']['summary_editor'] =  $editform_data->summary_editor;
+    if (!isset($SESSION->wizard['idcourse'])) {
+        $SESSION->wizard['form_step45']['step'] = 'cohort';
+    }
     //redirection
     redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=5');
 }
@@ -81,13 +84,15 @@ if ($rof) {
 }
 $SESSION->wizard['form_step45']['summary_editor'] = $SESSION->wizard['form_step2']['summary_editor'];
 if (isset($SESSION->wizard['form_step4']) && isset($SESSION->wizard['form_step4']['all-users']) && isset($SESSION->wizard['form_step4']['all-users']['responsable_epi'])) {
-    $responsables_epi = $SESSION->wizard['form_step4']['all-users']['responsable_epi'];
-    if (count($responsables_epi)) {
-        $text = '';
-        foreach ($responsables_epi as $resp) {
-            $text .= $resp->firstname . ' ' . $resp->lastname . ' : ' . $resp->email. "\n";
+    if (!isset($SESSION->wizard['idcourse']) && $SESSION->wizard['form_step45']['step'] == 'teacher') {
+        $responsables_epi = $SESSION->wizard['form_step4']['all-users']['responsable_epi'];
+        if (count($responsables_epi)) {
+            $text = '';
+            foreach ($responsables_epi as $resp) {
+                $text .= $resp->firstname . ' ' . $resp->lastname . ' : ' . $resp->email. "\n";
+            }
+            $SESSION->wizard['form_step45']['syl_contacts'] = $text;
         }
-        $SESSION->wizard['form_step45']['syl_contacts'] = $text;
     }
 }
 

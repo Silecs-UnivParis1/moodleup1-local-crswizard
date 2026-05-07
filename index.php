@@ -204,6 +204,7 @@ switch ($stepin) {
             $SESSION->wizard['form_step' . $stepin] = $_POST;
             $SESSION->wizard['form_step4']['all-users'] = wizard_get_enrolement_users();
             if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
+                $SESSION->wizard['form_step45']['step'] = 'teacher';
                 redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
             }
             $SESSION->wizard['form_step4']['use_syllabus_step'] = 0;
