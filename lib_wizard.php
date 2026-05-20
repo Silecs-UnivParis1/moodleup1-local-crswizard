@@ -1935,6 +1935,23 @@ function wizard_get_default_periode() {
     }
     return false;
 }
+/**
+ * Construit la liste des options pour la liste déroulante langue d'enseignement
+ * @return array
+ */
+function wizard_up1langue_list() {
+    $param_up1langue_list = get_config('local_crswizard', 'up1langue_list');
+    $array_up1langue_list = explode("\n", $param_up1langue_list);
+    if (count($array_up1langue_list)) {
+        $liste = ['' => get_string('select') . '...'];
+        foreach ($array_up1langue_list as $langue) {
+            $l = trim($langue);
+            $liste[$l] = $langue;
+        }
+        return $liste;
+    }
+    return [];
+}
 
 class my_elements_config {
     public $categorie_cours = array(

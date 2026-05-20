@@ -53,6 +53,20 @@ if (has_capability('moodle/site:config', context_system::instance())) {
     $category_model->plugin = 'local_crswizard';
     $settings->add($category_model);
 
+    $up1langue_list = new admin_setting_configtextarea(
+        'up1langue_list',
+        'Langues d\'enseignement disponibles',
+        'Liste des langues d\'enseignements disponibles à l\'étape d\'identification de l\'espace.<br/>Chaque ligne correspond à un item de la liste déroulante.',
+        'Allemand
+Anglais
+Arabe
+Espagnol
+Français
+Italien
+Roumain');
+    $up1langue_list->plugin = 'local_crswizard';
+    $settings->add($up1langue_list);
+
     $settings->add(new admin_setting_heading('wizardcas2defaults', 'Valeurs par défaut des réglages (cas 2)', ''));
 
     $etab = wizard_get_catlevel2();
