@@ -177,8 +177,10 @@ class course_wizard_confirm extends moodleform {
                 get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_ects', PARAM_TEXT);
-            $mform->addElement('text', 'profile_field_syl_volume', get_string('duration', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
-            $mform->setType('profile_field_syl_volume', PARAM_TEXT);
+            $mform->addElement('text', 'profile_field_syl_volumecm', get_string('durationcm', 'local_crswizard'), 'size="5" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_volumecm', PARAM_TEXT);
+            $mform->addElement('text', 'profile_field_syl_volumetd', get_string('durationtd', 'local_crswizard'), 'size="5" class="crswizard-form-align"');
+            $mform->setType('profile_field_syl_volumetd', PARAM_TEXT);
             $mform->addElement('advcheckbox', 'profile_field_syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
                 get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
 

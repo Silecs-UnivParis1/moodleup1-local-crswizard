@@ -303,7 +303,8 @@ class wizard_core {
             $this->mydata->profile_field_syl_obligatoire = $form45['syl_obligatoire'];
             $this->mydata->profile_field_syl_reference = $form45['syl_reference'];
             $this->mydata->profile_field_syl_ects = $form45['syl_ects'];
-            $this->mydata->profile_field_syl_volume = $form45['syl_volume'];
+            $this->mydata->profile_field_syl_volumecm = $form45['syl_volumecm'];
+            $this->mydata->profile_field_syl_volumetd = $form45['syl_volumetd'];
             $this->mydata->profile_field_syl_contacts = $form45['syl_contacts'];
 
             $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
@@ -1076,7 +1077,8 @@ class wizard_core {
             $this->mydata->profile_field_syl_obligatoire = $form45['syl_obligatoire'];
             $this->mydata->profile_field_syl_reference = $form45['syl_reference'];
             $this->mydata->profile_field_syl_ects = $form45['syl_ects'];
-            $this->mydata->profile_field_syl_volume = $form45['syl_volume'];
+            $this->mydata->profile_field_syl_volumecm = $form45['syl_volumecm'];
+            $this->mydata->profile_field_syl_volumetd = $form45['syl_volumetd'];
             $this->mydata->profile_field_syl_contacts = $form45['syl_contacts'];
 
             $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];

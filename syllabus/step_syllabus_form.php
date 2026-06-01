@@ -11,26 +11,27 @@ class course_wizard_step_syllabus_form extends moodleform {
 
         $mform = $this->_form;
         $editoroptions = $this->_customdata['editoroptions'];
+        $roffreeze = $this->_customdata['roffreeze'];
 
         $mform->addElement('header', 'etape2', 'Champs déduit de l\'étape identification de l\'espace');
 
         $mform->addElement('text', 'syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'maxlength="20" size="20" class="crswizard-form-align"');
         $mform->setType('syl_elpcode', PARAM_TEXT);
-        $mform->hardFreeze('syl_elpcode');
 
         $mform->addElement('text', 'syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
         $mform->setType('syl_elpintitule', PARAM_TEXT);
-        $mform->hardFreeze('syl_elpintitule');
 
         $mform->addElement('advcheckbox', 'syl_obligatoire', get_string('required_label', 'local_crswizard'),
             get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
-        //$mform->hardFreeze('syl_obligatoire');
 
-        $mform->addElement('text', 'syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
+        $mform->addElement('float', 'syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
         $mform->setType('syl_ects', PARAM_TEXT);
 
-        $mform->addElement('text', 'syl_volume', get_string('duration', 'local_crswizard'), 'maxlength="50" size="50" class="crswizard-form-align"');
-        $mform->setType('syl_volume', PARAM_TEXT);
+        $mform->addElement('text', 'syl_volumecm', get_string('durationcm', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
+        $mform->setType('syl_volumecm', PARAM_TEXT);
+
+        $mform->addElement('text', 'syl_volumetd', get_string('durationtd', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
+        $mform->setType('syl_volumetd', PARAM_TEXT);
 
         $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('summary_editor', PARAM_RAW);
@@ -102,6 +103,8 @@ class course_wizard_step_syllabus_form extends moodleform {
                 'submit', 'stepgo_5', get_string('nextstage', 'local_crswizard'));
         $mform->addGroup($buttonarray, 'buttonar', '', null, false);
         $mform->closeHeaderBefore('buttonar');
+
+        $mform->hardFreeze($roffreeze);
     }
 /**
     public function validation($data, $files) {

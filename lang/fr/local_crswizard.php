@@ -113,7 +113,8 @@ $string['coursesettingshelp'] = 'Les dates ci-dessous sont purement informatives
     . 'et à la fin de la période d\'enseignement.';
 $string['coursestartdate'] = 'Date de début : ';
 $string['coursesummary'] = 'Texte de présentation : ';
-$string['duration'] = 'Volume horaire';
+$string['durationcm'] = 'Volume horaire CM';
+$string['durationtd'] = 'Volume horaire TD';
 $string['editingteacher'] = "Enseignant éditeur";
 $string['responsable_diplome'] = 'Responsable(s) du ou des diplômes concernés';
 $string['responsable_epi'] = "Enseignant responsable EPI";

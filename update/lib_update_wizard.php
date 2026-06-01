@@ -281,7 +281,8 @@ function wizard_info_syllabus_form($course) {
         $SESSION->wizard['form_step45']['syl_elpintitule'] =  $course->profile_field_syl_elpintitule;
         $SESSION->wizard['form_step45']['syl_obligatoire'] = $course->profile_field_syl_obligatoire;
         $SESSION->wizard['form_step45']['syl_ects'] = $course->profile_field_syl_ects;
-        $SESSION->wizard['form_step45']['syl_volume'] = $course->profile_field_syl_volume;
+        $SESSION->wizard['form_step45']['syl_volumecm'] = $course->profile_field_syl_volumecm;
+        $SESSION->wizard['form_step45']['syl_volumetd'] = $course->profile_field_syl_volumetd;
         $SESSION->wizard['form_step45']['syl_reference'] = $course->profile_field_syl_reference;
         $SESSION->wizard['form_step45']['syl_contacts'] = $course->profile_field_syl_contacts;
         $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];

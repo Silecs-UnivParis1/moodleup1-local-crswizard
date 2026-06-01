@@ -16,6 +16,7 @@ require_once(__DIR__ . '/step_syllabus_form.php');
 
 require_login();
 
+$getinforof = false;
 if (isset($SESSION->wizard['idcourse'])) {
     $idcourse = $SESSION->wizard['idcourse'];
     wizard_require_update_permission($idcourse, $USER->id);
@@ -28,25 +29,55 @@ if (isset($SESSION->wizard['idcourse'])) {
     $streditcoursesettings = get_string("editcoursesettings");
     $PAGE->navbar->add($streditcoursesettings);
 } else {
+    $getinforof = true;
     $systemcontext   = context_system::instance();
     $PAGE->set_context($systemcontext);
     wizard_require_permission('creator', $USER->id);
     $PAGE->set_url('/local/crswizard/syllabus/step_syllabus.php');
 }
 
-$editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
-$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions]);
-
 $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
+$rofinfos = ['code' => 'syl_elpcode', 'name' => 'syl_elpintitule', 'ects' => 'syl_ects', 'cmhours' => 'syl_volumecm', 'tdhours' => 'syl_volumetd', 'optionnal' => 'syl_obligatoire'];
+$roffreeze = [];
+$form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
+$form_step_rof = $SESSION->wizard[$form_stepx];
+if (!isset($form_step_rof['rattachement-matiere'])) {
+    $form_step_rof['rattachement-matiere'] = wizard_get_rattachement_matiere($form_stepx);
+}
+
+$rof = $form_step_rof['all-rof'][$form_step_rof['rattachement-matiere']];
+if ($getinforof == false && $rof['object']->code != $SESSION->wizard['form_step45']['syl_elpcode']) {
+    $getinforof = true;
+}
+
+if ($getinforof) {
+    foreach ($rofinfos as $rofinfo => $champsyl) {
+        $SESSION->wizard['form_step45'][$champsyl] = $rof['object']->$rofinfo;
+        if ($rofinfo == 'optionnal') {
+            $SESSION->wizard['form_step45'][$champsyl] = ($rof['object']->$rofinfo == 'O' ? 1 : 0);
+        }
+    }
+}
+foreach ($rofinfos as $rofinfo => $champsyl) {
+    if ( $rof['object']->$rofinfo != '') {
+        $roffreeze[] = $champsyl;
+    }
+}
+
+$editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
+$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze]);
+
 
 if ($editform_data  = $editform->get_data()) {
     //traitement des données
     $syl_responsables = isset($_POST['syl_responsables']) ? $_POST['syl_responsables'] : '';
     $SESSION->wizard['form_step45']['syl_responsables'] = $syl_responsables;
     $SESSION->wizard['form_step45']['all-responsables'] = wizard_get_responsables($syl_responsables);
-    $SESSION->wizard['form_step45']['syl_obligatoire'] = $editform_data->syl_obligatoire; //normalement non-modifiable
-    $SESSION->wizard['form_step45']['syl_ects'] = $editform_data->syl_ects; //normalement non-modifiable
-    $SESSION->wizard['form_step45']['syl_volume'] = $editform_data->syl_volume; //normalement non-modifiable
+    foreach ($rofinfos as $champsyl) {
+        if (!in_array($champsyl, $roffreeze)) {
+            $SESSION->wizard['form_step45'][$champsyl] = $editform_data->$champsyl;
+        }
+    }
     $SESSION->wizard['form_step45']['syl_reference'] = $editform_data->syl_reference;
     $SESSION->wizard['form_step45']['syl_contacts'] = $editform_data->syl_contacts;
     foreach ($champSyllabusEditor as $champ) {
@@ -72,16 +103,6 @@ $titlecrswizard = isset($SESSION->wizard['idcourse']) ? get_string('upwizardcour
 echo $OUTPUT->box($titlecrswizard, 'titlecrswizard');
 echo $OUTPUT->box('Étape 4.5 - Étape Syllabus', 'titlecrswizard');
 
-$form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
-$form_step_rof = $SESSION->wizard[$form_stepx];
-if (!isset($form_step_rof['rattachement-matiere'])) {
-    $form_step_rof['rattachement-matiere'] = wizard_get_rattachement_matiere($form_stepx);
-}
-$rof = $form_step_rof['all-rof'][$form_step_rof['rattachement-matiere']];
-if ($rof) {
-    $SESSION->wizard['form_step45']['syl_elpcode'] = $rof['object']->code;
-    $SESSION->wizard['form_step45']['syl_elpintitule'] = $rof['object']->name;
-}
 $SESSION->wizard['form_step45']['summary_editor'] = $SESSION->wizard['form_step2']['summary_editor'];
 if (isset($SESSION->wizard['form_step4']) && isset($SESSION->wizard['form_step4']['all-users']) && isset($SESSION->wizard['form_step4']['all-users']['responsable_epi'])) {
     if (!isset($SESSION->wizard['idcourse']) && $SESSION->wizard['form_step45']['step'] == 'teacher') {
