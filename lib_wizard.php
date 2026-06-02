@@ -23,7 +23,7 @@ function wizard_get_course_customfield_data($courseid) {
 	$datas = $handler->get_instance_data($courseid);
 	$metadata = [];
 	foreach ($datas as $data) {
-		if (empty($data->get_value())) {
+		if ($data->get_value() == '') {
 			continue;
 		}
 		$metadata[$data->get_field()->get('shortname')] = $data->get_value();
@@ -1864,6 +1864,21 @@ function wizard_get_default_metadata() {
     }
     if (isset($SESSION->wizard['form_step45']['syl_elpcode']) &&  $SESSION->wizard['form_step45']['syl_elpcode'] != '') {
         $SESSION->wizard['form_step4']['use_syllabus_step'] = 1;
+        //mise à jour des données ROF du syllabus
+        $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
+        $rattachement = wizard_get_rattachement_matiere($form_stepx);
+        if ($rattachement != '') {
+            $form_step_rof = $SESSION->wizard[$form_stepx];
+            $rof = $form_step_rof['all-rof'][$rattachement];
+            if (isset($rof) && isset($rof['object'])) {
+                $SESSION->wizard['form_step45']['syl_elpcode'] = $rof['object']->code;
+                $SESSION->wizard['form_step45']['syl_elpintitule'] = $rof['object']->name;
+                $SESSION->wizard['form_step45']['syl_ects'] = ($rof['object']->ects ? $rof['object']->ects : 0);
+                $SESSION->wizard['form_step45']['syl_volumecm'] = ($rof['object']->cmhours ? $rof['object']->cmhours : 0);
+                $SESSION->wizard['form_step45']['syl_volumetd'] =( $rof['object']->tdhours ? $rof['object']->tdhours : 0);
+                $SESSION->wizard['form_step45']['syl_obligatoire'] = ($rof['object']->optionnal == 'O' ? 1 : 0);
+            }
+        }
     }
 }
 
