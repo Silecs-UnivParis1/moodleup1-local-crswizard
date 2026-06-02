@@ -16,6 +16,8 @@ require_once(__DIR__ . '/step_syllabus_form.php');
 
 require_login();
 
+$systemcontext   = context_system::instance();
+$capuprof = has_capability('local/crswizard:updaterofsyllabus', $systemcontext, $USER->id);
 $getinforof = false;
 if (isset($SESSION->wizard['idcourse'])) {
     $idcourse = $SESSION->wizard['idcourse'];
@@ -28,9 +30,11 @@ if (isset($SESSION->wizard['idcourse'])) {
     $PAGE->set_url('/local/crswizard/update/index.php', $pageparams);
     $streditcoursesettings = get_string("editcoursesettings");
     $PAGE->navbar->add($streditcoursesettings);
+    if ($capuprof) {
+        $PAGE->requires->js(new moodle_url('/local/crswizard/js/include-for-syllabus.js'), true);
+    }
 } else {
     $getinforof = true;
-    $systemcontext   = context_system::instance();
     $PAGE->set_context($systemcontext);
     wizard_require_permission('creator', $USER->id);
     $PAGE->set_url('/local/crswizard/syllabus/step_syllabus.php');
@@ -38,7 +42,7 @@ if (isset($SESSION->wizard['idcourse'])) {
 
 $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
 $rofinfos = ['code' => 'syl_elpcode', 'name' => 'syl_elpintitule', 'ects' => 'syl_ects', 'cmhours' => 'syl_volumecm', 'tdhours' => 'syl_volumetd', 'optionnal' => 'syl_obligatoire'];
-$roffreeze = [];
+$roffreeze = ['syl_elpcode'];
 $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
 $form_step_rof = $SESSION->wizard[$form_stepx];
 if (!isset($form_step_rof['rattachement-matiere'])) {
@@ -50,6 +54,24 @@ if ($getinforof == false && $rof['object']->code != $SESSION->wizard['form_step4
     $getinforof = true;
 }
 
+$rofupmsg = [];
+if ($getinforof == false && $rof['object']->code == $SESSION->wizard['form_step45']['syl_elpcode']) {
+    foreach ($rofinfos as $rofinfo => $champsyl) {
+        if ($SESSION->wizard['form_step45'][$champsyl] != $rof['object']->$rofinfo) {
+            if ($champsyl == 'syl_obligatoire') {
+                if ($SESSION->wizard['form_step45'][$champsyl] && $rof['object']->$rofinfo !='O') {
+                    $rofupmsg[$champsyl] = 'Optionnel';
+                }
+                if(!$SESSION->wizard['form_step45'][$champsyl] && $rof['object']->$rofinfo =='O') {
+                    $rofupmsg[$champsyl] = 'Obligatoire';
+                }
+            } else {
+                $rofupmsg[$champsyl] = $rof['object']->$rofinfo;
+            }
+        }
+    }
+}
+
 if ($getinforof) {
     foreach ($rofinfos as $rofinfo => $champsyl) {
         $SESSION->wizard['form_step45'][$champsyl] = $rof['object']->$rofinfo;
@@ -58,14 +80,16 @@ if ($getinforof) {
         }
     }
 }
-foreach ($rofinfos as $rofinfo => $champsyl) {
-    if ( $rof['object']->$rofinfo != '') {
-        $roffreeze[] = $champsyl;
+if (!$capuprof) {
+    foreach ($rofinfos as $rofinfo => $champsyl) {
+        if ( $rof['object']->$rofinfo != '') {
+            $roffreeze[] = $champsyl;
+        }
     }
 }
 
 $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
-$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze]);
+$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze, 'rofupmsg' => $rofupmsg]);
 
 
 if ($editform_data  = $editform->get_data()) {
