@@ -1095,6 +1095,8 @@ class wizard_core {
                     $idresp[] = $responsable->id;
                 }
                 $this->mydata->profile_field_syl_responsables = implode(';', $idresp);
+            } else {
+                $this->mydata->profile_field_syl_responsables = '';
             }
         }
 
