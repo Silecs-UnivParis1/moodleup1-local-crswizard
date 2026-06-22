@@ -12,7 +12,6 @@ class course_wizard_step_syllabus_form extends moodleform {
         $mform = $this->_form;
         $editoroptions = $this->_customdata['editoroptions'];
         $roffreeze = $this->_customdata['roffreeze'];
-        $rofupmsg = $this->_customdata['rofupmsg'];
 
         $mform->addElement('header', 'etape2', 'Champs déduit de l\'étape identification de l\'espace');
 
@@ -21,43 +20,18 @@ class course_wizard_step_syllabus_form extends moodleform {
 
         $mform->addElement('text', 'syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
         $mform->setType('syl_elpintitule', PARAM_TEXT);
-        if (array_key_exists('syl_elpintitule', $rofupmsg)) {
-            $defaultvalue = $rofupmsg['syl_elpintitule'];
-            $html = '<div id="info_syl_elpintitule" class="sylrofinfo" style="padding-left:200px;">Attention, la valeur par défaut est : ' . $defaultvalue . '</div>';
-            $mform->addElement('html', $html);
-        }
 
         $mform->addElement('advcheckbox', 'syl_obligatoire', get_string('required_label', 'local_crswizard'),
             get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
-        if (array_key_exists('syl_obligatoire', $rofupmsg)) {
-            $defaultvalue = $rofupmsg['syl_obligatoire'];
-            $html = '<div id="info_syl_obligatoire" class="sylrofinfo" style="padding-left:200px;">Attention, la valeur par défaut est : ' . $defaultvalue . '</div>';
-            $mform->addElement('html', $html);
-        }
 
         $mform->addElement('float', 'syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
         $mform->setType('syl_ects', PARAM_TEXT);
-        if (array_key_exists('syl_ects', $rofupmsg)) {
-            $defaultvalue = $rofupmsg['syl_ects'] ? $rofupmsg['syl_ects'] : 0;
-            $html = '<div id="info_syl_ects" class="sylrofinfo" style="padding-left:200px;">Attention, la valeur par défaut est : ' . $defaultvalue . '</div>';
-            $mform->addElement('html', $html);
-        }
 
         $mform->addElement('text', 'syl_volumecm', get_string('durationcm', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
         $mform->setType('syl_volumecm', PARAM_TEXT);
-        if (array_key_exists('syl_volumecm', $rofupmsg)) {
-            $defaultvalue = $rofupmsg['syl_volumecm'] ? $rofupmsg['syl_volumecm'] : 0;
-            $html = '<div id="info_syl_volumecm" class="sylrofinfo" style="padding-left:200px;">Attention, la valeur par défaut est : ' . $defaultvalue . '</div>';
-            $mform->addElement('html', $html);
-        }
 
         $mform->addElement('text', 'syl_volumetd', get_string('durationtd', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
         $mform->setType('syl_volumetd', PARAM_TEXT);
-        if (array_key_exists('syl_volumetd', $rofupmsg)) {
-            $defaultvalue = $rofupmsg['syl_volumetd'] ? $rofupmsg['syl_volumetd'] : 0;
-            $html = '<div id="info_syl_volumetd" class="sylrofinfo" style="padding-left:200px;">Attention, la valeur par défaut est : ' . $defaultvalue . '</div>';
-            $mform->addElement('html', $html);
-        }
 
         $mform->addElement('editor', 'summary_editor', get_string('coursesummary', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('summary_editor', PARAM_RAW);

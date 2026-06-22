@@ -16,7 +16,6 @@ $string['crswizard:localsupervalidator'] = 'Validate ANY course created with the
 $string['crswizard:rofreferenceeditor'] = 'Modifier les rattachements au ROF d\'un cours';
 $string['crswizard:hybridattachment'] = 'Ajouter/modifier des rattachements au ROF dans cours hybrides';
 $string['crswizard:duplicate'] = 'Dupliquer le cours avec l\'assistant.';
-$string['crswizard:updaterofsyllabus'] = 'Modifier dans le syllabus d\'un cours la valeur des champs provenant du ROF';
 
 $string['addsyllabusstep'] = 'Ajout de l\'étape Syllabus';
 $string['assessmentsettings'] = 'Modalités d\'évaluation';

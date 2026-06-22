@@ -85,17 +85,4 @@ $capabilities = array(
             'manager'        => CAP_ALLOW
         )
     ),
-
-    //peut mofifier dans le syllabus d'un cours la valeur des champs provenant du rof
-    'local/crswizard:updaterofsyllabus' => [
-        'riskbitmask'  => 0,
-        'captype'      => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes'   => [
-            'student'        => CAP_PREVENT,
-            'teacher'        => CAP_PREVENT,
-            'editingteacher' => CAP_PREVENT,
-            'manager'        => CAP_ALLOW
-        ]
-    ],
 );
