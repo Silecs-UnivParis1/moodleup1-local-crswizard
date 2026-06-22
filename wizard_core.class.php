@@ -296,7 +296,9 @@ class wizard_core {
         // cours doit être validé
         $this->set_metadata_cycle_life();
         //données syllabus
-        if (isset($this->formdata['form_step4']['use_syllabus_step']) && $this->formdata['form_step4']['use_syllabus_step'] == 1) {
+        $form_stepx = 'form_step' . $this->formdata['wizardcase'];
+        $form_step_rof = $this->formdata[$form_stepx];
+        if (isset($form_step_rof['rattachement-matiere']) &&  $form_step_rof['rattachement-matiere'] != '') {
             $form45 = $this->formdata['form_step45'];
             $this->mydata->profile_field_syl_elpcode = $form45['syl_elpcode'];
             $this->mydata->profile_field_syl_elpintitule = $form45['syl_elpintitule'];

@@ -26,7 +26,9 @@ if (isset($SESSION->wizard['idcourse'])) {
     $PAGE->set_context($systemcontext);
     wizard_require_permission('creator', $USER->id);
     $PAGE->set_url('/local/crswizard/index.php');
-    if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
+    $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
+    $form_step_rof = $SESSION->wizard[$form_stepx];
+    if (isset($form_step_rof['rattachement-matiere']) &&  $form_step_rof['rattachement-matiere'] != '') {
         $SESSION->wizard['navigation']['retour'] = 45;
     }
 }

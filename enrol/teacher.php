@@ -11,6 +11,7 @@ require_once('../libaccess.php');
 
 require_login();
 $direct = false;
+
 if (isset($SESSION->wizard['form_step4']['redirect'])) {
 	$direct = true;
 } 
@@ -136,19 +137,5 @@ if (isset($SESSION->wizard['idcourse'])) {
 		. '</div>'
 		. '</div>';
 } else {
-    if (isset($form_step_rof['rattachement-matiere']) && $form_step_rof['rattachement-matiere'] != '') {
-        $syllabus = true;
-        if (isset($SESSION->wizard['form_step4']['use_syllabus_step'])) {
-            $syllabus = $SESSION->wizard['form_step4']['use_syllabus_step'];
-        }
-        echo '<div class="fitem" style="clear:both; text-align: left;">';
-        echo '<fieldset class="clearfix" id="use_syllabus_step_header" style="margin-bottom:.5rem;">';
-        echo '<legend class="ftoggler" >' . get_string('addsyllabusstep', 'local_crswizard') . '</legend>';
-        echo '<div class="fcontainer clearfix">';
-        echo html_writer::checkbox('use_syllabus_step', 1, $syllabus, get_string('chooseyllabusstep', 'local_crswizard'));
-        echo '</div>';
-        echo '</fieldset>';
-        echo '</div>';
-    }
     require __DIR__ . '/footer.php';
 }

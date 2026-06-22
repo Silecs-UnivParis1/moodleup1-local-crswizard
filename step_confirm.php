@@ -184,7 +184,9 @@ class course_wizard_step_confirm extends moodleform {
             }
         }
 
-        if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
+        $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
+        $form_step_rof = $SESSION->wizard[$form_stepx];
+        if (isset($form_step_rof['rattachement-matiere']) &&  $form_step_rof['rattachement-matiere'] != '') {
             $mform->addElement('header', 'syllabus', 'Syllabus');
             $mform->addElement('text', 'profile_field_syl_elpcode', get_string('code_apogee', 'local_crswizard'), 'size="20" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpcode', PARAM_TEXT);

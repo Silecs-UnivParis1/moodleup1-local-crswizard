@@ -1863,7 +1863,6 @@ function wizard_get_default_metadata() {
         $SESSION->wizard['form_step4']['user'] = $teachers;
     }
     if (isset($SESSION->wizard['form_step45']['syl_elpcode']) &&  $SESSION->wizard['form_step45']['syl_elpcode'] != '') {
-        $SESSION->wizard['form_step4']['use_syllabus_step'] = 1;
         //mise à jour des données ROF du syllabus
         $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
         $rattachement = wizard_get_rattachement_matiere($form_stepx);

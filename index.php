@@ -203,12 +203,11 @@ switch ($stepin) {
             //* @todo Validate user list
             $SESSION->wizard['form_step' . $stepin] = $_POST;
             $SESSION->wizard['form_step4']['all-users'] = wizard_get_enrolement_users();
-            if (isset($SESSION->wizard['form_step4']['use_syllabus_step']) && $SESSION->wizard['form_step4']['use_syllabus_step'] == 1) {
-                $SESSION->wizard['form_step45']['step'] = 'teacher';
-                redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
+            if ($SESSION->wizard['wizardcase'] == 3 && $SESSION->wizard['form_step3']['rattachement-matiere'] == '') {
+                redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=' . $stepgo);
             }
-            $SESSION->wizard['form_step4']['use_syllabus_step'] = 0;
-            redirect($CFG->wwwroot . '/local/crswizard/index.php?stepin=' . $stepgo);
+            $SESSION->wizard['form_step45']['step'] = 'teacher';
+            redirect($CFG->wwwroot . '/local/crswizard/syllabus/step_syllabus.php');
         }
         redirect(new moodle_url('/local/crswizard/enrol/teacher.php'));
         break;
@@ -244,7 +243,6 @@ switch ($stepin) {
         $formdata = $corewizard->prepare_course_to_validate();
         $editform = new course_wizard_step_confirm();
         $editform->set_data($formdata);
-
         $data = $editform->get_data();
         if ($data){
             $SESSION->wizard['form_step' . $stepin] = (array) $data;
