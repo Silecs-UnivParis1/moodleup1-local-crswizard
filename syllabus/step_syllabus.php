@@ -38,7 +38,6 @@ if (isset($SESSION->wizard['idcourse'])) {
 
 $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
 $rofinfos = ['code' => 'syl_elpcode', 'name' => 'syl_elpintitule', 'ects' => 'syl_ects', 'cmhours' => 'syl_volumecm', 'tdhours' => 'syl_volumetd', 'optionnal' => 'syl_obligatoire'];
-$roffreeze = ['syl_elpcode'];
 $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
 $form_step_rof = $SESSION->wizard[$form_stepx];
 if (!isset($form_step_rof['rattachement-matiere'])) {
@@ -71,11 +70,6 @@ if ($editform_data  = $editform->get_data()) {
     $syl_responsables = isset($_POST['syl_responsables']) ? $_POST['syl_responsables'] : '';
     $SESSION->wizard['form_step45']['syl_responsables'] = $syl_responsables;
     $SESSION->wizard['form_step45']['all-responsables'] = wizard_get_responsables($syl_responsables);
-    foreach ($rofinfos as $champsyl) {
-        if (!in_array($champsyl, $roffreeze)) {
-            $SESSION->wizard['form_step45'][$champsyl] = $editform_data->$champsyl;
-        }
-    }
     $SESSION->wizard['form_step45']['syl_reference'] = $editform_data->syl_reference;
     $SESSION->wizard['form_step45']['syl_contacts'] = $editform_data->syl_contacts;
     foreach ($champSyllabusEditor as $champ) {
