@@ -21,9 +21,6 @@ class course_wizard_step_syllabus_form extends moodleform {
         $mform->addElement('text', 'syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'maxlength="200" size="50" class="crswizard-form-align"');
         $mform->setType('syl_elpintitule', PARAM_TEXT);
 
-        $mform->addElement('advcheckbox', 'syl_obligatoire', get_string('required_label', 'local_crswizard'),
-            get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
-
         $mform->addElement('float', 'syl_ects', get_string('numbects', 'local_crswizard'), 'maxlength="5" size="5" class="crswizard-form-align"');
         $mform->setType('syl_ects', PARAM_TEXT);
 

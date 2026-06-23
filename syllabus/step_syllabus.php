@@ -37,25 +37,21 @@ if (isset($SESSION->wizard['idcourse'])) {
 }
 
 $champSyllabusEditor = ['syl_objectifs', 'syl_plan', 'syl_prerequis', 'syl_evaluation', 'syl_bibliographie'];
-$rofinfos = ['code' => 'syl_elpcode', 'name' => 'syl_elpintitule', 'ects' => 'syl_ects', 'cmhours' => 'syl_volumecm', 'tdhours' => 'syl_volumetd', 'optionnal' => 'syl_obligatoire'];
+$rofinfos = ['code' => 'syl_elpcode', 'name' => 'syl_elpintitule', 'ects' => 'syl_ects', 'cmhours' => 'syl_volumecm', 'tdhours' => 'syl_volumetd'];
 $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
 $form_step_rof = $SESSION->wizard[$form_stepx];
 if (!isset($form_step_rof['rattachement-matiere'])) {
     $form_step_rof['rattachement-matiere'] = wizard_get_rattachement_matiere($form_stepx);
 }
-
 $rof = $form_step_rof['all-rof'][$form_step_rof['rattachement-matiere']];
 if ($getinforof == false && $rof['object']->code != $SESSION->wizard['form_step45']['syl_elpcode']) {
     $getinforof = true;
 }
-
 if ($getinforof) {
     foreach ($rofinfos as $rofinfo => $champsyl) {
         $SESSION->wizard['form_step45'][$champsyl] = $rof['object']->$rofinfo;
-        if ($rofinfo == 'optionnal') {
-            $SESSION->wizard['form_step45'][$champsyl] = ($rof['object']->$rofinfo == 'O' ? 1 : 0);
-        }
     }
+    $SESSION->wizard['form_step45']['syl_obligatoire'] = ($rof['object']->optionnal == 'O' ? 1 : 0);
 }
 foreach ($rofinfos as $rofinfo => $champsyl) {
     $roffreeze[] = $champsyl;
@@ -63,7 +59,6 @@ foreach ($rofinfos as $rofinfo => $champsyl) {
 
 $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
 $editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze]);
-
 
 if ($editform_data  = $editform->get_data()) {
     //traitement des données

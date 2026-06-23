@@ -192,8 +192,6 @@ class course_wizard_step_confirm extends moodleform {
             $mform->setType('profile_field_syl_elpcode', PARAM_TEXT);
             $mform->addElement('text', 'profile_field_syl_elpintitule', get_string('intitulematiere', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_elpintitule', PARAM_TEXT);
-            $mform->addElement('advcheckbox', 'profile_field_syl_obligatoire', get_string('required_label', 'local_crswizard'),
-                get_string('required', 'local_crswizard'), ['class' => 'crswizard-form-align']);
             $mform->addElement('text', 'profile_field_syl_ects', get_string('numbects', 'local_crswizard'), 'size="50" class="crswizard-form-align"');
             $mform->setType('profile_field_syl_ects', PARAM_TEXT);
             $mform->addElement('text', 'profile_field_syl_volumecm', get_string('durationcm', 'local_crswizard'), 'size="5" class="crswizard-form-align"');
