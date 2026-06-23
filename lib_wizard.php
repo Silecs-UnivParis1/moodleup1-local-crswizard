@@ -1866,6 +1866,7 @@ function wizard_get_default_metadata() {
         //mise à jour des données ROF du syllabus
         $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
         $rattachement = wizard_get_rattachement_matiere($form_stepx);
+        $SESSION->wizard[$form_stepx]['rattachement-matiere'] = $rattachement;
         if ($rattachement != '') {
             $form_step_rof = $SESSION->wizard[$form_stepx];
             $rof = $form_step_rof['all-rof'][$rattachement];
