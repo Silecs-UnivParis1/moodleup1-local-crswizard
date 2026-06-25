@@ -132,6 +132,14 @@ div.crswizard-form-align div[data-fieldtype="editor"] {
 	font-weight: bold;
 }
 
+span.syllabus-icon {
+    padding: 4px;
+    margin: 4px;
+}
+div.refsyllabusinfo {
+    margin-top: 5px;
+}
+
 /** extrait theme boost **/
 .mform span.error {
   display: inline-block;

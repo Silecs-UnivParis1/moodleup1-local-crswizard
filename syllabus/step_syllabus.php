@@ -8,11 +8,13 @@
 
 require_once('../../../config.php');
 require_once('../lib_wizard.php');
+require_once('../update/lib_update_wizard.php');
 require_once('../libaccess.php');
 
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->libdir . '/completionlib.php');
 require_once(__DIR__ . '/step_syllabus_form.php');
+$PAGE->requires->js(new moodle_url('/local/crswizard/js/include-for-syllabus.js'), true);
 
 require_login();
 
@@ -57,15 +59,32 @@ foreach ($rofinfos as $rofinfo => $champsyl) {
     $roffreeze[] = $champsyl;
 }
 
+$syllabus_ref = false;
+if (isset($SESSION->wizard['form_step45']['syl_elpcode']) && $SESSION->wizard['form_step45']['syl_elpcode'] != '') {
+    $courseid = isset($SESSION->wizard['idcourse']) ? $SESSION->wizard['idcourse'] : 0;
+    $syllabus_ref_id = wizard_find_syllabus_ref($SESSION->wizard['form_step45']['syl_elpcode'], $SESSION->wizard['form_step2']['category'], $courseid);
+    if ($syllabus_ref_id) {
+        $SESSION->wizard['form_step45']['syl_reference'] = 0;
+        $roffreeze[] = 'syl_reference';
+        $syllabus_ref = wizard_get_course_customfield_data($syllabus_ref_id);
+        $syllabus_ref['url_syllabus'] = $url = new moodle_url('/blocks/lightsynopsis/viewsyllabus.php', ['id' => $syllabus_ref_id]);
+        if (isset($SESSION->wizard['modele']) && $SESSION->wizard['modele'] == $syllabus_ref_id) {
+            $syllabus_ref['modele_reference'] = 1;
+        }
+    } elseif ($courseid == 0) {
+        $SESSION->wizard['form_step45']['syl_reference'] = 1;
+    }
+}
+
 $editoroptions = ['maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes' => $CFG->maxbytes, 'trusttext' => false, 'noclean' => true];
-$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze]);
+$editform = new course_wizard_step_syllabus_form(NULL, ['editoroptions' => $editoroptions, 'roffreeze' => $roffreeze, 'syllabus_ref' => $syllabus_ref]);
 
 if ($editform_data  = $editform->get_data()) {
     //traitement des données
     $syl_responsables = isset($_POST['syl_responsables']) ? $_POST['syl_responsables'] : '';
     $SESSION->wizard['form_step45']['syl_responsables'] = $syl_responsables;
     $SESSION->wizard['form_step45']['all-responsables'] = wizard_get_responsables($syl_responsables);
-    $SESSION->wizard['form_step45']['syl_reference'] = $editform_data->syl_reference;
+    $SESSION->wizard['form_step45']['syl_reference'] = isset($editform_data->syl_reference) ? $editform_data->syl_reference : 0;
     $SESSION->wizard['form_step45']['syl_contacts'] = $editform_data->syl_contacts;
     foreach ($champSyllabusEditor as $champ) {
         $SESSION->wizard['form_step45'][$champ] = $editform_data->$champ;

@@ -7,11 +7,12 @@
 
 class course_wizard_step_syllabus_form extends moodleform {
     function definition() {
-        global $SESSION, $USER;
+        global $SESSION, $USER, $OUTPUT;
 
         $mform = $this->_form;
         $editoroptions = $this->_customdata['editoroptions'];
         $roffreeze = $this->_customdata['roffreeze'];
+        $syllabus_ref = $this->_customdata['syllabus_ref'];
 
         $mform->addElement('header', 'etape2', 'Champs déduit de l\'étape identification de l\'espace');
 
@@ -38,6 +39,20 @@ class course_wizard_step_syllabus_form extends moodleform {
 
         $mform->addElement('advcheckbox', 'syl_reference', get_string('referencesyllabus_label', 'local_crswizard'),
             get_string('referencesyllabus', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+        $referencesyllabus_definition = html_writer::div(get_string('referencesyllabus_definition', 'local_crswizard'), 'referencesyllabushelp');
+        $mform->addElement('html',  $referencesyllabus_definition);
+
+        if ($syllabus_ref) {
+            $html = get_string('referencesyllabus_existe', 'local_crswizard', $syllabus_ref['up1rofid']);
+            if (isset($syllabus_ref['modele_reference'])) {
+                $html .= get_string('referencesyllabus_msg_duplication', 'local_crswizard');
+            }
+            $button = $OUTPUT->action_link($syllabus_ref['url_syllabus'], '<i class="fas fa-s"></i>', null,
+                ['title' => 'Afficher le syllabus de référence', 'class' => 'action-icon action-icon-referencesyllabus', 'target' => '_blank']
+            );
+            $html .= html_writer::span($button, 'syllabus-icon');
+            $mform->addElement('html',  html_writer::div($html, 'referencesyllabusinfo'));
+        }
 
         $mform->addElement('editor', 'syl_objectifs', get_string('outcomes_pedagogic', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_objectifs', PARAM_RAW);
@@ -103,17 +118,4 @@ class course_wizard_step_syllabus_form extends moodleform {
 
         $mform->hardFreeze($roffreeze);
     }
-/**
-    public function validation($data, $files) {
-        global $DB;
-
-        $errors = parent::validation($data, $files);
-
-        if (!empty($data['syl_reference'])) {
-            // Ce statut doit être unique par code Apogee et par année universitaire 
-            //$errors['syl_reference'] = 'Il existe déjà un cours présentant le Syllabus de référence pour cette matière cette annéee';
-        }
-        return $errors;
-    }
-    **/
 }

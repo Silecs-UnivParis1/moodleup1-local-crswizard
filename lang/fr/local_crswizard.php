@@ -144,7 +144,11 @@ $string['numbects'] = 'Nombre d\'ECTS / Crédits';
 $string['outcomes_pedagogic'] = 'Objectifs pédagogiques';
 $string['previousstage'] = 'Étape précédente';
 $string['referencesyllabus'] = 'Syllabus de référence';
+$string['referencesyllabus_definition'] = "Le syllabus de référence est celui qui, à terme, pourrait être affiché sur le site de l'université, "
+    . "dans le cas où plusieurs EPI seraient rattachés à une même matière." ;
+$string['referencesyllabus_existe'] = 'Un syllabus existe déjà pour cette matière dans l’EPI n°{$a} ';
 $string['referencesyllabus_label'] = 'Syllabus de référence pour cette matière';
+$string['referencesyllabus_msg_duplication'] = '(Espace en cours de duplication) ';
 $string['requirement'] = 'Prérequis';
 $string['rofselected1'] = 'Rattachement de référence';
 $string['rofselected2'] = 'Rattachement(s) secondaire(s)';

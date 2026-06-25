@@ -13,6 +13,7 @@ require_once("$CFG->dirroot/local/roftools/roflib.php");
 
 /** fonction manipulation customfield **/
 
+
 /**
  * Renvoie les customfield_data du cours d'identifiant $courseid
  * @param int $courseid
@@ -1862,6 +1863,7 @@ function wizard_get_default_metadata() {
         }
         $SESSION->wizard['form_step4']['user'] = $teachers;
     }
+
     if (isset($SESSION->wizard['form_step45']['syl_elpcode']) &&  $SESSION->wizard['form_step45']['syl_elpcode'] != '') {
         //mise à jour des données ROF du syllabus
         $form_stepx = 'form_step' . $SESSION->wizard['wizardcase'];
@@ -1879,6 +1881,9 @@ function wizard_get_default_metadata() {
                 $SESSION->wizard['form_step45']['syl_obligatoire'] = ($rof['object']->optionnal == 'O' ? 1 : 0);
             }
         }
+        //GESTION du rof de référence
+        $syllabus_ref_id = wizard_find_syllabus_ref($SESSION->wizard['form_step45']['syl_elpcode'], $SESSION->wizard['form_step2']['category']);
+        $SESSION->wizard['form_step45']['syl_reference'] = $syllabus_ref_id == false  ? 1 : 0;
     }
 }
 
@@ -1966,6 +1971,36 @@ function wizard_up1langue_list() {
         return $liste;
     }
     return [];
+}
+
+/**
+ * Renvoie l'identifiant moodle du cours Syllabus de référence
+ * de l'année universitaire associée à la catégorie $categoryid
+ * et de code Apogée $syl_elpcode qui ne soit pas le cours d'identifiant $courseid
+ * @param string $syl_elpcode
+ * @param int $categoryid
+ * @param int $courseid
+ * @return int|false
+ */
+function wizard_find_syllabus_ref($syl_elpcode, $categoryid, $courseid=0) {
+    global $DB;
+    $tabpathcategory = wizard_get_categorypath($categoryid);
+    if (count($tabpathcategory) < 2) {
+        return false;
+    }
+    $etabpah = '/' . $tabpathcategory[1] . '/' . $tabpathcategory[2] . '/';
+    $id_syl_elpcode=   $DB->get_field('customfield_field', 'id', array('shortname' => 'syl_elpcode'));
+    $id_syl_reference = $DB->get_field('customfield_field', 'id', array('shortname' => 'syl_reference'));
+
+    $sql = "SELECT c.id  FROM {course} c "
+        . "LEFT JOIN {course_categories} cc ON (c.category = cc.id) "
+        . "LEFT JOIN {customfield_data} cdc ON (c.id = cdc.instanceid) "
+        . "LEFT JOIN {customfield_data} cdr ON (c.id = cdr.instanceid) "
+        . "WHERE cc.path like '" . $etabpah . "%' "
+        . "AND cdc.fieldid = ? AND cdc.charvalue = ? "
+        . "AND cdr.fieldid = ? AND cdr.value = 1 "
+        . "AND c.id != ?";
+    return $DB->get_field_sql($sql, [$id_syl_elpcode, $syl_elpcode, $id_syl_reference, $courseid]);
 }
 
 class my_elements_config {
