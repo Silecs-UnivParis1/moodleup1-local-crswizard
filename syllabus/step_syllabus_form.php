@@ -53,21 +53,55 @@ class course_wizard_step_syllabus_form extends moodleform {
             $html .= html_writer::span($button, 'syllabus-icon');
             $mform->addElement('html',  html_writer::div($html, 'referencesyllabusinfo'));
         }
-
         $mform->addElement('editor', 'syl_objectifs', get_string('outcomes_pedagogic', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_objectifs', PARAM_RAW);
+        if ($syllabus_ref) {
+            $mform->addElement('editor', 'syl_objectifs_ref', get_string('outcomes_pedagogic_ref', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('syl_objectifs_ref', PARAM_RAW);
+            $mform->addElement('advcheckbox', 'syl_objectifs_ref_use', '', get_string('outcomes_pedagogic_ref_use', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->hideIf('syl_objectifs', 'syl_objectifs_ref_use', 'checked');
+            $mform->hideIf('syl_objectifs_ref', 'syl_objectifs_ref_use', 'notchecked');
+        }
 
         $mform->addElement('editor', 'syl_plan', get_string('courseplan', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_plan', PARAM_RAW);
+        if ($syllabus_ref) {
+            $mform->addElement('editor', 'syl_plan_ref', get_string('courseplan_ref', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('syl_plan_ref', PARAM_RAW);
+            $mform->addElement('advcheckbox', 'syl_plan_ref_use', '', get_string('courseplan_ref_use', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->hideIf('syl_plan', 'syl_plan_ref_use', 'checked');
+            $mform->hideIf('syl_plan_ref', 'syl_plan_ref_use', 'notchecked');
+        }
 
         $mform->addElement('editor', 'syl_prerequis', get_string('requirement', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_prerequis', PARAM_RAW);
+        if ($syllabus_ref) {
+            $mform->addElement('editor', 'syl_prerequis_ref', get_string('requirement_ref', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('syl_prerequis_ref', PARAM_RAW);
+            $mform->addElement('advcheckbox', 'syl_prerequis_ref_use', '', get_string('requirement_ref_use', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->hideIf('syl_prerequis', 'syl_prerequis_ref_use', 'checked');
+            $mform->hideIf('syl_prerequis_ref', 'syl_prerequis_ref_use', 'notchecked');
+        }
 
         $mform->addElement('editor', 'syl_evaluation', get_string('assessmentsettings', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_evaluation', PARAM_RAW);
+        if ($syllabus_ref) {
+            $mform->addElement('editor', 'syl_evaluation_ref', get_string('assessmentsettings_ref', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('syl_evaluation_ref', PARAM_RAW);
+            $mform->addElement('advcheckbox', 'syl_evaluation_ref_use', '', get_string('assessmentsettings_ref_use', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->hideIf('syl_evaluation', 'syl_evaluation_ref_use', 'checked');
+            $mform->hideIf('syl_evaluation_ref', 'syl_evaluation_ref_use', 'notchecked');
+        }
 
         $mform->addElement('editor', 'syl_bibliographie', get_string('bibliography', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
         $mform->setType('syl_bibliographie', PARAM_RAW);
+        if ($syllabus_ref) {
+            $mform->addElement('editor', 'syl_bibliographie_ref', get_string('bibliography_ref', 'local_crswizard'), ['class' => 'crswizard-form-align'], $editoroptions);
+            $mform->setType('syl_bibliographie_ref', PARAM_RAW);
+            $mform->addElement('advcheckbox', 'syl_bibliographie_ref_use', '', get_string('bibliography_ref_use', 'local_crswizard'), ['class' => 'crswizard-form-align']);
+            $mform->hideIf('syl_bibliographie', 'syl_bibliographie_ref_use', 'checked');
+            $mform->hideIf('syl_bibliographie_ref', 'syl_bibliographie_ref_use', 'notchecked');
+        }
 
         $mform->addElement('header', 'etape4', 'Champs déduit de l\'étape désignation des contributeurs enseignants');
         $mform->setExpanded('etape4');

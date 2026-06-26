@@ -71,6 +71,14 @@ if (isset($SESSION->wizard['form_step45']['syl_elpcode']) && $SESSION->wizard['f
         if (isset($SESSION->wizard['modele']) && $SESSION->wizard['modele'] == $syllabus_ref_id) {
             $syllabus_ref['modele_reference'] = 1;
         }
+        //syllabus de référence
+        foreach ($champSyllabusEditor as $champ) {
+            $nameref = $champ . '_ref';
+            if (isset($syllabus_ref[$champ])) {
+                $SESSION->wizard['form_step45'][$nameref]['text'] = $syllabus_ref[$champ];
+            }
+            $SESSION->wizard['form_step45'][$nameref]['format'] = 1;
+        }
     } elseif ($courseid == 0) {
         $SESSION->wizard['form_step45']['syl_reference'] = 1;
     }
@@ -88,6 +96,13 @@ if ($editform_data  = $editform->get_data()) {
     $SESSION->wizard['form_step45']['syl_contacts'] = $editform_data->syl_contacts;
     foreach ($champSyllabusEditor as $champ) {
         $SESSION->wizard['form_step45'][$champ] = $editform_data->$champ;
+        if ($syllabus_ref_id) {
+            $nameref = $champ . '_ref';
+            $namerefuse =  $nameref . '_use';
+            if (isset($editform_data->$nameref) && $editform_data->$namerefuse == 1) {
+                $SESSION->wizard['form_step45'][$champ] = $editform_data->$nameref;
+            }
+        }
     }
     // enregistrer summary_editor dans form2
     $SESSION->wizard['form_step2']['summary_editor'] =  $editform_data->summary_editor;
