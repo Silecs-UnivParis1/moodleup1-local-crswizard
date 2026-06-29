@@ -68,6 +68,7 @@ if (isset($SESSION->wizard['form_step45']['syl_elpcode']) && $SESSION->wizard['f
         $roffreeze[] = 'syl_reference';
         $syllabus_ref = wizard_get_course_customfield_data($syllabus_ref_id);
         $syllabus_ref['url_syllabus'] = $url = new moodle_url('/blocks/lightsynopsis/viewsyllabus.php', ['id' => $syllabus_ref_id]);
+        $syllabus_ref['syllabus_ref_id'] = $syllabus_ref_id;
         if (isset($SESSION->wizard['modele']) && $SESSION->wizard['modele'] == $syllabus_ref_id) {
             $syllabus_ref['modele_reference'] = 1;
         }

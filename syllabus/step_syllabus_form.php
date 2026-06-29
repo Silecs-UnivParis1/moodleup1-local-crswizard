@@ -43,7 +43,7 @@ class course_wizard_step_syllabus_form extends moodleform {
         $mform->addElement('html',  $referencesyllabus_definition);
 
         if ($syllabus_ref) {
-            $html = get_string('referencesyllabus_existe', 'local_crswizard', $syllabus_ref['up1rofid']);
+            $html = get_string('referencesyllabus_existe', 'local_crswizard', $syllabus_ref['syllabus_ref_id']);
             if (isset($syllabus_ref['modele_reference'])) {
                 $html .= get_string('referencesyllabus_msg_duplication', 'local_crswizard');
             }
