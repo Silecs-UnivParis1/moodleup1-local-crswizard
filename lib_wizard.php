@@ -309,7 +309,10 @@ function wizard_get_metadonnees() {
     $summary = array('text' => $course->summary, 'format' => $course->summaryformat);
     $SESSION->wizard['form_step2']['summary_editor'] = $summary;
 
-    $SESSION->wizard['form_step2']['langue'] = $course->profile_field_up1langue;
+    $SESSION->wizard['form_step2']['langue'] = ($course->profile_field_up1langue != ''
+        ? $course->profile_field_up1langue
+        : get_config('local_crswizard', 'up1langue_list_default')
+    );
 
     if ($overviewfilesoptions = course_overviewfiles_options($course)) {
         $coursecontext = context_course::instance($course->id);

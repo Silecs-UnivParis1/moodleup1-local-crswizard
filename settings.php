@@ -67,6 +67,17 @@ Roumain');
     $up1langue_list->plugin = 'local_crswizard';
     $settings->add($up1langue_list);
 
+    $optionLangues = wizard_up1langue_list();
+    $up1langue_list_default = new admin_setting_configselect(
+        'up1langue_list_default',
+        'Valeur par défaut de la langue d\'enseignement',
+        'Langue sélectionnée par défaut à l\'étape d\'identification de l\'espace.',
+        'Français',
+        $optionLangues
+    );
+    $up1langue_list_default->plugin = 'local_crswizard';
+    $settings->add($up1langue_list_default);
+
     $settings->add(new admin_setting_heading('wizardcas2defaults', 'Valeurs par défaut des réglages (cas 2)', ''));
 
     $etab = wizard_get_catlevel2();
