@@ -141,6 +141,7 @@ if ($formdata) {
         $msg .= batchaction_archdate($myCourse, $tsdate, false) . "<br />\n";
         //substituer le role étudiant à "étudiant archivé"
         if (count($rolesStudent) == 2) {
+            $msg .= batchaction_cohort_substitute($myCourse, $rolesStudent['from'], $rolesStudent['to'], false) . "<br />\n";
             $msg .= batchaction_substitute($myCourse, $rolesStudent['from'], $rolesStudent['to'], false) . "<br />\n";
         } else {
             $msg .= 'Attention, la substitution "étudiant" par "étudiant archivé" n\'a pas eu lieu' . "<br />\n";
